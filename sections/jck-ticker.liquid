@@ -1,0 +1,126 @@
+{% comment %}
+  JCK Approved — Ticker / Marquee Strip
+  Full-width bold text banner between hero and content
+{% endcomment %}
+
+<div class="jck-ticker-wrapper" id="jck-ticker-{{ section.id }}">
+  <div class="jck-ticker__track" aria-hidden="true">
+    <div class="jck-ticker__inner jck-ticker__inner--fwd">
+      {%- for i in (1..3) -%}
+        <span class="jck-ticker__item">New Drops</span>
+        <span class="jck-ticker__star">★</span>
+        <span class="jck-ticker__item">Thrifted Gems</span>
+        <span class="jck-ticker__star">★</span>
+        <span class="jck-ticker__item">JCK Approved</span>
+        <span class="jck-ticker__star">★</span>
+        <span class="jck-ticker__item">Rare Finds</span>
+        <span class="jck-ticker__star">★</span>
+        <span class="jck-ticker__item">Only The Heat</span>
+        <span class="jck-ticker__star">★</span>
+        <span class="jck-ticker__item">Authenticated</span>
+        <span class="jck-ticker__star">★</span>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="jck-ticker__track jck-ticker__track--rev" aria-hidden="true">
+    <div class="jck-ticker__inner jck-ticker__inner--rev">
+      {%- for i in (1..3) -%}
+        <span class="jck-ticker__item jck-ticker__item--outline">Sneaker Culture</span>
+        <span class="jck-ticker__star jck-ticker__star--sm">◆</span>
+        <span class="jck-ticker__item jck-ticker__item--outline">Curated Thrift</span>
+        <span class="jck-ticker__star jck-ticker__star--sm">◆</span>
+        <span class="jck-ticker__item jck-ticker__item--outline">Zero Fakes</span>
+        <span class="jck-ticker__star jck-ticker__star--sm">◆</span>
+        <span class="jck-ticker__item jck-ticker__item--outline">Since Day One</span>
+        <span class="jck-ticker__star jck-ticker__star--sm">◆</span>
+        <span class="jck-ticker__item jck-ticker__item--outline">Hand Picked</span>
+        <span class="jck-ticker__star jck-ticker__star--sm">◆</span>
+        <span class="jck-ticker__item jck-ticker__item--outline">Limited Stock</span>
+        <span class="jck-ticker__star jck-ticker__star--sm">◆</span>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.jck-ticker-wrapper {
+  background: #080808;
+  overflow: hidden;
+  padding: 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  position: relative;
+  z-index: 1;
+}
+
+.jck-ticker__track {
+  overflow: hidden;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.jck-ticker__track:last-child { border-bottom: none; }
+.jck-ticker__track--rev { background: #0e0e0e; }
+
+.jck-ticker__inner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+  width: max-content;
+}
+
+.jck-ticker__inner--fwd { animation: jck-tick-fwd 28s linear infinite; }
+.jck-ticker__inner--rev { animation: jck-tick-rev 22s linear infinite; }
+
+.jck-ticker__inner:hover { animation-play-state: paused; }
+
+@keyframes jck-tick-fwd {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+@keyframes jck-tick-rev {
+  from { transform: translateX(-33.333%); }
+  to   { transform: translateX(0); }
+}
+
+.jck-ticker__item {
+  font-family: 'Sifonn', 'Helvetica Neue', sans-serif;
+  font-size: clamp(1.1rem, 2.4vw, 1.9rem);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #ffffff;
+  padding: 0 24px;
+  display: inline-block;
+}
+
+.jck-ticker__item--outline {
+  -webkit-text-stroke: 1px rgba(255,255,255,.45);
+  color: transparent;
+  font-size: clamp(.95rem, 2vw, 1.6rem);
+}
+
+.jck-ticker__star {
+  color: rgba(255,255,255,.25);
+  font-size: .9em;
+  padding: 0 4px;
+}
+.jck-ticker__star--sm {
+  font-size: .55em;
+  color: rgba(255,255,255,.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jck-ticker__inner { animation: none; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Ticker",
+  "tag": "section",
+  "class": "jck-ticker-wrapper-section",
+  "settings": [],
+  "presets": [{ "name": "JCK Ticker" }]
+}
+{% endschema %}

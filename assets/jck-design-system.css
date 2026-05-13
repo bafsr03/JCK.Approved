@@ -1,0 +1,802 @@
+/* ================================================================
+   JCK APPROVED — Design System (global)
+   Tokens · cursor · loader · header · scroll-title · cards · pages
+================================================================ */
+
+/* ── 1. DESIGN TOKENS ───────────────────────────────────────── */
+:root {
+  --jck-black:    #060606;
+  --jck-char:     #111111;
+  --jck-ink:      #0a0a0a;
+  --jck-white:    #ffffff;
+  --jck-cream:    #f7f4ef;
+  --jck-warm:     #ede8e0;
+  --jck-line:     #1a1a1a;
+  --jck-muted:    #9b9590;
+  --jck-accent:   #c8b49a;
+
+  --jck-font:     'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  --jck-body:     var(--font-body--family, 'Inter', sans-serif);
+
+  --jck-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --jck-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --jck-inout:    cubic-bezier(0.65, 0, 0.35, 1);
+
+  --jck-sx:       clamp(20px, 5vw, 80px);
+  --jck-sy:       clamp(72px, 9vw, 140px);
+}
+
+/* ── 2. BODY ─────────────────────────────────────────────────── */
+html, body { background: var(--jck-cream); }
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--jck-ink);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--jck-black); border-radius: 0; }
+html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
+
+/* Selection */
+::selection { background: var(--jck-black); color: var(--jck-white); }
+
+/* ── 3. CUSTOM CURSOR (fine pointer only) ───────────────────── */
+@media (pointer: fine) {
+  html, html * { cursor: none !important; }
+}
+
+#jck-cursor-dot {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+  transition: width .18s var(--jck-spring), height .18s var(--jck-spring);
+  mix-blend-mode: difference;
+  will-change: left, top;
+}
+#jck-cursor-ring {
+  position: fixed;
+  width: 38px; height: 38px;
+  border: 1.5px solid #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+  transition: width .38s var(--jck-out), height .38s var(--jck-out), border-color .25s, opacity .25s;
+  mix-blend-mode: difference;
+  will-change: left, top;
+}
+#jck-cursor-ring.is-hover { width: 64px; height: 64px; }
+#jck-cursor-ring.is-link  { width: 52px; height: 52px; }
+#jck-cursor-ring.is-hidden { opacity: 0; width: 10px; height: 10px; }
+
+/* ── 4. PAGE LOADER ─────────────────────────────────────────── */
+#jck-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--jck-black);
+  z-index: 99990;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  pointer-events: none;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+#jck-loader.out { clip-path: inset(0 0 100% 0); }
+
+#jck-loader-img {
+  width: clamp(180px, 28vw, 340px);
+  height: auto;
+  animation: jck-loader-breathe 1.4s ease-in-out infinite alternate;
+}
+@keyframes jck-loader-breathe {
+  from { opacity: .65; transform: scale(.96); }
+  to   { opacity: 1;   transform: scale(1.04); }
+}
+#jck-loader-bar {
+  width: clamp(120px, 20vw, 240px);
+  height: 1px;
+  background: rgba(255,255,255,.15);
+  position: relative;
+  overflow: hidden;
+}
+#jck-loader-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,.7);
+  animation: jck-loader-bar 1.2s ease-in-out forwards;
+}
+@keyframes jck-loader-bar {
+  from { left: -100%; }
+  to   { left: 100%;  }
+}
+
+/* ── 5. SCROLL PROGRESS BAR ─────────────────────────────────── */
+#jck-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--jck-white);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 9990;
+  pointer-events: none;
+  will-change: transform;
+  mix-blend-mode: difference;
+}
+
+/* ── 6. SCROLL-REVEAL NAVBAR TITLE ──────────────────────────── */
+#jck-nav-title {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translate(-50%, -120%);
+  z-index: 9995;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    transform .55s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   .45s ease;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.4));
+  user-select: none;
+}
+#jck-nav-title img {
+  display: block;
+  height: clamp(28px, 4vh, 38px);
+  width: auto;
+  pointer-events: auto;
+  /* Title PNG is black glyphs; the sticky header behind it is dark, so flip to white */
+  filter: brightness(0) invert(1);
+}
+#jck-nav-title.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+#jck-nav-title:hover img { transform: scale(1.04); transition: transform .35s var(--jck-spring); }
+@media (max-width: 749px) {
+  #jck-nav-title img { height: 26px; }
+}
+
+/* ── 7. HEADER OVERRIDES ────────────────────────────────────── */
+#header-group {
+  position: relative;
+  z-index: 200;
+}
+
+/* Force dark color tokens always */
+#header-group header-component,
+#header-group .header-section {
+  --color-background:         var(--jck-black) !important;
+  --color-foreground:         rgba(255,255,255,.78) !important;
+  --color-foreground-heading: #ffffff !important;
+  --color-primary:            #ffffff !important;
+  --color-border:             rgba(255,255,255,.07) !important;
+}
+
+#header-group header-component:not([transparent]),
+#header-group .header-section:not([transparent]) {
+  background-color: var(--jck-black) !important;
+  backdrop-filter: blur(6px);
+}
+
+#header-group header-component[transparent] {
+  background-color: transparent !important;
+}
+
+/* ── TRANSPARENT header (over cream hero) — all dark ─────────────────── */
+#header-group header-component[transparent],
+#header-group header-component[transparent] .header,
+#header-group header-component[transparent] .header-section {
+  background-color: transparent !important;
+}
+
+/* All buttons / action areas get transparent bg so no black boxes show */
+#header-group header-component[transparent] button,
+#header-group header-component[transparent] a,
+#header-group header-component[transparent] .header-actions__action,
+#header-group header-component[transparent] [class*='header-actions'],
+#header-group header-component[transparent] [class*='header__action'] {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Logo / store name — no white bg, dark text */
+#header-group header-component[transparent] .header__logo,
+#header-group header-component[transparent] [class*='header__logo'],
+#header-group header-component[transparent] [class*='store-name'] {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #060606 !important;
+}
+
+/* Nav links dark */
+#header-group header-component[transparent] .menu-item__link,
+#header-group header-component[transparent] nav a {
+  color: rgba(0,0,0,0.75) !important;
+  background: transparent !important;
+}
+#header-group header-component[transparent] .menu-item__link:hover,
+#header-group header-component[transparent] nav a:hover { color: #000 !important; }
+#header-group header-component[transparent] .menu-item__link::after { background: #000; }
+
+/* Localization */
+#header-group header-component[transparent] .dropdown-localization,
+#header-group header-component[transparent] .dropdown-localization * {
+  color: rgba(0,0,0,0.65) !important;
+  background: transparent !important;
+}
+
+/* Icons */
+#header-group header-component[transparent] svg { color: rgba(0,0,0,0.85); }
+#header-group header-component[transparent] svg path[stroke],
+#header-group header-component[transparent] svg rect[stroke],
+#header-group header-component[transparent] svg circle[stroke],
+#header-group header-component[transparent] svg line[stroke],
+#header-group header-component[transparent] svg polyline[stroke] {
+  stroke: rgba(0,0,0,0.85) !important;
+}
+#header-group header-component[transparent] svg path:not([stroke]),
+#header-group header-component[transparent] svg rect:not([stroke]),
+#header-group header-component[transparent] svg circle:not([stroke]) {
+  fill: rgba(0,0,0,0.85) !important;
+}
+
+/* Cart bubble */
+#header-group header-component[transparent] .cart-count-bubble,
+#header-group header-component[transparent] [class*='cart-count'] {
+  background: #060606 !important;
+  color: #fff !important;
+}
+
+/* Row separator */
+#header-group header-component[transparent] .header__row {
+  border-bottom-color: rgba(0,0,0,0.08) !important;
+}
+
+/* Sticky shrink on scroll */
+#header-group header-component {
+  transition: padding .35s var(--jck-out), background-color .35s ease;
+}
+
+/* Announcement bar */
+#header-group .announcement-bar,
+#header-group [class*='announcement'] {
+  background-color: var(--jck-black) !important;
+  color: rgba(255,255,255,.55) !important;
+  border-bottom: 1px solid rgba(255,255,255,.06) !important;
+}
+#header-group .announcement-bar *,
+#header-group [class*='announcement'] * {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .32em !important;
+  text-transform: uppercase !important;
+  font-size: .62rem !important;
+}
+
+/* Nav menu links — primary list */
+#header-group .header__menu,
+#header-group .header-menu,
+#header-group [class*="menu-list"] {
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(16px, 2.4vw, 36px) !important;
+}
+
+#header-group .menu-item__link,
+#header-group nav a:not([class*="store-name"]):not([class*="logo"]):not([class*="dropdown-localization"]) {
+  font-family: var(--jck-font) !important;
+  font-size: .74rem !important;
+  letter-spacing: .26em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,.74) !important;
+  transition: color .25s ease !important;
+  padding: 8px 4px !important;
+  position: relative !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+}
+
+/* Underline animation */
+#header-group .menu-item__link::after {
+  content: '';
+  position: absolute;
+  left: 4px; right: 4px; bottom: 4px;
+  height: 1px;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#header-group .menu-item__link:hover::after { transform: scaleX(1); }
+#header-group .menu-item__link:hover { color: #fff !important; }
+
+/* Store name / logo */
+#header-group .header__store-name,
+#header-group .header__logo,
+#header-group .header__logo a,
+#header-group .header__logo span,
+#header-group [class*="store-name"] {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  color: #fff !important;
+  font-size: 1.05rem !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Localization dropdown — keep readable (no aggressive letter-spacing) */
+#header-group .dropdown-localization,
+#header-group .dropdown-localization * {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,.7) !important;
+  font-size: .7rem !important;
+}
+#header-group .dropdown-localization__button {
+  background: transparent !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 8px 6px !important;
+}
+
+/* Icons (search, cart, account, etc.) */
+#header-group .header-actions__action,
+#header-group [class*='header-actions'] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Action buttons — use inherit bg so they never render as black squares */
+#header-group button:not([class*='cart-count']):not([type='submit']),
+#header-group .header-actions__action {
+  background: transparent !important;
+  border: none !important;
+}
+#header-group svg { color: rgba(255,255,255,.85); }
+#header-group svg path:not([fill="none"]),
+#header-group svg circle:not([fill="none"]),
+#header-group svg rect:not([fill="none"]),
+#header-group svg polygon:not([fill="none"]) {
+  fill: currentColor;
+}
+#header-group svg path[stroke],
+#header-group svg rect[stroke],
+#header-group svg circle[stroke],
+#header-group svg line[stroke],
+#header-group svg polyline[stroke] {
+  stroke: rgba(255,255,255,.85) !important;
+}
+
+/* Cart bubble */
+#header-group .cart-count-bubble,
+#header-group [class*="cart-count"] {
+  background: #fff !important;
+  color: var(--jck-black) !important;
+  font-family: var(--jck-font) !important;
+  border-radius: 999px !important;
+  font-size: .58rem !important;
+  letter-spacing: .04em !important;
+}
+
+/* Header row spacing */
+#header-group .header__row {
+  border-bottom: 1px solid rgba(255,255,255,.06) !important;
+}
+#header-group .header__row:last-child { border-bottom: none !important; }
+
+/* Mobile drawer */
+#header-group [class*='drawer'] {
+  background: var(--jck-black) !important;
+}
+#header-group [class*='drawer'] * {
+  font-family: var(--jck-font) !important;
+  color: rgba(255,255,255,.85) !important;
+}
+
+/* ── 8. SCROLL REVEAL BASE CLASSES ──────────────────────────── */
+.jck-reveal {
+  opacity: 0;
+  transform: translateY(56px);
+  transition: opacity .85s var(--jck-out), transform .85s var(--jck-out);
+  transition-delay: calc(var(--i, 0) * .09s);
+}
+.jck-reveal.on  { opacity: 1; transform: translateY(0); }
+
+.jck-reveal-x {
+  opacity: 0;
+  transform: translateX(-64px);
+  transition: opacity .85s var(--jck-out), transform .85s var(--jck-out);
+  transition-delay: calc(var(--i, 0) * .09s);
+}
+.jck-reveal-x.on { opacity: 1; transform: translateX(0); }
+
+.jck-reveal-scale {
+  opacity: 0;
+  transform: scale(.92);
+  transition: opacity .9s var(--jck-out), transform .9s var(--jck-out);
+  transition-delay: calc(var(--i, 0) * .1s);
+}
+.jck-reveal-scale.on { opacity: 1; transform: scale(1); }
+
+.jck-clip {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path .95s var(--jck-out);
+  transition-delay: calc(var(--i, 0) * .08s);
+}
+.jck-clip.on { clip-path: inset(0 0 0 0); }
+
+/* ── 9. SPLIT-TEXT WORD ANIMATION ───────────────────────────── */
+.jck-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.08;
+  vertical-align: top;
+  padding-bottom: .06em;
+}
+.jck-word {
+  display: inline-block;
+  transform: translateY(108%);
+  transition: transform .72s var(--jck-out);
+  transition-delay: calc(var(--wi, 0) * .065s);
+}
+.jck-word.on { transform: translateY(0); }
+
+/* ── 10. TYPOGRAPHY UTILITIES ───────────────────────────────── */
+.jck-display {
+  font-family: var(--jck-font);
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  line-height: .92;
+}
+.jck-label {
+  font-family: var(--jck-font);
+  font-size: .65rem;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  color: var(--jck-muted);
+  display: inline-block;
+}
+.jck-index {
+  font-family: var(--jck-font);
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  color: rgba(0,0,0,.06);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── 11. BUTTONS & PRODUCT CARDS GLOBAL ─────────────────────── */
+.product-card,
+.product-card__inner,
+.product-card__media-wrapper {
+  border-radius: 0 !important;
+  background: var(--jck-cream) !important;
+}
+
+.product-card__title,
+.product-card__title h3,
+.product-card__title a,
+.product-card__title span {
+  font-family: var(--jck-font) !important;
+  font-size: clamp(.7rem, 1.1vw, .82rem) !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: var(--jck-ink) !important;
+}
+
+.product-card__price,
+.product-card__price span {
+  font-family: var(--jck-font) !important;
+  font-size: .7rem !important;
+  letter-spacing: .1em !important;
+  color: var(--jck-ink) !important;
+}
+
+.badge,
+.badge--sale {
+  border-radius: 0 !important;
+  font-family: var(--jck-font) !important;
+  font-size: .58rem !important;
+  letter-spacing: .2em !important;
+  text-transform: uppercase !important;
+  background: var(--jck-black) !important;
+  color: var(--jck-white) !important;
+}
+
+.button,
+.button--primary,
+.button--secondary {
+  border-radius: 0 !important;
+  font-family: var(--jck-font) !important;
+  letter-spacing: .24em !important;
+  text-transform: uppercase !important;
+  font-size: .72rem !important;
+  transition: transform .25s var(--jck-spring), background .2s, color .2s, box-shadow .25s;
+}
+
+.button--primary {
+  background: var(--jck-black) !important;
+  color: var(--jck-white) !important;
+}
+.button--primary:hover {
+  background: var(--jck-ink) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+.button--secondary {
+  background: transparent !important;
+  color: var(--jck-ink) !important;
+  border: 1px solid var(--jck-ink) !important;
+}
+.button--secondary:hover {
+  background: var(--jck-ink) !important;
+  color: var(--jck-white) !important;
+}
+
+/* ── 12. MAGNETIC ───────────────────────────────────────────── */
+.jck-magnetic {
+  display: inline-block;
+  transition: transform .55s var(--jck-spring);
+}
+
+/* ── 13. PAGE-WIDE SECTION RESETS ───────────────────────────── */
+.jck-hero-wrapper,
+.shopify-section.jck-hero-wrapper {
+  padding: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.section-wrapper + .jck-ticker-wrapper,
+.jck-hero-wrapper + .jck-ticker-wrapper { margin-top: 0; }
+
+/* All Shopify sections — keep them edge-to-edge cohesive */
+.shopify-section { background: var(--jck-cream); }
+.shopify-section.jck-hero-wrapper,
+.shopify-section[class*='jck-ticker'],
+.shopify-section[class*='jck-manifesto'],
+.shopify-section[class*='jck-cta'] {
+  background: transparent;
+}
+
+/* ── 14. GENERIC PAGE / TEMPLATE STYLING ────────────────────── */
+main h1, main h2, main h3 {
+  font-family: var(--jck-font);
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  color: var(--jck-ink);
+}
+main h1 { font-size: clamp(2.8rem, 6vw, 5.2rem); line-height: .95; letter-spacing: -.02em; }
+main h2 { font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1; }
+main h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: .04em; }
+
+main p { font-family: var(--jck-body); color: #333; line-height: 1.7; }
+main a:not(.button):not(.jck-hero__btn):not(.product-card__link) {
+  color: var(--jck-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: opacity .2s;
+}
+main a:not(.button):not(.jck-hero__btn):not(.product-card__link):hover { opacity: .65; }
+
+/* Generic page wrapper (page.json, blog, etc.) */
+main .shopify-section:not([class*='jck-']) {
+  padding-left: clamp(20px, 5vw, 80px);
+  padding-right: clamp(20px, 5vw, 80px);
+}
+
+/* Collection / search / cart / product page hero spacing */
+main[data-template^="collection"],
+main[data-template^="search"],
+main[data-template^="list-collections"],
+main[data-template^="blog"],
+main[data-template^="article"],
+main[data-template^="cart"],
+main[data-template^="page"],
+main[data-template^="404"] {
+  padding-top: clamp(40px, 7vw, 100px);
+}
+
+/* Page hero block — render page title as oversized display */
+main[data-template^="page"] h1,
+main[data-template^="article"] h1,
+main[data-template^="404"] h1 {
+  font-family: var(--jck-font) !important;
+  font-size: clamp(2.6rem, 7vw, 6rem) !important;
+  text-transform: uppercase !important;
+  letter-spacing: -.02em !important;
+  line-height: .92 !important;
+  margin-bottom: clamp(24px, 3vw, 48px) !important;
+}
+
+/* Cart line items */
+main[data-template^="cart"] .cart-item__title a,
+main[data-template^="cart"] [class*='cart-item__name'] {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  font-size: .85rem !important;
+}
+main[data-template^="cart"] .cart__totals,
+main[data-template^="cart"] [class*='totals'] {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .1em !important;
+}
+
+/* Product page titles */
+main[data-template^="product"] h1,
+main[data-template^="product"] .product__title,
+main[data-template^="product"] [class*='product-title'] h1 {
+  font-family: var(--jck-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: -.01em !important;
+  line-height: .95 !important;
+  font-size: clamp(2rem, 4.5vw, 3.6rem) !important;
+}
+main[data-template^="product"] .product__price,
+main[data-template^="product"] [class*='product-price'],
+main[data-template^="product"] .price {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .08em !important;
+  font-size: clamp(1rem, 1.6vw, 1.25rem) !important;
+}
+
+/* Collection filter / sort labels (headings + buttons only, not value text) */
+[class*='facets'] summary,
+[class*='facets'] legend,
+[class*='facets'] button,
+[class*='facets'] label,
+[class*='filter'] summary,
+[class*='filter'] label,
+[class*='filter'] button,
+[class*='sort'] summary,
+[class*='sort'] label,
+[class*='sort'] button,
+.collection-toolbar a,
+.collection-toolbar button,
+.collection-toolbar summary {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+  font-size: .72rem !important;
+}
+
+/* Collection / search title styling */
+.collection-hero h1,
+.collection__title,
+.main-collection h1,
+.main-search h1,
+.main-blog h1,
+.main-page h1,
+[class*='page__title'] {
+  font-family: var(--jck-font) !important;
+  text-transform: uppercase !important;
+  letter-spacing: -.02em !important;
+  line-height: .9 !important;
+  font-size: clamp(2.8rem, 8vw, 7rem) !important;
+}
+
+/* Pagination */
+.pagination,
+.pagination *,
+[class*='pagination'] * {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .15em !important;
+  text-transform: uppercase !important;
+  font-size: .72rem !important;
+}
+
+/* Forms */
+input[type='text'],
+input[type='email'],
+input[type='search'],
+input[type='tel'],
+textarea {
+  border-radius: 0 !important;
+  font-family: var(--jck-body) !important;
+  border: 1px solid rgba(0,0,0,.18) !important;
+  background: var(--jck-white) !important;
+  transition: border-color .2s !important;
+}
+input:focus, textarea:focus {
+  border-color: var(--jck-ink) !important;
+  outline: none !important;
+}
+label {
+  font-family: var(--jck-font);
+  font-size: .65rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--jck-muted);
+}
+
+/* ── 15. FOOTER OVERRIDES ───────────────────────────────────── */
+footer,
+footer .section-background,
+footer .section {
+  --color-background: var(--jck-black) !important;
+  --color-foreground: rgba(255,255,255,.65) !important;
+  --color-foreground-heading: #ffffff !important;
+  --color-border: rgba(255,255,255,.08) !important;
+  background-color: var(--jck-black) !important;
+  color: rgba(255,255,255,.65) !important;
+}
+footer a,
+footer .menu-item__link {
+  font-family: var(--jck-font) !important;
+  font-size: .7rem !important;
+  letter-spacing: .22em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,.55) !important;
+  transition: color .2s !important;
+}
+footer a:hover { color: #fff !important; }
+footer h2, footer h3, footer h4,
+footer .menu__heading {
+  font-family: var(--jck-font) !important;
+  letter-spacing: .15em !important;
+  text-transform: uppercase !important;
+  color: #fff !important;
+  font-size: .75rem !important;
+}
+footer svg path[stroke],
+footer svg line,
+footer svg polyline,
+footer svg rect[stroke] {
+  stroke: rgba(255,255,255,.55) !important;
+}
+footer .footer-content {
+  border-top: 1px solid rgba(255,255,255,.07) !important;
+}
+
+/* ── 16. MINI-HERO CANVAS (used on About + other pages) ─────── */
+.jck-mini-canvas {
+  position: relative;
+  display: inline-block;
+  width: clamp(80px, 12vw, 140px);
+  height: clamp(80px, 12vw, 140px);
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+.jck-mini-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ── 17. REDUCED MOTION ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .jck-reveal, .jck-reveal-x, .jck-reveal-scale, .jck-clip {
+    opacity: 1; transform: none; clip-path: none; transition: none;
+  }
+  .jck-word { transform: none; transition: none; }
+  #jck-loader { display: none !important; }
+  #jck-cursor-dot, #jck-cursor-ring { display: none !important; }
+  #jck-nav-title { transition: none; }
+}

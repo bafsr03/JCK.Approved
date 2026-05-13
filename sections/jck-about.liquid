@@ -1,0 +1,352 @@
+{% comment %}
+  JCK Approved — About Us Section
+  Editorial split layout with mini sway-character animation next to CTAs
+{% endcomment %}
+
+<section class="jck-about" id="jck-about-{{ section.id }}" aria-labelledby="jck-about-title-{{ section.id }}">
+
+  <header class="jck-about__head">
+    <span class="jck-label jck-about__index jck-reveal" style="--i:0">{{ section.settings.eyebrow | default: '01 ── About JCK' }}</span>
+    <h1 class="jck-about__title jck-split" id="jck-about-title-{{ section.id }}">
+      {{ section.settings.title | default: 'The thrift culture we wanted to see.' }}
+    </h1>
+  </header>
+
+  <div class="jck-about__grid">
+    <div class="jck-about__left">
+      <div class="jck-about__media jck-reveal-scale" style="--i:0" data-parallax="0.18">
+        {%- if section.settings.image != blank -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 1200 }}"
+            alt="{{ section.settings.image.alt | escape | default: shop.name }}"
+            width="1200"
+            height="1500"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            src="{{ 'jck-title.png' | asset_url }}"
+            alt="JCK Approved"
+            width="800"
+            height="800"
+            loading="lazy"
+            class="jck-about__media-fallback"
+          >
+        {%- endif -%}
+        <span class="jck-about__media-tag">{{ section.settings.image_tag | default: 'Vol. 01 — Founders' }}</span>
+      </div>
+    </div>
+
+    <div class="jck-about__right">
+      <p class="jck-about__lead jck-reveal" style="--i:1">
+        {{ section.settings.lead | default: 'JCK Approved is a curation-first thrift &amp; sneaker house. We do not restock. We do not hype. We hand-pick every piece, authenticate it twice, and put it on the wall.' }}
+      </p>
+
+      <div class="jck-about__pillars">
+        <div class="jck-about__pillar jck-reveal" style="--i:2">
+          <span class="jck-about__pillar-num">01</span>
+          <h3 class="jck-about__pillar-title">{{ section.settings.pillar_1_title | default: 'Curated, Not Crowd-Sourced' }}</h3>
+          <p>{{ section.settings.pillar_1_body | default: 'Every drop is hunted, vetted, and approved by humans — never algorithms.' }}</p>
+        </div>
+        <div class="jck-about__pillar jck-reveal" style="--i:3">
+          <span class="jck-about__pillar-num">02</span>
+          <h3 class="jck-about__pillar-title">{{ section.settings.pillar_2_title | default: 'Authenticated. Period.' }}</h3>
+          <p>{{ section.settings.pillar_2_body | default: 'No fakes pass our table. Two-step verification on every sneaker, every time.' }}</p>
+        </div>
+        <div class="jck-about__pillar jck-reveal" style="--i:4">
+          <span class="jck-about__pillar-num">03</span>
+          <h3 class="jck-about__pillar-title">{{ section.settings.pillar_3_title | default: 'Rare Over Restocked' }}</h3>
+          <p>{{ section.settings.pillar_3_body | default: 'When it’s gone, it’s gone. Single pieces. Single drops. No second runs.' }}</p>
+        </div>
+      </div>
+
+      <div class="jck-about__actions">
+        <div class="jck-about__btns">
+          <a href="{{ section.settings.cta1_link | default: '/collections/all' }}" class="jck-about__btn jck-about__btn--primary jck-magnetic">
+            <span>{{ section.settings.cta1_label | default: 'Shop the Collection' }}</span>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M3.75 9H14.25M9 3.75L14.25 9L9 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="{{ section.settings.cta2_link | default: '/pages/contact' }}" class="jck-about__btn jck-about__btn--ghost jck-magnetic">
+            <span>{{ section.settings.cta2_label | default: 'Get In Touch' }}</span>
+          </a>
+        </div>
+
+        <div
+          class="jck-mini-canvas jck-about__mini"
+          data-img="{{ 'jck-characters.png' | asset_url }}"
+          aria-hidden="true"
+        ></div>
+      </div>
+
+      <div class="jck-about__stats jck-reveal" style="--i:5">
+        <div class="jck-about__stat">
+          <span class="jck-about__stat-num" data-count="500">00</span>
+          <span class="jck-about__stat-label">Pieces Vetted</span>
+        </div>
+        <div class="jck-about__stat">
+          <span class="jck-about__stat-num" data-count="100">00</span>
+          <span class="jck-about__stat-label">% Authenticated</span>
+        </div>
+        <div class="jck-about__stat">
+          <span class="jck-about__stat-num" data-count="0">00</span>
+          <span class="jck-about__stat-label">Restocks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% stylesheet %}
+.jck-about {
+  background: var(--jck-cream, #f7f4ef);
+  padding: clamp(80px, 10vw, 160px) clamp(24px, 5vw, 80px) clamp(72px, 9vw, 140px);
+  position: relative;
+  overflow: hidden;
+}
+.jck-about::before {
+  content: 'ABOUT';
+  position: absolute;
+  bottom: -0.18em;
+  left: -0.05em;
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(14vw, 22vw, 30vw);
+  color: rgba(0,0,0,0.035);
+  line-height: 1;
+  letter-spacing: -.02em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.jck-about__head {
+  margin-bottom: clamp(48px, 6vw, 80px);
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+}
+.jck-about__index { display: block; margin-bottom: 18px; color: #9b9590; }
+.jck-about__title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.8rem, 8vw, 8rem);
+  text-transform: uppercase;
+  letter-spacing: -.025em;
+  line-height: .92;
+  color: #060606;
+  margin: 0;
+}
+
+.jck-about__grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+  position: relative;
+  z-index: 2;
+  max-width: 1500px;
+}
+
+.jck-about__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #ede8e0;
+}
+.jck-about__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);
+}
+.jck-about__media-fallback {
+  object-fit: contain !important;
+  padding: 18%;
+  filter: invert(0.92);
+}
+.jck-about__media:hover img { transform: scale(1.04); }
+.jck-about__media-tag {
+  position: absolute;
+  bottom: 16px; left: 16px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: .58rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.95);
+  background: rgba(0,0,0,.55);
+  padding: 6px 12px;
+  backdrop-filter: blur(8px);
+}
+
+.jck-about__right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3.5vw, 48px);
+}
+
+.jck-about__lead {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  letter-spacing: .04em;
+  line-height: 1.45;
+  color: #1a1a1a;
+  margin: 0;
+  max-width: 52ch;
+}
+
+.jck-about__pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 24px;
+}
+.jck-about__pillar { position: relative; padding-top: 18px; border-top: 1px solid rgba(0,0,0,.12); }
+.jck-about__pillar-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: .65rem;
+  letter-spacing: .35em;
+  color: #9b9590;
+  display: block;
+  margin-bottom: 10px;
+}
+.jck-about__pillar-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(.9rem, 1.4vw, 1.05rem);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin: 0 0 8px;
+  color: #060606;
+}
+.jck-about__pillar p {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: .88rem;
+  line-height: 1.6;
+  color: #444;
+  margin: 0;
+}
+
+/* CTA + mini canvas row */
+.jck-about__actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.jck-about__btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.jck-about__btn {
+  font-family: 'Sifonn', sans-serif;
+  font-size: .74rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 18px 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background .25s, color .25s, box-shadow .3s;
+  position: relative;
+  overflow: hidden;
+}
+.jck-about__btn--primary {
+  background: #060606;
+  color: #ffffff;
+  box-shadow: 0 8px 30px rgba(0,0,0,.18);
+}
+.jck-about__btn--primary:hover {
+  background: #1a1a1a;
+  box-shadow: 0 16px 44px rgba(0,0,0,.28);
+}
+.jck-about__btn--ghost {
+  background: transparent;
+  color: #060606;
+  box-shadow: inset 0 0 0 1px #060606;
+}
+.jck-about__btn--ghost:hover {
+  background: #060606;
+  color: #ffffff;
+}
+
+.jck-about__mini {
+  width: clamp(96px, 11vw, 140px);
+  height: clamp(96px, 11vw, 140px);
+  position: relative;
+  border: 1px solid rgba(0,0,0,.1);
+  background: #060606;
+  flex: 0 0 auto;
+}
+.jck-about__mini::after {
+  content: 'JCK';
+  position: absolute;
+  top: 6px; left: 8px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: .5rem;
+  letter-spacing: .3em;
+  color: rgba(255,255,255,.5);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.jck-about__stats {
+  display: flex;
+  gap: clamp(28px, 4vw, 56px);
+  padding-top: 32px;
+  border-top: 1px solid rgba(0,0,0,.12);
+  flex-wrap: wrap;
+}
+.jck-about__stat { display: flex; flex-direction: column; gap: 4px; }
+.jck-about__stat-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1;
+  color: #060606;
+}
+.jck-about__stat-label {
+  font-family: 'Sifonn', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: #9b9590;
+}
+
+@media (max-width: 900px) {
+  .jck-about__grid { grid-template-columns: 1fr; }
+  .jck-about__pillars { grid-template-columns: 1fr; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK About",
+  "tag": "section",
+  "class": "jck-about-wrapper",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",         "label": "Eyebrow",            "default": "01 ── About JCK" },
+    { "type": "text",     "id": "title",           "label": "Title",              "default": "The thrift culture we wanted to see." },
+    { "type": "textarea", "id": "lead",            "label": "Lead paragraph",     "default": "JCK Approved is a curation-first thrift & sneaker house. We do not restock. We do not hype. We hand-pick every piece, authenticate it twice, and put it on the wall." },
+    { "type": "image_picker", "id": "image",       "label": "Hero image" },
+    { "type": "text",     "id": "image_tag",       "label": "Image caption",      "default": "Vol. 01 — Founders" },
+    { "type": "header",   "content": "Pillar 1" },
+    { "type": "text",     "id": "pillar_1_title",  "label": "Title",              "default": "Curated, Not Crowd-Sourced" },
+    { "type": "textarea", "id": "pillar_1_body",   "label": "Body",               "default": "Every drop is hunted, vetted, and approved by humans — never algorithms." },
+    { "type": "header",   "content": "Pillar 2" },
+    { "type": "text",     "id": "pillar_2_title",  "label": "Title",              "default": "Authenticated. Period." },
+    { "type": "textarea", "id": "pillar_2_body",   "label": "Body",               "default": "No fakes pass our table. Two-step verification on every sneaker, every time." },
+    { "type": "header",   "content": "Pillar 3" },
+    { "type": "text",     "id": "pillar_3_title",  "label": "Title",              "default": "Rare Over Restocked" },
+    { "type": "textarea", "id": "pillar_3_body",   "label": "Body",               "default": "When it’s gone, it’s gone. Single pieces. Single drops. No second runs." },
+    { "type": "header",   "content": "CTAs" },
+    { "type": "text",     "id": "cta1_label",      "label": "Primary CTA",        "default": "Shop the Collection" },
+    { "type": "url",      "id": "cta1_link",       "label": "Primary CTA Link" },
+    { "type": "text",     "id": "cta2_label",      "label": "Secondary CTA",      "default": "Get In Touch" },
+    { "type": "url",      "id": "cta2_link",       "label": "Secondary CTA Link" }
+  ],
+  "presets": [
+    { "name": "JCK About" }
+  ]
+}
+{% endschema %}

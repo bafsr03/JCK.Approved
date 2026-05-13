@@ -134,5 +134,31 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    <div id="jck-progress" aria-hidden="true"></div>
+
+    <a id="jck-nav-title" href="/" aria-label="JCK Approved — Home">
+      <img
+        src="{{ 'jck-title.png' | asset_url }}"
+        alt="JCK Approved"
+        width="140"
+        height="60"
+        loading="eager"
+      >
+    </a>
+
+    {% if template.name == 'index' %}
+      <div id="jck-loader" aria-hidden="true" role="presentation">
+        <img
+          id="jck-loader-img"
+          src="{{ 'jck-title.png' | asset_url }}"
+          alt=""
+          width="340"
+          height="147"
+        >
+        <div id="jck-loader-bar"></div>
+      </div>
+    {% endif %}
+
   </body>
 </html>

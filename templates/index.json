@@ -1,97 +1,46 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
-      "blocks": {
-        "text_YLPk4p": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-secondary",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
+    "jck_hero_main": {
+      "type": "jck-hero",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "cta_label": "Shop Now",
+        "cta_link": "/collections/all",
+        "secondary_label": "View All",
+        "secondary_link": "/collections/all"
+      }
+    },
+    "jck_ticker_main": {
+      "type": "jck-ticker",
+      "settings": {}
+    },
+    "jck_drops_main": {
+      "type": "jck-drops",
+      "settings": {
+        "max_products": 6
+      }
+    },
+    "jck_manifesto_main": {
+      "type": "jck-manifesto",
+      "settings": {
+        "body_text": "Every piece in our collection is hand-curated for its authenticity, rarity, and cultural relevance. No algorithms. No restocks. No bots. Just pure heat, vetted by us—for you.",
+        "cta_label": "Shop The Collection",
+        "cta_link": "/collections/all"
+      }
+    },
+    "jck_cta_main": {
+      "type": "jck-cta-band",
+      "settings": {
+        "label": "Shop the Collection",
+        "sub_text": "New arrivals weekly",
+        "link": "/collections/all"
       }
     }
   },
   "order": [
-    "hero_jVaWmY"
+    "jck_hero_main",
+    "jck_ticker_main",
+    "jck_drops_main",
+    "jck_manifesto_main",
+    "jck_cta_main"
   ]
 }

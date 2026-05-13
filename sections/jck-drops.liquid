@@ -1,0 +1,368 @@
+{% comment %}
+  JCK Approved - "THE EDIT" Editorial Product Grid
+  Displays up to 6 products from a chosen collection
+{% endcomment %}
+
+{%- assign col = section.settings.collection -%}
+{%- assign max_products = section.settings.max_products | default: 6 -%}
+
+<section class="jck-drops" id="jck-drops-{{ section.id }}" aria-labelledby="jck-drops-title-{{ section.id }}">
+
+  <div class="jck-drops__head">
+    <div class="jck-drops__head-left">
+      <span class="jck-label jck-drops__index jck-reveal" style="--i:0">02 / The Collection</span>
+      <h2 class="jck-drops__title jck-split" id="jck-drops-title-{{ section.id }}">The Edit</h2>
+    </div>
+    <div class="jck-drops__head-right jck-reveal" style="--i:2">
+      <p class="jck-drops__sub">Hand-picked pieces.<br>Zero compromises.</p>
+      {%- if col != blank -%}
+        <a href="{{ col.url }}" class="jck-drops__view-all jck-magnetic">
+          <span>View All</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="jck-drops__grid">
+    {%- if col != blank and col.products_count > 0 -%}
+      {%- for product in col.products limit: max_products -%}
+        <article
+          class="jck-drops__card jck-reveal-scale"
+          style="--i: {{ forloop.index0 }}"
+        >
+          <a href="{{ product.url }}" class="jck-drops__card-link">
+            <div class="jck-drops__img-wrap">
+              <span class="jck-drops__card-num">
+                {%- if forloop.index < 10 -%}0{{ forloop.index }}{%- else -%}{{ forloop.index }}{%- endif -%}
+              </span>
+
+              {%- if product.featured_image != blank -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 800 }}"
+                  alt="{{ product.featured_image.alt | escape | default: product.title }}"
+                  class="jck-drops__img"
+                  width="800"
+                  height="1000"
+                  loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}"
+                >
+              {%- else -%}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'jck-drops__img jck-drops__img--placeholder' }}
+              {%- endif -%}
+
+              <div class="jck-drops__overlay">
+                <span class="jck-drops__stamp">Approved</span>
+              </div>
+            </div>
+
+            <div class="jck-drops__info">
+              <h3 class="jck-drops__name">{{ product.title | upcase }}</h3>
+              <div class="jck-drops__price-row">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="jck-drops__price jck-drops__price--sale">{{ product.price | money }}</span>
+                  <span class="jck-drops__price jck-drops__price--was">{{ product.compare_at_price | money }}</span>
+                {%- else -%}
+                  <span class="jck-drops__price">{{ product.price | money }}</span>
+                {%- endif -%}
+                {%- unless product.available -%}
+                  <span class="jck-drops__sold-out">Sold Out</span>
+                {%- endunless -%}
+              </div>
+            </div>
+          </a>
+        </article>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..6) -%}
+        <article class="jck-drops__card jck-drops__card--placeholder jck-reveal-scale" style="--i: {{ forloop.index0 }}">
+          <div class="jck-drops__img-wrap">
+            <span class="jck-drops__card-num">
+              {%- if forloop.index < 10 -%}0{{ forloop.index }}{%- else -%}{{ forloop.index }}{%- endif -%}
+            </span>
+            {{ 'product-apparel-1' | placeholder_svg_tag: 'jck-drops__img jck-drops__img--placeholder' }}
+          </div>
+          <div class="jck-drops__info">
+            <h3 class="jck-drops__name">Sample Product {{ forloop.index }}</h3>
+            <span class="jck-drops__price">$00.00</span>
+          </div>
+        </article>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if col != blank and col.products_count > max_products -%}
+    <div class="jck-drops__footer jck-reveal" style="--i:0">
+      <a href="{{ col.url }}" class="jck-drops__all-link jck-magnetic">
+        <span class="jck-drops__all-text">Shop All</span>
+        <span class="jck-drops__all-count">{{ col.products_count }} pieces</span>
+        <span class="jck-drops__all-arrow">&rarr;</span>
+      </a>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{% stylesheet %}
+.jck-drops {
+  background: #f7f4ef;
+  padding: clamp(72px, 9vw, 140px) clamp(20px, 5vw, 80px);
+  position: relative;
+  overflow: hidden;
+}
+
+.jck-drops::before {
+  content: "EDIT";
+  position: absolute;
+  bottom: -0.15em;
+  right: -0.05em;
+  font-family: "Sifonn", sans-serif;
+  font-size: clamp(14vw, 20vw, 28vw);
+  color: rgba(0,0,0,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.02em;
+}
+
+.jck-drops__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: clamp(48px, 6vw, 88px);
+  flex-wrap: wrap;
+}
+
+.jck-drops__head-left { flex: 1 1 auto; }
+.jck-drops__head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  flex: 0 0 auto;
+  max-width: 280px;
+  text-align: right;
+}
+
+.jck-drops__index { display: block; margin-bottom: 16px; }
+
+.jck-drops__title {
+  font-family: "Sifonn", sans-serif;
+  font-size: clamp(4rem, 10vw, 14rem);
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  color: #080808;
+  margin: 0;
+  overflow: hidden;
+}
+
+.jck-drops__sub {
+  font-family: "Sifonn", sans-serif;
+  font-size: clamp(0.7rem, 1.3vw, 0.88rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9b9590;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.jck-drops__view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Sifonn", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #080808;
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #080808;
+  transition: gap 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s;
+}
+.jck-drops__view-all:hover { gap: 16px; opacity: 0.65; }
+
+.jck-drops__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.jck-drops__card { position: relative; }
+.jck-drops__card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.jck-drops__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: #ede8e0;
+}
+
+.jck-drops__card-num {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: "Sifonn", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.9);
+  z-index: 3;
+  mix-blend-mode: difference;
+}
+
+.jck-drops__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.jck-drops__img--placeholder { padding: 24px; color: #9b9590; }
+
+.jck-drops__card-link:hover .jck-drops__img { transform: scale(1.07); }
+
+.jck-drops__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8,8,8,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.jck-drops__card-link:hover .jck-drops__overlay { opacity: 1; }
+
+.jck-drops__stamp {
+  font-family: "Sifonn", sans-serif;
+  font-size: clamp(0.9rem, 2vw, 1.4rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: 2px solid rgba(255,255,255,0.8);
+  padding: 10px 22px;
+  transform: rotate(-8deg);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.jck-drops__card-link:hover .jck-drops__stamp { transform: rotate(-4deg) scale(1.05); }
+
+.jck-drops__info {
+  padding: 16px 0 24px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.jck-drops__name {
+  font-family: "Sifonn", sans-serif;
+  font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #080808;
+  margin: 0 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jck-drops__price-row { display: flex; align-items: center; gap: 10px; }
+
+.jck-drops__price {
+  font-family: "Sifonn", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: #080808;
+}
+.jck-drops__price--was { text-decoration: line-through; color: #9b9590; }
+
+.jck-drops__sold-out {
+  font-family: "Sifonn", sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #9b9590;
+  border: 1px solid #9b9590;
+  padding: 2px 8px;
+}
+
+.jck-drops__footer {
+  margin-top: clamp(40px, 5vw, 72px);
+  display: flex;
+  justify-content: center;
+}
+
+.jck-drops__all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: #080808;
+  padding: 20px 40px;
+  border: 1px solid rgba(0,0,0,0.15);
+  transition: background 0.25s, color 0.25s, gap 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.jck-drops__all-link:hover { background: #080808; color: #ffffff; gap: 28px; }
+
+.jck-drops__all-text {
+  font-family: "Sifonn", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.jck-drops__all-count {
+  font-family: "Sifonn", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+}
+.jck-drops__all-arrow { font-size: 1.1rem; }
+
+@media (max-width: 900px) {
+  .jck-drops__grid { grid-template-columns: repeat(2, 1fr); }
+  .jck-drops__head { flex-direction: column; align-items: flex-start; }
+  .jck-drops__head-right { align-items: flex-start; text-align: left; }
+}
+@media (max-width: 549px) {
+  .jck-drops__grid { grid-template-columns: 1fr; gap: 1px; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Drops - The Edit",
+  "tag": "section",
+  "class": "jck-drops-wrapper",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Max Products",
+      "min": 3,
+      "max": 9,
+      "step": 3,
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "JCK Drops - The Edit",
+      "settings": {
+        "max_products": 6
+      }
+    }
+  ]
+}
+{% endschema %}

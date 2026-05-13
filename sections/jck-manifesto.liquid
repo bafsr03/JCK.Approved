@@ -1,0 +1,314 @@
+{% comment %}
+  JCK Approved — Manifesto / Brand Statement Section
+  Split dark/light with oversized typography and editorial body copy
+{% endcomment %}
+
+<section class="jck-mani" id="jck-mani-{{ section.id }}" aria-label="Our Manifesto">
+  <div class="jck-mani__dark">
+    <div class="jck-mani__dark-inner">
+      <span class="jck-label jck-mani__label jck-reveal" style="--i:0">
+        03 ── About Us
+      </span>
+
+      <h2 class="jck-mani__headline">
+        <span class="jck-mani__line jck-clip" style="--i:0">
+          <span>We Find</span>
+        </span>
+        <span class="jck-mani__line jck-mani__line--outline jck-clip" style="--i:1">
+          <span>The Heat</span>
+        </span>
+        <span class="jck-mani__line jck-clip" style="--i:2">
+          <span>You Want.</span>
+        </span>
+      </h2>
+
+      <div class="jck-mani__stats jck-reveal" style="--i:3">
+        <div class="jck-mani__stat">
+          <span class="jck-mani__stat-num" data-count="500">00</span>
+          <span class="jck-mani__stat-label">Pieces Curated</span>
+        </div>
+        <div class="jck-mani__stat">
+          <span class="jck-mani__stat-num" data-count="100">00</span>
+          <span class="jck-mani__stat-label">% Authenticated</span>
+        </div>
+        <div class="jck-mani__stat">
+          <span class="jck-mani__stat-num" data-count="0">00</span>
+          <span class="jck-mani__stat-label">Fakes — Ever</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jck-mani__light">
+    <div class="jck-mani__light-inner">
+      <div class="jck-mani__quote-mark jck-reveal" style="--i:0" aria-hidden="true">"</div>
+
+      <p class="jck-mani__body jck-reveal" style="--i:1">
+        {{ section.settings.body_text | default: "Every piece in our collection is hand-curated for its authenticity, rarity, and cultural relevance. No algorithms. No restocks. No bots. Just pure heat, vetted by us—for you." }}
+      </p>
+
+      <div class="jck-mani__sig jck-reveal" style="--i:2">
+        <img
+          src="{{ 'jck-title.png' | asset_url }}"
+          alt="JCK Approved"
+          class="jck-mani__sig-img"
+          width="200"
+          height="86"
+          loading="lazy"
+        >
+      </div>
+
+      <a
+        href="{{ section.settings.cta_link | default: '/collections/all' }}"
+        class="jck-mani__cta jck-magnetic jck-reveal"
+        style="--i:3"
+      >
+        <span class="jck-mani__cta-text">{{ section.settings.cta_label | default: 'Shop The Collection' }}</span>
+        <span class="jck-mani__cta-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <div class="jck-mani__tags jck-reveal" style="--i:4" aria-hidden="true">
+        <span class="jck-mani__tag">Thrifted</span>
+        <span class="jck-mani__tag">Curated</span>
+        <span class="jck-mani__tag">Rare</span>
+        <span class="jck-mani__tag">Approved</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.jck-mani {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: clamp(600px, 80vh, 900px);
+  position: relative;
+}
+
+/* Dark side */
+.jck-mani__dark {
+  background: #080808;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Grain on dark side */
+.jck-mani__dark::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: .025;
+  pointer-events: none;
+  animation: jck-grain-mani .4s steps(1) infinite;
+}
+@keyframes jck-grain-mani {
+  0%   { background-position:   0   0; }
+  20%  { background-position: -10%  5%; }
+  40%  { background-position:  8% -8%; }
+  60%  { background-position: -5%  10%; }
+  80%  { background-position:  12% -5%; }
+  100% { background-position:   0   0; }
+}
+
+.jck-mani__dark-inner {
+  padding: clamp(60px, 8vw, 120px) clamp(32px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.jck-mani__label {
+  color: rgba(255,255,255,.35);
+}
+
+/* Headline */
+.jck-mani__headline {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.jck-mani__line {
+  display: block;
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(3.5rem, 7vw, 9rem);
+  text-transform: uppercase;
+  letter-spacing: -.02em;
+  line-height: .9;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.jck-mani__line--outline {
+  -webkit-text-stroke: 2px rgba(255,255,255,.5);
+  color: transparent;
+}
+
+/* Stats row */
+.jck-mani__stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.jck-mani__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jck-mani__stat-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+
+.jck-mani__stat-label {
+  font-family: 'Sifonn', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+}
+
+/* Light side */
+.jck-mani__light {
+  background: #f7f4ef;
+  position: relative;
+}
+
+.jck-mani__light-inner {
+  padding: clamp(60px, 8vw, 120px) clamp(32px, 5vw, 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  height: 100%;
+}
+
+.jck-mani__quote-mark {
+  font-family: Georgia, serif;
+  font-size: clamp(5rem, 9vw, 11rem);
+  line-height: .8;
+  color: rgba(0,0,0,.1);
+  user-select: none;
+  pointer-events: none;
+  margin-bottom: -16px;
+}
+
+.jck-mani__body {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(.9rem, 1.5vw, 1.1rem);
+  line-height: 1.75;
+  color: #444;
+  margin: 0;
+  max-width: 42ch;
+}
+
+.jck-mani__sig-img {
+  width: clamp(120px, 15vw, 180px);
+  height: auto;
+  opacity: .85;
+  filter: invert(0);
+}
+
+/* CTA */
+.jck-mani__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: .72rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: #080808;
+  text-decoration: none;
+  padding: 18px 32px;
+  background: #080808;
+  color: #ffffff;
+  border: none;
+  align-self: flex-start;
+  transition: gap .35s cubic-bezier(0.34,1.56,0.64,1), background .2s;
+}
+.jck-mani__cta:hover {
+  background: #1a1a1a;
+  gap: 24px;
+}
+.jck-mani__cta-arrow { font-size: 1.1em; }
+
+/* Tags */
+.jck-mani__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.jck-mani__tag {
+  font-family: 'Sifonn', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,.4);
+  border: 1px solid rgba(0,0,0,.15);
+  padding: 5px 12px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .jck-mani { grid-template-columns: 1fr; }
+  .jck-mani__dark,
+  .jck-mani__light { min-height: 420px; }
+  .jck-mani__dark-inner,
+  .jck-mani__light-inner {
+    padding: clamp(48px, 7vw, 80px) clamp(24px, 6vw, 48px);
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Manifesto",
+  "tag": "section",
+  "class": "jck-mani-wrapper",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "Every piece in our collection is hand-curated for its authenticity, rarity, and cultural relevance. No algorithms. No restocks. No bots. Just pure heat, vetted by us—for you."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA Label",
+      "default": "Shop The Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "JCK Manifesto",
+      "settings": {
+        "cta_label": "Shop The Collection"
+      }
+    }
+  ]
+}
+{% endschema %}

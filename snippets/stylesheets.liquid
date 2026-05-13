@@ -1,2 +1,12 @@
 {{ 'overflow-list.css' | asset_url | preload_tag: as: 'style' }}
 {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+<style>
+@font-face {
+  font-family: 'Sifonn';
+  src: url('{{ 'SIFONN_PRO.otf' | asset_url }}') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+</style>
+{{ 'jck-design-system.css' | asset_url | stylesheet_tag }}

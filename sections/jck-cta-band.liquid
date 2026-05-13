@@ -1,0 +1,234 @@
+{% comment %}
+  JCK Approved — Full-Width CTA Band
+  Oversized interactive action link that fills the entire section
+{% endcomment %}
+
+<section class="jck-cta" id="jck-cta-{{ section.id }}">
+  <a
+    href="{{ section.settings.link | default: '/collections/all' }}"
+    class="jck-cta__link"
+    aria-label="{{ section.settings.label | default: 'Shop the collection' }}"
+  >
+    <div class="jck-cta__inner">
+      <span class="jck-label jck-cta__index" aria-hidden="true">04 ──</span>
+
+      <div class="jck-cta__text-row">
+        <span class="jck-cta__text">{{ section.settings.label | default: 'Shop the Collection' }}</span>
+        <span class="jck-cta__arrow" aria-hidden="true">
+          <svg viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 20H76M60 4l16 16-16 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+
+      <div class="jck-cta__sub-row" aria-hidden="true">
+        <span class="jck-cta__sub">{{ section.settings.sub_text | default: 'New arrivals weekly' }}</span>
+        <div class="jck-cta__count-wrap">
+          <span class="jck-cta__count-prefix">—</span>
+          <span class="jck-cta__count">
+            {%- if section.settings.collection != blank -%}
+              {{ section.settings.collection.products_count }}
+            {%- else -%}
+              100+
+            {%- endif -%}
+          </span>
+          <span class="jck-cta__count-suffix">items available</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="jck-cta__bg-text" aria-hidden="true">GO</div>
+  </a>
+</section>
+
+<script>
+(function () {
+  var section = document.getElementById('jck-cta-{{ section.id }}');
+  if (!section) return;
+  var inner = section.querySelector('.jck-cta__inner');
+  var isTouch = window.matchMedia('(pointer: coarse)').matches;
+  if (isTouch) return;
+
+  section.addEventListener('mousemove', function (e) {
+    var r  = section.getBoundingClientRect();
+    var cx = r.left + r.width  / 2;
+    var cy = r.top  + r.height / 2;
+    var dx = (e.clientX - cx) / r.width;
+    var dy = (e.clientY - cy) / r.height;
+    inner.style.transform = 'translate(' + (dx * 18) + 'px,' + (dy * 12) + 'px)';
+  });
+
+  section.addEventListener('mouseleave', function () {
+    inner.style.transform = '';
+  });
+})();
+</script>
+
+{% stylesheet %}
+.jck-cta {
+  position: relative;
+  background: #080808;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+/* Background "GO" watermark */
+.jck-cta__bg-text {
+  position: absolute;
+  right: -5%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(30vw, 40vw, 50vw);
+  line-height: 1;
+  color: rgba(255,255,255,.025);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -.05em;
+}
+
+.jck-cta__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: clamp(56px, 8vw, 120px) var(--jck-sx, clamp(20px,5vw,80px));
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover line */
+.jck-cta__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: #ffffff;
+  transition: width 1s cubic-bezier(0.16,1,0.3,1);
+}
+.jck-cta__link:hover::after { width: 100%; }
+
+.jck-cta__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.5vw, 28px);
+  transition: transform .6s cubic-bezier(0.16,1,0.3,1);
+}
+
+.jck-cta__index {
+  color: rgba(255,255,255,.25);
+}
+
+/* Main text row */
+.jck-cta__text-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 60px);
+  flex-wrap: nowrap;
+}
+
+.jck-cta__text {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.2rem, 7vw, 9rem);
+  text-transform: uppercase;
+  letter-spacing: -.02em;
+  line-height: .9;
+  color: #ffffff;
+  white-space: nowrap;
+  transition: letter-spacing .5s cubic-bezier(0.16,1,0.3,1);
+}
+.jck-cta__link:hover .jck-cta__text { letter-spacing: .01em; }
+
+.jck-cta__arrow {
+  flex: 0 0 auto;
+  color: #ffffff;
+  opacity: .5;
+  transition: opacity .3s, transform .5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.jck-cta__arrow svg {
+  width: clamp(48px, 6vw, 80px);
+  height: auto;
+}
+.jck-cta__link:hover .jck-cta__arrow {
+  opacity: 1;
+  transform: translateX(24px);
+}
+
+/* Sub row */
+.jck-cta__sub-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.jck-cta__sub {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(.65rem, 1.2vw, .82rem);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+}
+
+.jck-cta__count-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(.65rem, 1.2vw, .82rem);
+  letter-spacing: .2em;
+  color: rgba(255,255,255,.25);
+}
+.jck-cta__count {
+  color: rgba(255,255,255,.5);
+  font-size: 1.1em;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .jck-cta__text { white-space: normal; }
+  .jck-cta__text-row { flex-wrap: wrap; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK CTA Band",
+  "tag": "section",
+  "class": "jck-cta-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "CTA Text",
+      "default": "Shop the Collection"
+    },
+    {
+      "type": "text",
+      "id": "sub_text",
+      "label": "Subtext",
+      "default": "New arrivals weekly"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection (for item count)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "JCK CTA Band",
+      "settings": {
+        "label": "Shop the Collection",
+        "sub_text": "New arrivals weekly"
+      }
+    }
+  ]
+}
+{% endschema %}

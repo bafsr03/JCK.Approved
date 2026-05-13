@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "jck_about_main": {
+      "type": "jck-about",
+      "settings": {
+        "eyebrow": "01 ── About JCK",
+        "title": "The thrift culture we wanted to see.",
+        "lead": "JCK Approved is a curation-first thrift & sneaker house. We do not restock. We do not hype. We hand-pick every piece, authenticate it twice, and put it on the wall.",
+        "image_tag": "Vol. 01 — Founders",
+        "pillar_1_title": "Curated, Not Crowd-Sourced",
+        "pillar_1_body": "Every drop is hunted, vetted, and approved by humans — never algorithms.",
+        "pillar_2_title": "Authenticated. Period.",
+        "pillar_2_body": "No fakes pass our table. Two-step verification on every sneaker, every time.",
+        "pillar_3_title": "Rare Over Restocked",
+        "pillar_3_body": "When it’s gone, it’s gone. Single pieces. Single drops. No second runs.",
+        "cta1_label": "Shop the Collection",
+        "cta1_link": "/collections/all",
+        "cta2_label": "Get In Touch",
+        "cta2_link": "/pages/contact"
+      }
+    },
+    "jck_about_ticker": {
+      "type": "jck-ticker",
+      "settings": {}
+    },
+    "jck_about_cta": {
+      "type": "jck-cta-band",
+      "settings": {
+        "label": "Browse the Drops",
+        "sub_text": "New arrivals weekly",
+        "link": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "jck_about_main",
+    "jck_about_ticker",
+    "jck_about_cta"
+  ]
+}

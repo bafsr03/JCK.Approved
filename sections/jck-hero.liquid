@@ -1,0 +1,596 @@
+{% comment %}
+  JCK Approved — Animated Hero Section
+  - Light/cream backdrop matching the character sprite's white background
+  - Title sits ABOVE the canvas (visible, foreground)
+  - Canvas renders ONLY the bottom characters, centered + scaled smaller
+{% endcomment %}
+
+<section
+  id="jck-hero-{{ section.id }}"
+  class="jck-hero"
+  data-img="{{ 'jck-characters.png' | asset_url }}"
+  aria-label="JCK Approved Hero"
+>
+
+  <div class="jck-hero__bg" aria-hidden="true"></div>
+  <div class="jck-hero__grid-lines" aria-hidden="true"></div>
+  <div class="jck-hero__noise" aria-hidden="true"></div>
+  <div class="jck-hero__cursor-glow" aria-hidden="true"></div>
+
+  {%- comment -%} Canvas behind the content so swaying chars sit underneath the title {%- endcomment -%}
+  <canvas class="jck-hero__canvas" id="jck-canvas-{{ section.id }}" aria-hidden="true"></canvas>
+
+  <div class="jck-hero__content">
+
+    <div class="jck-hero__badge-wrap">
+      <div class="jck-hero__badge-ring" aria-hidden="true"></div>
+      <img
+        src="{{ 'jck-title.png' | asset_url }}"
+        alt="JCK Approved"
+        class="jck-hero__badge"
+        draggable="false"
+        width="500"
+        height="216"
+        loading="eager"
+        fetchpriority="high"
+      >
+    </div>
+
+    <p class="jck-hero__tagline">
+      <span class="jck-hero__word">Pre-Loved</span>
+      <span class="jck-hero__sep" aria-hidden="true">●</span>
+      <span class="jck-hero__word">Authenticated</span>
+      <span class="jck-hero__sep" aria-hidden="true">●</span>
+      <span class="jck-hero__word">Rare</span>
+      <span class="jck-hero__sep" aria-hidden="true">●</span>
+      <span class="jck-hero__word">Curated</span>
+    </p>
+
+    <div class="jck-hero__actions">
+      <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="jck-hero__btn jck-hero__btn--primary jck-magnetic">
+        <span>{{ section.settings.cta_label | default: 'Shop Now' }}</span>
+        <span class="jck-hero__btn-arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.75 9H14.25M9 3.75L14.25 9L9 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+      <a href="{{ section.settings.secondary_link | default: '/collections/all' }}" class="jck-hero__btn jck-hero__btn--ghost jck-magnetic">
+        <span>{{ section.settings.secondary_label | default: 'View All' }}</span>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="jck-hero__corner jck-hero__corner--tl" aria-hidden="true">
+    <span>JCK</span>
+    <span>// 01</span>
+  </div>
+  <div class="jck-hero__corner jck-hero__corner--tr" aria-hidden="true">
+    <span>SLC ↔ WORLD</span>
+    <span>NOW. LIVE</span>
+  </div>
+  <div class="jck-hero__corner jck-hero__corner--bl" aria-hidden="true">
+    <span>↓ Scroll</span>
+  </div>
+  <div class="jck-hero__corner jck-hero__corner--br" aria-hidden="true">
+    <span>Thrift · Heat · Approved</span>
+  </div>
+
+  <div class="jck-hero__scroll-hint" aria-hidden="true">
+    <span class="jck-hero__scroll-track"><span class="jck-hero__scroll-thumb"></span></span>
+  </div>
+
+</section>
+
+<script>
+(function () {
+  var hero   = document.getElementById('jck-hero-{{ section.id }}');
+  if (!hero) return;
+
+  var canvas     = document.getElementById('jck-canvas-{{ section.id }}');
+  var ctx        = canvas.getContext('2d');
+  var cursorGlow = hero.querySelector('.jck-hero__cursor-glow');
+  var badgeWrap  = hero.querySelector('.jck-hero__badge-wrap');
+  var imgSrc     = hero.dataset.img;
+  var dpr        = Math.min(window.devicePixelRatio || 1, 2);
+
+  // ── Tunable: width of the animation as a fraction of viewport width.
+  //    Lower = smaller character row. The remaining space is filled by the
+  //    page's cream background (no visible black edges).
+  // Full-width: mix-blend-mode:multiply makes the white bg invisible on cream.
+  var ANIM_WIDTH_RATIO     = 1.0;    // edge-to-edge
+  var ANIM_WIDTH_RATIO_SM  = 1.0;    // mobile too
+  // Draw full image — white areas become transparent via canvas blend mode.
+  var IMG_CHAR_START_RATIO = 0.0;    // start from top of source PNG
+
+  var sinkOffset = 0;
+  var targetSink = 0;
+  var imgLoaded  = false;
+  var mouseX     = -9999;
+  var mouseY     = -9999;
+  var glowX      = -9999;
+  var glowY      = -9999;
+  var parallaxX  = 0;
+  var targetPX   = 0;
+
+  function setSize() {
+    var w = hero.clientWidth  || window.innerWidth;
+    var h = hero.clientHeight || window.innerHeight;
+    canvas.width  = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  setSize();
+  window.addEventListener('resize', setSize, { passive: true });
+
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function () { imgLoaded = true; };
+  img.src = imgSrc;
+
+  function loop(ts) {
+    requestAnimationFrame(loop);
+
+    if (imgLoaded) drawSway(ts);
+
+    glowX += (mouseX - glowX) * 0.09;
+    glowY += (mouseY - glowY) * 0.09;
+    cursorGlow.style.transform = 'translate(' + glowX + 'px,' + glowY + 'px) translate(-50%,-50%)';
+
+    sinkOffset += (targetSink - sinkOffset) * 0.06;
+    parallaxX  += (targetPX - parallaxX)  * 0.08;
+  }
+  requestAnimationFrame(loop);
+
+  function drawSway(ts) {
+    var W = hero.clientWidth;
+    var H = hero.clientHeight;
+    ctx.clearRect(0, 0, W, H);
+
+    var isSmall = W < 749;
+    var animW   = W * (isSmall ? ANIM_WIDTH_RATIO_SM : ANIM_WIDTH_RATIO);
+
+    // Crop region (only the char band of the source PNG)
+    var srcY0   = Math.floor(img.naturalHeight * IMG_CHAR_START_RATIO);
+    var srcH    = img.naturalHeight - srcY0;
+    var scale   = animW / img.naturalWidth;
+    var drawH   = Math.ceil(srcH * scale);
+    var drawX   = (W - animW) / 2;
+    var drawY0  = H - drawH;   // anchored to bottom
+
+    var loopT    = (ts / 5200) * Math.PI * 2;
+    var loopT2   = (ts / 3300) * Math.PI * 2;
+    // At full width, reduce parallax shift so edge-clamped image doesn't gap
+    var maxShift = animW * 0.018;
+    var charTop  = drawY0;                 // entire crop is the char band
+    var charH    = drawH;
+
+    var yStart = Math.max(0, drawY0);
+
+    for (var y = yStart; y < H; y += 1) {
+      var localY = y - drawY0;             // 0..drawH
+      var srcRel = Math.floor(localY / scale); // 0..srcH
+      if (srcRel < 0 || srcRel >= srcH) continue;
+      var srcYpx = srcY0 + srcRel;
+
+      var dx = parallaxX;
+      if (charH > 0) {
+        var p     = Math.min(localY / charH, 1);
+        var phase = (1 - p) * Math.PI * 0.85;
+        var wave1 = Math.sin(loopT - phase);
+        var wave2 = Math.sin(loopT2 * 1.6 - phase * 1.3) * 0.4;
+        var amp   = Math.pow(1 - p, 1.05);
+        dx += (wave1 + wave2) * maxShift * amp;
+      }
+
+      ctx.drawImage(
+        img,
+        0, srcYpx, img.naturalWidth, 1,
+        drawX + dx, y + sinkOffset, animW, 1
+      );
+    }
+  }
+
+  function updateSink() {
+    var rect     = hero.getBoundingClientRect();
+    var scrolled = -rect.top;
+    var maxSink  = hero.clientHeight * 0.5;
+    if (scrolled > 0) {
+      var t      = Math.min(scrolled / (hero.offsetHeight * 0.45), 1);
+      targetSink = t * t * maxSink;
+    } else {
+      targetSink = 0;
+    }
+  }
+  window.addEventListener('scroll', updateSink, { passive: true });
+
+  hero.addEventListener('mousemove', function (e) {
+    var rect = hero.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+
+    var cx = rect.width  / 2;
+    var cy = rect.height * 0.38;
+    var dx = (mouseX - cx) / cx;
+    var dy = (mouseY - cy) / (rect.height * 0.5);
+
+    // Reduce parallax at full width — large shift would expose canvas edges
+    targetPX = dx * 4;
+
+    badgeWrap.style.transform  = 'perspective(900px) rotateX(' + (-dy * 5) + 'deg) rotateY(' + (dx * 6) + 'deg) translateZ(18px)';
+    badgeWrap.style.transition = 'transform 0.12s linear';
+  });
+
+  hero.addEventListener('mouseleave', function () {
+    mouseX = -9999;
+    mouseY = -9999;
+    targetPX = 0;
+    badgeWrap.style.transform  = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    badgeWrap.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+  });
+
+})();
+</script>
+
+{% stylesheet %}
+
+/* ─── Root (LIGHT) ─────────────────────────────────────────────────── */
+.jck-hero {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  background: #f7f4ef;           /* solid cream — matches char sprite's white bg */
+  font-family: 'Sifonn', 'Helvetica Neue', sans-serif;
+  isolation: isolate;
+  color: #060606;
+}
+
+.jck-hero__bg {
+  position: absolute;
+  inset: 0;
+  background: #f7f4ef;
+  z-index: 0;
+}
+
+/* Grid lines hidden — they create a visible box around the canvas area */
+.jck-hero__grid-lines { display: none; }
+
+.jck-hero__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  animation: jck-grain 0.4s steps(1) infinite;
+}
+@keyframes jck-grain {
+  0%   { background-position:   0%   0%; }
+  25%  { background-position: -10%   5%; }
+  50%  { background-position:  10% -10%; }
+  75%  { background-position:  -5%  10%; }
+  100% { background-position:   0%   0%; }
+}
+
+.jck-hero__cursor-glow {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,0,0,0.04) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 2;
+  top: 0; left: 0;
+  will-change: transform;
+}
+
+/* ─── Canvas — behind content, blend-mode:multiply makes white invisible ─ */
+.jck-hero__canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  display: block;
+  /* White pixels in the sprite × cream bg ≈ cream (invisible).
+     Black character lines × cream ≈ black (stay visible). */
+  mix-blend-mode: multiply;
+}
+
+/* ─── Content stack — ABOVE the canvas so title is visible ─────────── */
+.jck-hero__content {
+  position: absolute;
+  inset: 0;
+  z-index: 4;                       /* above canvas (2) and background (0–1) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: calc(var(--header-group-height, 72px) + clamp(40px, 7vh, 88px));
+  padding-bottom: 64px;
+  padding-left: clamp(16px, 4vw, 40px);
+  padding-right: clamp(16px, 4vw, 40px);
+  gap: clamp(16px, 2.4vh, 28px);
+  text-align: center;
+}
+
+/* Eyebrow */
+.jck-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.5);
+  animation: jck-word-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+.jck-hero__eyebrow-line {
+  display: inline-block;
+  width: 42px;
+  height: 1px;
+  background: rgba(0,0,0,0.3);
+}
+
+/* ─── Badge (title image is black on transparent) ──────────────────── */
+.jck-hero__badge-wrap {
+  position: relative;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+.jck-hero__badge-ring {
+  position: absolute;
+  inset: -28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%);
+  animation: jck-ring-pulse 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes jck-ring-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.6; }
+  50%       { transform: scale(1.08); opacity: 1;   }
+}
+.jck-hero__badge {
+  display: block;
+  width: clamp(280px, 46vw, 620px);
+  height: auto;
+  filter: drop-shadow(0 14px 30px rgba(0,0,0,0.18));
+  animation:
+    jck-badge-in   1.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both,
+    jck-badge-float 6s   ease-in-out 1.5s infinite;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+@keyframes jck-badge-in {
+  from { opacity: 0; transform: scale(0.55) translateY(-80px) rotate(-8deg); }
+  to   { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
+}
+@keyframes jck-badge-float {
+  0%,  100% { transform: translateY(0px)   rotate(0deg); }
+  35%        { transform: translateY(-12px) rotate(0.9deg); }
+  65%        { transform: translateY(-6px)  rotate(-0.5deg); }
+}
+
+/* ─── Tagline ────────────────────────────────────────────────────────── */
+.jck-hero__tagline {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(0.62rem, 1.5vw, 0.88rem);
+  letter-spacing: 0.42em;
+  color: rgba(0, 0, 0, 0.55);
+  text-transform: uppercase;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7em;
+  flex-wrap: wrap;
+}
+.jck-hero__word,
+.jck-hero__sep {
+  display: inline-block;
+  animation: jck-word-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.jck-hero__sep {
+  color: rgba(0,0,0,0.22);
+  font-size: 0.4em;
+}
+.jck-hero__word:nth-child(1) { animation-delay: 0.85s; }
+.jck-hero__sep:nth-child(2)  { animation-delay: 0.92s; }
+.jck-hero__word:nth-child(3) { animation-delay: 0.99s; }
+.jck-hero__sep:nth-child(4)  { animation-delay: 1.06s; }
+.jck-hero__word:nth-child(5) { animation-delay: 1.13s; }
+.jck-hero__sep:nth-child(6)  { animation-delay: 1.20s; }
+.jck-hero__word:nth-child(7) { animation-delay: 1.27s; }
+@keyframes jck-word-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ─── CTA buttons (dark on light) ────────────────────────────────────── */
+.jck-hero__actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: jck-word-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.45s both;
+}
+
+.jck-hero__btn {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(0.62rem, 1.3vw, 0.78rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              background 0.25s ease,
+              color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+}
+.jck-hero__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.jck-hero__btn:hover::before { transform: translateX(100%); }
+
+.jck-hero__btn--primary {
+  background: #060606;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+.jck-hero__btn--primary:hover {
+  box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+}
+
+.jck-hero__btn-arrow {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+.jck-hero__btn--primary:hover .jck-hero__btn-arrow { transform: translateX(4px); }
+
+.jck-hero__btn--ghost {
+  background: transparent;
+  color: #060606;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
+}
+.jck-hero__btn--ghost:hover {
+  background: #060606;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px #060606;
+}
+
+/* ─── Scroll indicator ───────────────────────────────────────────────── */
+.jck-hero__scroll-hint {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  animation: jck-word-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) 2.1s both;
+}
+.jck-hero__scroll-track {
+  display: block;
+  width: 1px;
+  height: 56px;
+  background: rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+}
+.jck-hero__scroll-thumb {
+  display: block;
+  width: 100%;
+  height: 40%;
+  background: rgba(0,0,0,0.7);
+  animation: jck-scroll-run 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes jck-scroll-run {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(300%);  }
+}
+
+/* ─── Corner markers ─────────────────────────────────────────────────── */
+.jck-hero__corner {
+  position: absolute;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.4);
+  animation: jck-word-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.9s both;
+  pointer-events: none;
+}
+.jck-hero__corner--tl { top: calc(var(--header-group-height, 72px) + 18px); left: clamp(18px, 4vw, 40px); }
+.jck-hero__corner--tr { top: calc(var(--header-group-height, 72px) + 18px); right: clamp(18px, 4vw, 40px); align-items: flex-end; }
+.jck-hero__corner--bl { bottom: clamp(24px, 4vh, 40px); left: clamp(18px, 4vw, 40px); }
+.jck-hero__corner--br { bottom: clamp(24px, 4vh, 40px); right: clamp(18px, 4vw, 40px); align-items: flex-end; }
+
+/* ─── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 749px) {
+  .jck-hero__content {
+    padding-top: calc(var(--header-group-height, 60px) + clamp(24px, 5vh, 56px));
+    padding-bottom: 60px;
+    gap: clamp(12px, 1.8vh, 22px);
+  }
+  .jck-hero__badge { width: clamp(220px, 78vw, 360px); }
+  .jck-hero__tagline { font-size: 0.55rem; }
+  .jck-hero__actions { flex-direction: column; gap: 10px; }
+  .jck-hero__btn { min-width: 220px; justify-content: center; }
+  .jck-hero__corner { font-size: 0.5rem; }
+  .jck-hero__corner--tl, .jck-hero__corner--tr { display: none; }
+  .jck-hero__grid-lines { background-size: 56px 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jck-hero__badge,
+  .jck-hero__badge-ring,
+  .jck-hero__scroll-thumb,
+  .jck-hero__noise {
+    animation: none;
+  }
+  .jck-hero__badge { opacity: 1; transform: none; }
+  .jck-hero__word,
+  .jck-hero__sep,
+  .jck-hero__eyebrow,
+  .jck-hero__actions,
+  .jck-hero__corner,
+  .jck-hero__scroll-hint {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Hero",
+  "tag": "div",
+  "class": "jck-hero-wrapper",
+  "settings": [
+    { "type": "header", "content": "Primary CTA" },
+    { "type": "text", "id": "cta_label", "label": "Button Label", "default": "Shop Now" },
+    { "type": "url",  "id": "cta_link",  "label": "Button Link" },
+    { "type": "header", "content": "Secondary CTA" },
+    { "type": "text", "id": "secondary_label", "label": "Button Label", "default": "View All" },
+    { "type": "url",  "id": "secondary_link",  "label": "Button Link" }
+  ],
+  "presets": [
+    {
+      "name": "JCK Hero",
+      "category": "Hero",
+      "settings": {
+        "cta_label": "Shop Now",
+        "secondary_label": "View All"
+      }
+    }
+  ]
+}
+{% endschema %}
