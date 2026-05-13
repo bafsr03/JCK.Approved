@@ -182,6 +182,15 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
   z-index: 200;
 }
 
+/* Body baseline — cream so no white shows through gaps between sections
+   on pages with transparent main sections (main-page, main-collection, etc). */
+body {
+  background: #f7f4ef !important;
+}
+.content-for-layout {
+  background: #f7f4ef;
+}
+
 /* ── 8. SCROLL REVEAL BASE CLASSES ──────────────────────────── */
 .jck-reveal {
   opacity: 0;

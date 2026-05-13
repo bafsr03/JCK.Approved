@@ -53,17 +53,26 @@
         const headerGroup = document.querySelector('#header-group');
         if (!headerGroup) return;
 
-        // Custom JCK header path — total height = the group's box.
+        // Custom JCK header path — .jck-header uses display:contents, so we
+        // measure the announce + nav children directly.
         const jckHeader = headerGroup.querySelector('.jck-header');
         if (jckHeader) {
+          const announce = jckHeader.querySelector('.jck-header__announce');
+          const nav      = jckHeader.querySelector('.jck-header__nav');
           const setVars = () => {
-            const total = jckHeader.offsetHeight || headerGroup.offsetHeight;
-            document.body.style.setProperty('--header-height', `${total}px`);
+            const a = announce ? announce.offsetHeight : 0;
+            const n = nav ? nav.offsetHeight : 0;
+            const total = a + n;
+            document.body.style.setProperty('--header-height', `${n}px`);
             document.body.style.setProperty('--header-group-height', `${total}px`);
             document.body.style.setProperty('--transparent-header-offset-boolean', '0');
           };
           setVars();
-          if ('ResizeObserver' in window) new ResizeObserver(setVars).observe(jckHeader);
+          if ('ResizeObserver' in window) {
+            const ro = new ResizeObserver(setVars);
+            if (announce) ro.observe(announce);
+            if (nav)      ro.observe(nav);
+          }
           window.addEventListener('resize', setVars, { passive: true });
           return;
         }

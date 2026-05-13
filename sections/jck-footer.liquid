@@ -1,0 +1,587 @@
+{% comment %}
+  JCK Approved — Footer
+  Editorial multi-band footer: manifesto strip → newsletter → link grid →
+  giant wordmark → legal bar.
+{% endcomment %}
+
+<div class="jck-footer" id="jck-footer-{{ section.id }}">
+
+  {%- comment -%} ── 01. Marquee manifesto strip ───────────────────────── {%- endcomment -%}
+  <div class="jck-footer__marquee" aria-hidden="true">
+    <div class="jck-footer__marquee-track">
+      {%- for i in (1..3) -%}
+        <span class="jck-footer__marquee-item">Hand Picked</span>
+        <span class="jck-footer__marquee-star">✦</span>
+        <span class="jck-footer__marquee-item jck-footer__marquee-item--outline">Hand Stamped</span>
+        <span class="jck-footer__marquee-star">✦</span>
+        <span class="jck-footer__marquee-item">JCK Approved</span>
+        <span class="jck-footer__marquee-star">✦</span>
+        <span class="jck-footer__marquee-item jck-footer__marquee-item--outline">Zero Restocks</span>
+        <span class="jck-footer__marquee-star">✦</span>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── 02. Newsletter / inscription band ─────────────────── {%- endcomment -%}
+  <div class="jck-footer__inscribe">
+    <img src="{{ 'stamp2.png' | asset_url }}" alt="" class="jck-footer__stamp jck-footer__stamp--a" loading="lazy">
+    <img src="{{ 'stamp3.png' | asset_url }}" alt="" class="jck-footer__stamp jck-footer__stamp--b" loading="lazy">
+
+    <div class="jck-footer__inscribe-inner">
+      <span class="jck-footer__chapter">── Sign the Log</span>
+      <h2 class="jck-footer__inscribe-title">
+        {{ section.settings.newsletter_title | default: 'Get on the list.' }}
+      </h2>
+      <p class="jck-footer__inscribe-sub">
+        {{ section.settings.newsletter_sub | default: 'Drops, restock alerts (when there are none), and the occasional thrift-find newsletter. No spam. No bots. Just heat.' }}
+      </p>
+
+      {%- form 'customer', class: 'jck-footer__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label for="jck-footer-email-{{ section.id }}" class="visually-hidden">Email address</label>
+        <input
+          type="email"
+          name="contact[email]"
+          id="jck-footer-email-{{ section.id }}"
+          class="jck-footer__input"
+          placeholder="your@email.com"
+          autocorrect="off"
+          autocapitalize="off"
+          required
+        >
+        <button type="submit" class="jck-footer__submit" aria-label="Subscribe">
+          <span>Subscribe</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3.75 9H14.25M9 3.75L14.25 9L9 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        {%- if form.posted_successfully? -%}
+          <p class="jck-footer__form-msg jck-footer__form-msg--success">Welcome to the log.</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p class="jck-footer__form-msg jck-footer__form-msg--error">{{ form.errors.translated_fields.email }} {{ form.errors.messages.email }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── 03. Link grid ──────────────────────────────────────── {%- endcomment -%}
+  <div class="jck-footer__main">
+    <div class="jck-footer__main-inner">
+
+      <div class="jck-footer__brand">
+        <a href="{{ routes.root_url }}" class="jck-footer__logo" aria-label="JCK Approved — Home">
+          <img
+            src="{{ 'jck-title.png' | asset_url }}"
+            alt="JCK Approved"
+            width="240"
+            height="103"
+            loading="lazy"
+          >
+        </a>
+        <p class="jck-footer__brand-blurb">
+          {{ section.settings.brand_blurb | default: 'A curation-first thrift & sneaker house. Hand-picked, hand-stamped, JCK Approved.' }}
+        </p>
+        <div class="jck-footer__social">
+          {%- if section.settings.social_ig != blank -%}
+            <a href="{{ section.settings.social_ig }}" target="_blank" rel="noopener" class="jck-footer__social-link" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <rect x="2.5" y="2.5" width="15" height="15" rx="4" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="10" cy="10" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="14.5" cy="5.5" r="0.9" fill="currentColor"/>
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.social_tt != blank -%}
+            <a href="{{ section.settings.social_tt }}" target="_blank" rel="noopener" class="jck-footer__social-link" aria-label="TikTok">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M13 2.5V12.5C13 14.16 11.66 15.5 10 15.5C8.34 15.5 7 14.16 7 12.5C7 10.84 8.34 9.5 10 9.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M13 2.5C13 4.71 14.79 6.5 17 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.social_email != blank -%}
+            <a href="mailto:{{ section.settings.social_email }}" class="jck-footer__social-link" aria-label="Email">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <rect x="2.5" y="4" width="15" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M3 5L10 11L17 5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="jck-footer__col">
+        <h3 class="jck-footer__col-title">Shop</h3>
+        <ul class="jck-footer__col-list">
+          <li><a href="/collections/all">All Drops</a></li>
+          <li><a href="/collections/all">New Arrivals</a></li>
+          <li><a href="/collections/all">Sneakers</a></li>
+          <li><a href="/collections/all">Apparel</a></li>
+          <li><a href="/collections/all">Last Chance</a></li>
+        </ul>
+      </div>
+
+      <div class="jck-footer__col">
+        <h3 class="jck-footer__col-title">JCK</h3>
+        <ul class="jck-footer__col-list">
+          <li><a href="/pages/story">Our Story</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+          <li><a href="/account/login">Account</a></li>
+          <li><a href="/cart">Cart</a></li>
+        </ul>
+      </div>
+
+      <div class="jck-footer__col">
+        <h3 class="jck-footer__col-title">Receipts</h3>
+        <ul class="jck-footer__col-list">
+          <li><a href="/policies/shipping-policy">Shipping</a></li>
+          <li><a href="/policies/refund-policy">Returns</a></li>
+          <li><a href="/policies/privacy-policy">Privacy</a></li>
+          <li><a href="/policies/terms-of-service">Terms</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment -%} ── 04. Giant wordmark ─────────────────────────────────── {%- endcomment -%}
+  <div class="jck-footer__wordmark" aria-hidden="true">
+    <span>JCK</span>
+    <span class="jck-footer__wordmark-amp">·</span>
+    <span>Approved</span>
+  </div>
+
+  {%- comment -%} ── 05. Legal bar ──────────────────────────────────────── {%- endcomment -%}
+  <div class="jck-footer__legal">
+    <div class="jck-footer__legal-inner">
+      <span class="jck-footer__legal-bit">© {{ 'now' | date: '%Y' }} JCK Approved</span>
+      <span class="jck-footer__legal-dot">●</span>
+      <span class="jck-footer__legal-bit">Salt Lake City</span>
+      <span class="jck-footer__legal-dot">●</span>
+      <span class="jck-footer__legal-bit">No Fakes · Ever</span>
+
+      <div class="jck-footer__pay" aria-label="Payment methods">
+        {%- for type in shop.enabled_payment_types -%}
+          <span class="jck-footer__pay-icon" title="{{ type | replace: '_', ' ' | capitalize }}">{{ type | payment_type_svg_tag: class: 'jck-footer__pay-svg' }}</span>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% stylesheet %}
+
+/* ─── Root ─────────────────────────────────────────────────────────── */
+.jck-footer {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  color: #ffffff;
+  background: #080808;
+  position: relative;
+  overflow: hidden;
+}
+.jck-footer * { box-sizing: border-box; }
+.jck-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+/* ─── 01. Marquee ──────────────────────────────────────────────────── */
+.jck-footer__marquee {
+  background: #f7f4ef;
+  color: #060606;
+  padding: 22px 0;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.jck-footer__marquee-track {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  white-space: nowrap;
+  width: max-content;
+  animation: jck-footer-marquee 38s linear infinite;
+  font-size: clamp(1.4rem, 3.4vw, 2.8rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.jck-footer__marquee:hover .jck-footer__marquee-track { animation-play-state: paused; }
+.jck-footer__marquee-item--outline {
+  -webkit-text-stroke: 1.5px #060606;
+  color: transparent;
+}
+.jck-footer__marquee-star {
+  color: rgba(0,0,0,0.4);
+  font-size: 0.6em;
+}
+@keyframes jck-footer-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+
+/* ─── 02. Newsletter / inscription band ────────────────────────────── */
+.jck-footer__inscribe {
+  position: relative;
+  padding: clamp(80px, 14vh, 160px) clamp(24px, 6vw, 80px);
+  background: #080808;
+  overflow: hidden;
+  isolation: isolate;
+}
+.jck-footer__inscribe::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+}
+.jck-footer__stamp {
+  position: absolute;
+  width: clamp(180px, 22vw, 360px);
+  height: auto;
+  opacity: 0.55;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.4));
+  z-index: 0;
+}
+.jck-footer__stamp--a {
+  top: 10%;
+  left: -3%;
+  animation: jck-footer-drift 10s ease-in-out infinite alternate;
+}
+.jck-footer__stamp--b {
+  bottom: 8%;
+  right: -2%;
+  animation: jck-footer-drift 13s ease-in-out infinite alternate-reverse;
+}
+@keyframes jck-footer-drift {
+  0%,100% { transform: rotate(-3deg) translateY(0); }
+  50%     { transform: rotate(3deg)  translateY(-12px); }
+}
+
+.jck-footer__inscribe-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.jck-footer__chapter {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 22px;
+}
+.jck-footer__inscribe-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+  color: #ffffff;
+}
+.jck-footer__inscribe-sub {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  line-height: 1.65;
+  color: rgba(255,255,255,0.65);
+  margin: 0 auto 36px;
+  max-width: 52ch;
+}
+
+/* Form */
+.jck-footer__form {
+  display: flex;
+  gap: 0;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  flex-wrap: wrap;
+}
+.jck-footer__input {
+  flex: 1 1 220px;
+  min-width: 0;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-right: none;
+  padding: 16px 22px;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.86rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+.jck-footer__input::placeholder { color: rgba(255,255,255,0.35); letter-spacing: 0.12em; }
+.jck-footer__input:focus { border-color: #ffffff; }
+.jck-footer__submit {
+  flex: 0 0 auto;
+  background: #ffffff;
+  color: #060606;
+  border: 1.5px solid #ffffff;
+  padding: 16px 28px;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: gap 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, color 0.25s ease;
+}
+.jck-footer__submit:hover {
+  gap: 18px;
+  background: #060606;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.jck-footer__form-msg {
+  flex: 1 0 100%;
+  margin: 14px 0 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.jck-footer__form-msg--success { color: #b8e1a4; }
+.jck-footer__form-msg--error   { color: #ff9b9b; }
+
+/* ─── 03. Link grid ────────────────────────────────────────────────── */
+.jck-footer__main {
+  background: #0c0c0c;
+  padding: clamp(60px, 10vh, 100px) clamp(24px, 6vw, 80px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.jck-footer__main-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(260px, 1.4fr) repeat(3, minmax(0, 1fr));
+  gap: clamp(32px, 4vw, 64px);
+  align-items: start;
+}
+.jck-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.jck-footer__logo {
+  display: inline-block;
+  max-width: 220px;
+}
+.jck-footer__logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0) invert(1);  /* invert black PNG → white */
+}
+.jck-footer__brand-blurb {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.55);
+  margin: 0;
+  max-width: 34ch;
+}
+.jck-footer__social {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.jck-footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  color: #ffffff;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.jck-footer__social-link:hover {
+  background: #ffffff;
+  color: #060606;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.jck-footer__col-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin: 8px 0 22px;
+}
+.jck-footer__col-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.jck-footer__col-list a {
+  display: inline-block;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.96rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.82);
+  position: relative;
+  padding: 2px 0;
+  transition: color 0.25s ease, padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.jck-footer__col-list a::before {
+  content: '→';
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #ffffff;
+}
+.jck-footer__col-list a:hover {
+  color: #ffffff;
+  padding-left: 22px;
+}
+.jck-footer__col-list a:hover::before {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ─── 04. Giant wordmark ───────────────────────────────────────────── */
+.jck-footer__wordmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 40px);
+  padding: clamp(40px, 8vh, 80px) clamp(16px, 4vw, 40px) clamp(16px, 3vh, 28px);
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(4rem, 18vw, 18rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  background: #0c0c0c;
+  user-select: none;
+}
+.jck-footer__wordmark > span {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.35);
+}
+.jck-footer__wordmark-amp {
+  -webkit-text-stroke: 0 !important;
+  color: rgba(255,255,255,0.35) !important;
+  font-size: 0.7em;
+}
+
+/* ─── 05. Legal bar ────────────────────────────────────────────────── */
+.jck-footer__legal {
+  background: #060606;
+  padding: 22px clamp(24px, 6vw, 80px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.jck-footer__legal-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.jck-footer__legal-dot { color: rgba(255,255,255,0.2); font-size: 0.5em; }
+.jck-footer__legal-bit { white-space: nowrap; }
+.jck-footer__pay {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.jck-footer__pay-icon { display: inline-flex; align-items: center; }
+.jck-footer__pay-svg {
+  height: 22px;
+  width: auto;
+  opacity: 0.6;
+  filter: grayscale(1) brightness(1.6);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .jck-footer__main-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .jck-footer__brand { grid-column: 1 / -1; }
+  .jck-footer__stamp { width: clamp(120px, 28vw, 200px); opacity: 0.4; }
+  .jck-footer__stamp--a { top: 4%; left: -10%; }
+  .jck-footer__stamp--b { bottom: 4%; right: -10%; }
+}
+@media (max-width: 560px) {
+  .jck-footer__marquee-track { gap: 20px; font-size: clamp(1.1rem, 6vw, 1.6rem); }
+  .jck-footer__main-inner { grid-template-columns: 1fr; }
+  .jck-footer__form { flex-direction: column; }
+  .jck-footer__input {
+    border-right: 1.5px solid rgba(255,255,255,0.35);
+    border-bottom: none;
+  }
+  .jck-footer__submit { justify-content: center; }
+  .jck-footer__pay { margin-left: 0; width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jck-footer__marquee-track,
+  .jck-footer__stamp { animation: none; }
+}
+
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Footer",
+  "tag": "section",
+  "class": "jck-footer-wrapper",
+  "settings": [
+    { "type": "header", "content": "Newsletter" },
+    { "type": "text",     "id": "newsletter_title", "label": "Title",    "default": "Get on the list." },
+    { "type": "textarea", "id": "newsletter_sub",   "label": "Subtitle", "default": "Drops, restock alerts (when there are none), and the occasional thrift-find newsletter. No spam. No bots. Just heat." },
+
+    { "type": "header", "content": "Brand" },
+    { "type": "textarea", "id": "brand_blurb", "label": "Brand blurb", "default": "A curation-first thrift & sneaker house. Hand-picked, hand-stamped, JCK Approved." },
+
+    { "type": "header", "content": "Social" },
+    { "type": "url", "id": "social_ig",    "label": "Instagram URL" },
+    { "type": "url", "id": "social_tt",    "label": "TikTok URL" },
+    { "type": "text","id": "social_email", "label": "Email address" }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

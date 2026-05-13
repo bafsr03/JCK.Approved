@@ -157,16 +157,15 @@
 {% stylesheet %}
 
 /* ─── Wrapper ──────────────────────────────────────────────────────── */
-/* Sticky must live on the parent (#header-group), not the inner div,
-   otherwise the containing block is too short for sticky to engage. */
-#header-group:has(.jck-header) {
-  position: sticky !important;
-  top: 0;
-  z-index: 200;
+/* Flatten the wrapper chain so the announcement bar and navbar become
+   layout children of <body>. The navbar can then sticky against the full
+   page; the announcement bar stays in normal flow and scrolls away. */
+#header-group:has(.jck-header),
+.jck-header-wrapper,
+.jck-header {
+  display: contents !important;
 }
 .jck-header {
-  position: relative;
-  z-index: 1;
   font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
   color: #060606;
   /* Override any inherited Shopify color-scheme variables so nothing
@@ -215,6 +214,9 @@ body.jck-no-scroll { overflow: hidden; }
 
 /* ─── Main nav ─────────────────────────────────────────────────────── */
 .jck-header__nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
   background: #f7f4ef !important;       /* solid cream — no blur-through to dark content */
   border-bottom: 1px solid rgba(0,0,0,0.08);
   transition: box-shadow 0.3s ease, background 0.3s ease;

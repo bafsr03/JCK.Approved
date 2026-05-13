@@ -260,8 +260,9 @@
       // Distance from viewport center, normalized to ±1 across one screen.
       var t = ((rect.top + rect.height / 2) - vh / 2) / vh;
       var depth = parseFloat(el.dataset.parallax) || 0;
-      // translate3d to push to a separate compositor layer
-      el.style.transform = 'translate3d(0,' + (t * depth * 100).toFixed(2) + 'px, 0)';
+      // Use a CSS variable so we DON'T overwrite the element's own
+      // transform (centering on the cold-open stamp; wobble on the acts).
+      el.style.setProperty('--jck-parallax-y', (t * depth * 100).toFixed(2) + 'px');
     });
     ticking = false;
   }
@@ -367,18 +368,20 @@
   position: absolute;
   top: 50%; left: 50%;
   width: clamp(420px, 70vw, 900px);
-  transform: translate(-50%, -50%);
-  opacity: 0.85;
+  /* Drift animation handles the centering + wobble.
+     --jck-parallax-y is injected by the JS each scroll frame. */
+  opacity: 0.55;
   z-index: 0;
   animation: jck-story-drift 14s ease-in-out infinite;
-  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.18));
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.12));
 }
 .jck-story__open-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
   max-width: 900px;
   margin: 0 auto;
+  isolation: isolate;
 }
 .jck-story__chapter {
   display: inline-block;
@@ -396,7 +399,13 @@
   text-transform: uppercase;
   margin: 0 0 28px;
   color: #060606;
-  mix-blend-mode: multiply;
+  position: relative;
+  z-index: 2;
+  /* Slight cream halo behind the heavy glyphs so they read clearly
+     when they overlap the colored stamp art. */
+  text-shadow:
+    0 0 18px rgba(247,244,239,0.75),
+    0 0 36px rgba(247,244,239,0.55);
 }
 .jck-story__hero-sub {
   font-family: var(--font-body--family, 'Inter', sans-serif);
@@ -438,16 +447,18 @@
   animation: jck-story-bob 2.2s ease-in-out infinite;
 }
 
-/* Idle wobble keyframes — applied with different durations per stamp */
+/* Idle wobble keyframes — applied with different durations per stamp.
+   Each transform composes the live --jck-parallax-y from scroll so the
+   centering/wobble + parallax motions don't clobber each other. */
 @keyframes jck-story-drift {
-  0%,100% { transform: translate(-50%, -50%) rotate(-2deg) scale(1);    }
-  25%     { transform: translate(-49%, -52%) rotate(1.5deg) scale(1.02);}
-  50%     { transform: translate(-51%, -50%) rotate(-1deg) scale(1);    }
-  75%     { transform: translate(-50%, -48%) rotate(2deg) scale(1.015); }
+  0%,100% { transform: translate(calc(-50%), calc(-50% + var(--jck-parallax-y, 0px))) rotate(-2deg) scale(1);    }
+  25%     { transform: translate(calc(-49%), calc(-52% + var(--jck-parallax-y, 0px))) rotate(1.5deg) scale(1.02);}
+  50%     { transform: translate(calc(-51%), calc(-50% + var(--jck-parallax-y, 0px))) rotate(-1deg) scale(1);    }
+  75%     { transform: translate(calc(-50%), calc(-48% + var(--jck-parallax-y, 0px))) rotate(2deg) scale(1.015); }
 }
 @keyframes jck-story-wobble {
-  0%,100% { transform: rotate(-2deg);   }
-  50%     { transform: rotate(2deg);    }
+  0%,100% { transform: translateY(var(--jck-parallax-y, 0px)) rotate(-2deg); }
+  50%     { transform: translateY(var(--jck-parallax-y, 0px)) rotate(2deg);  }
 }
 @keyframes jck-story-bob {
   0%,100% { transform: translateY(0);   }
@@ -458,6 +469,7 @@
 .jck-story__act {
   position: relative;
   padding: clamp(100px, 14vh, 180px) clamp(24px, 6vw, 80px);
+  isolation: isolate;
 }
 .jck-story__act-inner {
   max-width: 1320px;
@@ -466,6 +478,13 @@
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: clamp(40px, 6vw, 100px);
   align-items: center;
+}
+.jck-story__act-copy {
+  position: relative;
+  z-index: 2;
+}
+.jck-story__stamp-frame {
+  z-index: 1;
 }
 .jck-story__act--reverse .jck-story__act-inner {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -703,12 +722,16 @@
   padding: clamp(140px, 22vh, 260px) clamp(24px, 6vw, 80px);
   overflow: hidden;
   text-align: center;
+  isolation: isolate;
 }
 .jck-story__closing-stamps {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
+}
+.jck-story__floater {
+  opacity: 0.45;
 }
 .jck-story__floater {
   position: absolute;
@@ -724,10 +747,21 @@
 .jck-story__floater--4 { bottom: 8%;  right: 4%; animation: jck-story-wobble 10s ease-in-out infinite; }
 .jck-story__closing-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 800px;
   margin: 0 auto;
 }
+.jck-story__closing-title,
+.jck-story__closing-body,
+.jck-story__closing-actions {
+  position: relative;
+  /* Cream halo so big editorial text reads clearly even when a floater
+     drifts behind a letter. */
+  text-shadow:
+    0 0 14px rgba(247, 244, 239, 0.7),
+    0 0 28px rgba(247, 244, 239, 0.45);
+}
+.jck-story__closing-actions { text-shadow: none; }
 .jck-story__closing-title {
   font-family: 'Sifonn', sans-serif;
   font-size: clamp(2.6rem, 7vw, 6rem);
@@ -754,26 +788,46 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: 'Sifonn', sans-serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.32em;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 18px 36px;
+  padding: 20px 38px;
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  transition: gap 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+  text-shadow: none !important;        /* don't inherit closing-section cream halo */
+  transition: gap 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease, background 0.25s ease;
 }
+.jck-story__cta > span {
+  color: inherit !important;
+  position: relative;
+  z-index: 1;
+}
+.jck-story__cta svg {
+  color: inherit;
+  stroke: currentColor;
+  position: relative;
+  z-index: 1;
+}
+
+/* Primary — solid black, white text */
 .jck-story__cta--primary {
-  background: #060606;
-  color: #ffffff;
+  background: #060606 !important;
+  color: #ffffff !important;
   border: 1.5px solid #060606;
 }
-.jck-story__cta--primary:hover { gap: 22px; }
+.jck-story__cta--primary:hover {
+  gap: 22px;
+  background: #1a1a1a !important;
+}
+
+/* Ghost — black outline, black text. Hover fills to solid black + white text. */
 .jck-story__cta--ghost {
-  background: transparent;
-  color: #060606;
+  background: transparent !important;
+  color: #060606 !important;
   border: 1.5px solid #060606;
 }
 .jck-story__cta--ghost::before {
@@ -783,9 +837,12 @@
   background: #060606;
   transform: translateX(-101%);
   transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
-  z-index: -1;
+  z-index: 0;
 }
-.jck-story__cta--ghost:hover { color: #ffffff; gap: 22px; }
+.jck-story__cta--ghost:hover {
+  color: #ffffff !important;
+  gap: 22px;
+}
 .jck-story__cta--ghost:hover::before { transform: translateX(0); }
 
 /* ─── Responsive ───────────────────────────────────────────────────── */
