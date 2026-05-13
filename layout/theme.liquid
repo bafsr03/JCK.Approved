@@ -50,57 +50,53 @@
       // Inline header height and menu style calculations to prevent layout shift
       // Note: Updates in calculateHeaderGroupHeight(), updateTransparentHeaderOffset() and setHeaderMenuStyle() utilities.js should be kept in sync with this function
       (function setHeaderHeighCustomProperties() {
-        /*
-         * Header calculation functions for maintaining CSS variables
-         * Mimic calculateHeaderGroupHeight() in utilities.js
-         */
-        const header = document.querySelector('header-component');
         const headerGroup = document.querySelector('#header-group');
-        const hasHeaderSection = headerGroup?.querySelector('.header-section');
+        if (!headerGroup) return;
 
-        if (!header || !headerGroup) return;
+        // Custom JCK header path — total height = the group's box.
+        const jckHeader = headerGroup.querySelector('.jck-header');
+        if (jckHeader) {
+          const setVars = () => {
+            const total = jckHeader.offsetHeight || headerGroup.offsetHeight;
+            document.body.style.setProperty('--header-height', `${total}px`);
+            document.body.style.setProperty('--header-group-height', `${total}px`);
+            document.body.style.setProperty('--transparent-header-offset-boolean', '0');
+          };
+          setVars();
+          if ('ResizeObserver' in window) new ResizeObserver(setVars).observe(jckHeader);
+          window.addEventListener('resize', setVars, { passive: true });
+          return;
+        }
+
+        // Stock Shopify header path (preserved for non-JCK templates).
+        const header = document.querySelector('header-component');
+        const hasHeaderSection = headerGroup.querySelector('.header-section');
+        if (!header) return;
 
         const headerTopRow = header.querySelector('.header__row--top');
         const headerHeight = header.offsetHeight;
 
-        // Calculate the total height of the header group
         let headerGroupHeight = 0;
-        const children = headerGroup.children;
-        for (let i = 0; i < children.length; i++) {
-          const element = children[i];
+        for (const element of headerGroup.children) {
           if (element === header || !(element instanceof HTMLElement)) continue;
           headerGroupHeight += element.offsetHeight;
         }
-
-        // Check for transparent header special case
         if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
           headerGroupHeight += headerHeight;
         }
-
-        // Set CSS variables
         document.body.style.setProperty('--header-height', `${headerHeight}px`);
         document.body.style.setProperty('--header-group-height', `${headerGroupHeight}px`);
-
         if (headerTopRow) {
           window.requestAnimationFrame(function () {
             document.body.style.setProperty('--top-row-height', `${headerTopRow.offsetHeight}px`);
           });
         }
-
-        /**
-         * Updates CSS custom properties for transparent header offset calculation
-         * Mimic updateTransparentHeaderOffset() in utilities.js
-         */
-
-        if (!hasHeaderSection || !header?.hasAttribute('transparent')) {
+        if (!hasHeaderSection || !header.hasAttribute('transparent')) {
           document.body.style.setProperty('--transparent-header-offset-boolean', '0');
           return;
         }
-
         const hasImmediateSection = hasHeaderSection.nextElementSibling?.classList.contains('shopify-section');
-
-        const shouldApplyOffset = !hasImmediateSection ? '1' : '0';
-        document.body.style.setProperty('--transparent-header-offset-boolean', shouldApplyOffset);
+        document.body.style.setProperty('--transparent-header-offset-boolean', !hasImmediateSection ? '1' : '0');
       })();
 
       (function setHeaderMenuStyle() {
@@ -136,16 +132,6 @@
     {% endif %}
 
     <div id="jck-progress" aria-hidden="true"></div>
-
-    <a id="jck-nav-title" href="/" aria-label="JCK Approved — Home">
-      <img
-        src="{{ 'jck-title.png' | asset_url }}"
-        alt="JCK Approved"
-        width="140"
-        height="60"
-        loading="eager"
-      >
-    </a>
 
     {% if template.name == 'index' %}
       <div id="jck-loader" aria-hidden="true" role="presentation">

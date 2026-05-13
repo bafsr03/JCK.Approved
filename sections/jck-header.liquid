@@ -1,0 +1,477 @@
+{% comment %}
+  JCK Approved — Unified Header
+  Combines announcement bar + main navigation in one clean, on-brand section.
+  Replaces the stock `header-announcements` and `header` sections.
+{% endcomment %}
+
+{%- liquid
+  assign menu_handle = section.settings.menu | default: 'main-menu'
+  assign main_menu = linklists[menu_handle]
+-%}
+
+<div class="jck-header" id="jck-header-{{ section.id }}">
+
+  {%- comment -%} ── ANNOUNCEMENT BAR ─────────────────────────────────────── {%- endcomment -%}
+  {%- if section.settings.show_announcement -%}
+    <div class="jck-header__announce" aria-label="Announcements">
+      <div class="jck-header__announce-track" aria-hidden="true">
+        {%- for i in (1..2) -%}
+          <span class="jck-header__announce-item">{{ section.settings.announce_1 | default: 'New Drops Weekly' }}</span>
+          <span class="jck-header__announce-dot">✦</span>
+          <span class="jck-header__announce-item">{{ section.settings.announce_2 | default: 'Authenticated · Curated · JCK Approved' }}</span>
+          <span class="jck-header__announce-dot">✦</span>
+          <span class="jck-header__announce-item">{{ section.settings.announce_3 | default: 'Free Shipping over $100' }}</span>
+          <span class="jck-header__announce-dot">✦</span>
+          <span class="jck-header__announce-item">{{ section.settings.announce_4 | default: 'No Restocks · Ever' }}</span>
+          <span class="jck-header__announce-dot">✦</span>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ── MAIN NAVBAR ──────────────────────────────────────────── {%- endcomment -%}
+  <nav class="jck-header__nav" aria-label="Primary">
+    <div class="jck-header__nav-inner">
+
+      {%- comment -%} Logo (left) {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="jck-header__logo" aria-label="JCK Approved — Home">
+        <img
+          src="{{ 'jck-title.png' | asset_url }}"
+          alt="JCK Approved"
+          width="160"
+          height="68"
+          loading="eager"
+        >
+      </a>
+
+      {%- comment -%} Menu (center) — inline color+font lock so no inherited
+                       Shopify scheme can repaint the words. {%- endcomment -%}
+      {%- assign nav_inline = "color: #060606; font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;" -%}
+      <ul class="jck-header__menu" role="menubar">
+        {%- if main_menu != blank and main_menu.links.size > 0 -%}
+          {%- for link in main_menu.links -%}
+            <li role="none">
+              <a href="{{ link.url }}" class="jck-header__link {% if link.active %}is-active{% endif %}" role="menuitem" style="{{ nav_inline }}">
+                {{ link.title }}
+              </a>
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          <li role="none"><a href="/collections/all" class="jck-header__link" role="menuitem" style="{{ nav_inline }}">Shop</a></li>
+          <li role="none"><a href="/pages/story"    class="jck-header__link" role="menuitem" style="{{ nav_inline }}">Story</a></li>
+          <li role="none"><a href="/pages/contact"  class="jck-header__link" role="menuitem" style="{{ nav_inline }}">Contact</a></li>
+        {%- endif -%}
+      </ul>
+
+      {%- comment -%} Utilities (right) — inline color locks icons to black. {%- endcomment -%}
+      {%- assign util_inline = "color: #060606;" -%}
+      <div class="jck-header__utils">
+        <a href="{{ routes.search_url }}" class="jck-header__util" aria-label="Search" style="{{ util_inline }}">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <a href="{{ routes.account_url }}" class="jck-header__util" aria-label="Account" style="{{ util_inline }}">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="7" r="3.25" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M3.75 16.5C4.5 13.5 7 12 10 12C13 12 15.5 13.5 16.25 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <a href="{{ routes.cart_url }}" class="jck-header__util jck-header__cart" aria-label="Cart ({{ cart.item_count }} items)" style="{{ util_inline }}">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6.5H16L14.75 14.25C14.65 14.85 14.15 15.25 13.55 15.25H6.45C5.85 15.25 5.35 14.85 5.25 14.25L4 6.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M7 6.5V5C7 3.62 8.12 2.5 9.5 2.5H10.5C11.88 2.5 13 3.62 13 5V6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          {%- if cart.item_count > 0 -%}
+            <span class="jck-header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+
+        <button type="button" class="jck-header__burger" aria-label="Open menu" aria-expanded="false" data-jck-burger>
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  {%- comment -%} ── MOBILE DRAWER ────────────────────────────────────────── {%- endcomment -%}
+  <div class="jck-header__drawer" data-jck-drawer aria-hidden="true">
+    <ul class="jck-header__drawer-menu">
+      {%- if main_menu != blank and main_menu.links.size > 0 -%}
+        {%- for link in main_menu.links -%}
+          <li><a href="{{ link.url }}" class="jck-header__drawer-link">{{ link.title }}</a></li>
+        {%- endfor -%}
+      {%- else -%}
+        <li><a href="/collections/all" class="jck-header__drawer-link">Shop</a></li>
+        <li><a href="/pages/story"    class="jck-header__drawer-link">Story</a></li>
+        <li><a href="/pages/contact"  class="jck-header__drawer-link">Contact</a></li>
+      {%- endif -%}
+      <li><a href="{{ routes.account_url }}" class="jck-header__drawer-link jck-header__drawer-link--secondary">Account</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var root   = document.getElementById('jck-header-{{ section.id }}');
+  if (!root) return;
+  var burger = root.querySelector('[data-jck-burger]');
+  var drawer = root.querySelector('[data-jck-drawer]');
+  if (!burger || !drawer) return;
+
+  function setOpen(open) {
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    drawer.classList.toggle('is-open', open);
+    burger.classList.toggle('is-open', open);
+    document.body.classList.toggle('jck-no-scroll', open);
+  }
+  burger.addEventListener('click', function () {
+    setOpen(!drawer.classList.contains('is-open'));
+  });
+  drawer.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setOpen(false);
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 900 && drawer.classList.contains('is-open')) setOpen(false);
+  });
+
+  // Shadow on scroll
+  var nav = root.querySelector('.jck-header__nav');
+  if (nav) {
+    var lastY = 0;
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY || 0;
+      nav.classList.toggle('is-scrolled', y > 8);
+      lastY = y;
+    }, { passive: true });
+  }
+})();
+</script>
+
+{% stylesheet %}
+
+/* ─── Wrapper ──────────────────────────────────────────────────────── */
+/* Sticky must live on the parent (#header-group), not the inner div,
+   otherwise the containing block is too short for sticky to engage. */
+#header-group:has(.jck-header) {
+  position: sticky !important;
+  top: 0;
+  z-index: 200;
+}
+.jck-header {
+  position: relative;
+  z-index: 1;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  color: #060606;
+  /* Override any inherited Shopify color-scheme variables so nothing
+     can cascade white text/icons into the navbar. */
+  --color-foreground: #060606 !important;
+  --color-foreground-rgb: 6 6 6 !important;
+  --color-foreground-heading: #060606 !important;
+  --color-primary: #060606 !important;
+}
+/* Force the cream navbar to use black foreground.
+   Targeted selectors only — keeps hover-invert (white on black) working. */
+.jck-header__nav { color: #060606 !important; }
+.jck-header__nav a,
+.jck-header__nav button { color: inherit; }
+
+body.jck-no-scroll { overflow: hidden; }
+
+/* ─── Announcement bar ─────────────────────────────────────────────── */
+.jck-header__announce {
+  background: #080808;
+  color: #ffffff;
+  overflow: hidden;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.jck-header__announce-track {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  white-space: nowrap;
+  width: max-content;
+  animation: jck-header-marquee 38s linear infinite;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.jck-header__announce:hover .jck-header__announce-track { animation-play-state: paused; }
+.jck-header__announce-item { color: #ffffff; }
+.jck-header__announce-dot { color: rgba(255,255,255,0.4); font-size: 0.7em; }
+@keyframes jck-header-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── Main nav ─────────────────────────────────────────────────────── */
+.jck-header__nav {
+  background: #f7f4ef !important;       /* solid cream — no blur-through to dark content */
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+.jck-header__nav.is-scrolled {
+  background: #f7f4ef !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+.jck-header__nav-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+  height: clamp(64px, 9vh, 84px);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(16px, 3vw, 40px);
+}
+
+/* Logo — hidden at top, slides in on scroll */
+.jck-header__logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  justify-self: start;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition:
+    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.jck-header__nav.is-scrolled .jck-header__logo {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.jck-header__nav.is-scrolled .jck-header__logo:hover { transform: scale(1.04); }
+.jck-header__logo img {
+  display: block;
+  height: clamp(28px, 4vh, 40px);
+  width: auto;
+}
+
+/* Menu */
+.jck-header__menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3vw, 48px);
+  justify-self: center;
+}
+.jck-header__link {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #060606 !important;
+  text-decoration: none;
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+.jck-header__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: #060606 !important;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.jck-header__link:hover::after,
+.jck-header__link.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.jck-header__link.is-active { color: #060606; }
+
+/* Utilities */
+.jck-header__utils {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  justify-self: end;
+}
+.jck-header__util {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  color: #060606 !important;
+  text-decoration: none;
+  position: relative;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.jck-header__util:hover {
+  background: #060606 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+.jck-header__util svg {
+  display: block;
+  color: inherit;
+  stroke: currentColor;
+}
+.jck-header__util svg path,
+.jck-header__util svg circle { stroke: currentColor; }
+
+/* Cart count badge */
+.jck-header__cart-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #060606;
+  color: #ffffff;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 2px solid #f7f4ef;
+}
+.jck-header__util:hover .jck-header__cart-count {
+  background: #ffffff;
+  color: #060606;
+  border-color: #060606;
+}
+
+/* Hamburger (mobile only) */
+.jck-header__burger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 50%;
+  transition: background 0.25s ease;
+}
+.jck-header__burger:hover { background: rgba(0,0,0,0.06); }
+.jck-header__burger span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: #060606 !important;
+  transition: transform 0.35s ease, opacity 0.25s ease;
+  transform-origin: center;
+}
+.jck-header__burger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.jck-header__burger.is-open span:nth-child(2) { opacity: 0; }
+.jck-header__burger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ─── Mobile drawer ────────────────────────────────────────────────── */
+.jck-header__drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f7f4ef;
+  z-index: 99;
+  padding: clamp(96px, 14vh, 140px) clamp(28px, 8vw, 56px) 48px;
+  transform: translateY(-100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+.jck-header__drawer.is-open { transform: translateY(0); }
+.jck-header__drawer-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.jck-header__drawer-link {
+  display: block;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.6rem, 7vw, 2.4rem);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #060606;
+  text-decoration: none;
+  line-height: 1;
+}
+.jck-header__drawer-link--secondary {
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  margin-top: 24px;
+  color: rgba(0,0,0,0.6);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .jck-header__menu { display: none; }
+  .jck-header__nav-inner { grid-template-columns: 1fr auto; }
+  .jck-header__logo { justify-self: start; }
+  .jck-header__utils { justify-self: end; }
+  .jck-header__burger { display: inline-flex; }
+}
+
+@media (max-width: 540px) {
+  .jck-header__announce-track { font-size: 0.62rem; letter-spacing: 0.28em; }
+  .jck-header__util { width: 36px; height: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jck-header__announce-track { animation: none; }
+  .jck-header__nav,
+  .jck-header__util,
+  .jck-header__link,
+  .jck-header__drawer { transition: none; }
+}
+
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Header",
+  "tag": "header",
+  "class": "jck-header-wrapper",
+  "settings": [
+    { "type": "header", "content": "Navigation" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+
+    { "type": "header", "content": "Announcement Bar" },
+    { "type": "checkbox", "id": "show_announcement", "label": "Show announcement bar", "default": true },
+    { "type": "text", "id": "announce_1", "label": "Message 1", "default": "New Drops Weekly" },
+    { "type": "text", "id": "announce_2", "label": "Message 2", "default": "Authenticated · Curated · JCK Approved" },
+    { "type": "text", "id": "announce_3", "label": "Message 3", "default": "Free Shipping over $100" },
+    { "type": "text", "id": "announce_4", "label": "Message 4", "default": "No Restocks · Ever" }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}
