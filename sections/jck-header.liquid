@@ -73,22 +73,20 @@
           </svg>
         </a>
 
-        <a href="{{ routes.account_url }}" class="jck-header__util" aria-label="Account" style="{{ util_inline }}">
+        <button type="button" class="jck-header__util" aria-label="Account" data-jck-open="account" style="{{ util_inline }} background:transparent; border:none; cursor:pointer; padding:0;">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <circle cx="10" cy="7" r="3.25" stroke="currentColor" stroke-width="1.5"/>
             <path d="M3.75 16.5C4.5 13.5 7 12 10 12C13 12 15.5 13.5 16.25 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-        </a>
+        </button>
 
-        <a href="{{ routes.cart_url }}" class="jck-header__util jck-header__cart" aria-label="Cart ({{ cart.item_count }} items)" style="{{ util_inline }}">
+        <button type="button" class="jck-header__util jck-header__cart" aria-label="Cart ({{ cart.item_count }} items)" data-jck-open="cart" style="{{ util_inline }} background:transparent; border:none; cursor:pointer; padding:0;">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M4 6.5H16L14.75 14.25C14.65 14.85 14.15 15.25 13.55 15.25H6.45C5.85 15.25 5.35 14.85 5.25 14.25L4 6.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
             <path d="M7 6.5V5C7 3.62 8.12 2.5 9.5 2.5H10.5C11.88 2.5 13 3.62 13 5V6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-          {%- if cart.item_count > 0 -%}
-            <span class="jck-header__cart-count" data-cart-count>{{ cart.item_count }}</span>
-          {%- endif -%}
-        </a>
+          <span class="jck-header__cart-count" data-jck-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+        </button>
 
         <button type="button" class="jck-header__burger" aria-label="Open menu" aria-expanded="false" data-jck-burger>
           <span></span><span></span><span></span>
@@ -98,7 +96,7 @@
     </div>
   </nav>
 
-  {%- comment -%} ── MOBILE DRAWER ────────────────────────────────────────── {%- endcomment -%}
+  {%- comment -%} ── MOBILE NAV DRAWER (top-down) ─────────────────────────── {%- endcomment -%}
   <div class="jck-header__drawer" data-jck-drawer aria-hidden="true">
     <ul class="jck-header__drawer-menu">
       {%- if main_menu != blank and main_menu.links.size > 0 -%}
@@ -110,9 +108,75 @@
         <li><a href="/pages/story"    class="jck-header__drawer-link">Story</a></li>
         <li><a href="/pages/contact"  class="jck-header__drawer-link">Contact</a></li>
       {%- endif -%}
-      <li><a href="{{ routes.account_url }}" class="jck-header__drawer-link jck-header__drawer-link--secondary">Account</a></li>
+      <li><button type="button" class="jck-header__drawer-link jck-header__drawer-link--secondary" data-jck-open="account" style="background:transparent;border:none;cursor:pointer;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;padding:18px 0;width:100%;text-align:left;">Account</button></li>
     </ul>
   </div>
+
+  {%- comment -%} ── CART DRAWER (right side panel) ───────────────────────── {%- endcomment -%}
+  <aside class="jck-side jck-side--cart" data-jck-side="cart" aria-hidden="true" aria-label="Cart">
+    <div class="jck-side__header">
+      <h2 class="jck-side__title">Your Bag <span class="jck-side__count" data-jck-cart-count-label></span></h2>
+      <button type="button" class="jck-side__close" data-jck-close aria-label="Close cart">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <path d="M5 5L17 17M17 5L5 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="jck-side__body" data-jck-cart-body>
+      <div class="jck-side__empty">Your bag is empty.</div>
+    </div>
+    <div class="jck-side__footer" data-jck-cart-footer hidden>
+      <div class="jck-side__row">
+        <span>Subtotal</span>
+        <span data-jck-cart-subtotal>$0.00</span>
+      </div>
+      <p class="jck-side__note">Shipping &amp; taxes calculated at checkout.</p>
+      <a href="{{ routes.cart_url }}/checkout" class="jck-side__cta jck-side__cta--primary">Checkout →</a>
+      <a href="{{ routes.cart_url }}" class="jck-side__cta jck-side__cta--ghost">View bag</a>
+    </div>
+  </aside>
+
+  {%- comment -%} ── ACCOUNT / LOGIN DRAWER (right side panel) ────────────── {%- endcomment -%}
+  <aside class="jck-side jck-side--account" data-jck-side="account" aria-hidden="true" aria-label="Account">
+    <div class="jck-side__header">
+      <h2 class="jck-side__title">{% if customer %}Account{% else %}Sign In{% endif %}</h2>
+      <button type="button" class="jck-side__close" data-jck-close aria-label="Close">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <path d="M5 5L17 17M17 5L5 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="jck-side__body">
+      {%- if customer -%}
+        <p class="jck-side__hello">Hi, {{ customer.first_name | default: customer.email }}</p>
+        <ul class="jck-side__list">
+          <li><a href="{{ routes.account_url }}">Account home</a></li>
+          <li><a href="{{ routes.account_addresses_url }}">Addresses</a></li>
+          <li><a href="{{ routes.account_logout_url }}">Log out</a></li>
+        </ul>
+      {%- else -%}
+        {%- form 'customer_login', class: 'jck-side__form' -%}
+          {{ form.errors | default_errors }}
+          <label class="jck-side__field">
+            <span>Email</span>
+            <input type="email" name="customer[email]" required autocomplete="email" autocapitalize="off" autocorrect="off">
+          </label>
+          <label class="jck-side__field">
+            <span>Password</span>
+            <input type="password" name="customer[password]" required autocomplete="current-password">
+          </label>
+          <button type="submit" class="jck-side__cta jck-side__cta--primary">Sign In</button>
+        {%- endform -%}
+        <div class="jck-side__alts">
+          <a href="{{ routes.account_register_url }}">New here? Create an account →</a>
+          <a href="{{ routes.account_recover_url }}">Forgot your password?</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </aside>
+
+  {%- comment -%} ── Shared backdrop ──────────────────────────────────────── {%- endcomment -%}
+  <div class="jck-side-backdrop" data-jck-backdrop aria-hidden="true"></div>
 
 </div>
 
@@ -121,36 +185,188 @@
   var root   = document.getElementById('jck-header-{{ section.id }}');
   if (!root) return;
   var burger = root.querySelector('[data-jck-burger]');
-  var drawer = root.querySelector('[data-jck-drawer]');
-  if (!burger || !drawer) return;
+  var navDrawer = root.querySelector('[data-jck-drawer]');
+  var sides    = root.querySelectorAll('[data-jck-side]');
+  var backdrop = root.querySelector('[data-jck-backdrop]');
+  var cartBody = root.querySelector('[data-jck-cart-body]');
+  var cartFooter = root.querySelector('[data-jck-cart-footer]');
+  var cartSubtotalEl = root.querySelector('[data-jck-cart-subtotal]');
+  var cartCountEls = document.querySelectorAll('[data-jck-cart-count]');
+  var cartCountLabel = root.querySelector('[data-jck-cart-count-label]');
+  var moneyFmt = {{ shop.money_format | json }};
 
-  function setOpen(open) {
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
-    drawer.classList.toggle('is-open', open);
-    burger.classList.toggle('is-open', open);
-    document.body.classList.toggle('jck-no-scroll', open);
+  // ── Drawer state ────────────────────────────────────────────────────
+  function closeAll() {
+    if (navDrawer) {
+      navDrawer.classList.remove('is-open');
+      navDrawer.setAttribute('aria-hidden', 'true');
+    }
+    if (burger) {
+      burger.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+    sides.forEach(function (el) {
+      el.classList.remove('is-open');
+      el.setAttribute('aria-hidden', 'true');
+    });
+    if (backdrop) backdrop.classList.remove('is-open');
+    document.body.classList.remove('jck-no-scroll');
   }
-  burger.addEventListener('click', function () {
-    setOpen(!drawer.classList.contains('is-open'));
+  function openNav() {
+    closeAll();
+    if (!navDrawer) return;
+    navDrawer.classList.add('is-open');
+    navDrawer.setAttribute('aria-hidden', 'false');
+    if (burger) {
+      burger.classList.add('is-open');
+      burger.setAttribute('aria-expanded', 'true');
+    }
+    document.body.classList.add('jck-no-scroll');
+  }
+  function openSide(name) {
+    closeAll();
+    var target = root.querySelector('[data-jck-side="' + name + '"]');
+    if (!target) return;
+    target.classList.add('is-open');
+    target.setAttribute('aria-hidden', 'false');
+    if (backdrop) backdrop.classList.add('is-open');
+    document.body.classList.add('jck-no-scroll');
+    if (name === 'cart') refreshCart();
+  }
+
+  if (burger) {
+    burger.addEventListener('click', function () {
+      if (navDrawer && navDrawer.classList.contains('is-open')) closeAll();
+      else openNav();
+    });
+  }
+  if (navDrawer) {
+    navDrawer.addEventListener('click', function (e) {
+      if (e.target.closest('a')) closeAll();
+    });
+  }
+  root.querySelectorAll('[data-jck-open]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openSide(btn.getAttribute('data-jck-open'));
+    });
   });
-  drawer.addEventListener('click', function (e) {
-    if (e.target.closest('a')) setOpen(false);
+  root.querySelectorAll('[data-jck-close]').forEach(function (btn) {
+    btn.addEventListener('click', closeAll);
+  });
+  if (backdrop) backdrop.addEventListener('click', closeAll);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAll();
   });
   window.addEventListener('resize', function () {
-    if (window.innerWidth > 900 && drawer.classList.contains('is-open')) setOpen(false);
+    if (window.innerWidth > 900 && navDrawer && navDrawer.classList.contains('is-open')) closeAll();
   });
 
   // Shadow on scroll
   var nav = root.querySelector('.jck-header__nav');
   if (nav) {
-    var lastY = 0;
     window.addEventListener('scroll', function () {
-      var y = window.scrollY || 0;
-      nav.classList.toggle('is-scrolled', y > 8);
-      lastY = y;
+      nav.classList.toggle('is-scrolled', (window.scrollY || 0) > 8);
     }, { passive: true });
   }
+
+  // ── Cart drawer logic ──────────────────────────────────────────────
+  function formatMoney(cents) {
+    var amt = (cents / 100).toFixed(2);
+    if (!moneyFmt) return '$' + amt;
+    return moneyFmt.replace(/\{\{\s*amount[^}]*\}\}/, amt);
+  }
+  function updateCartCounts(count) {
+    cartCountEls.forEach(function (el) {
+      el.textContent = count;
+      if (count > 0) el.removeAttribute('hidden');
+      else el.setAttribute('hidden', '');
+    });
+    if (cartCountLabel) cartCountLabel.textContent = count ? '(' + count + ')' : '';
+  }
+  function renderCart(cart) {
+    updateCartCounts(cart.item_count);
+    if (!cart.items || !cart.items.length) {
+      cartBody.innerHTML = '<div class="jck-side__empty">Your bag is empty.<br><br><a href="/collections/all" class="jck-side__cta jck-side__cta--ghost" style="display:inline-block;">Browse Drops</a></div>';
+      if (cartFooter) cartFooter.hidden = true;
+      return;
+    }
+    var html = '<ul class="jck-side__items">';
+    cart.items.forEach(function (item) {
+      var img = item.image ? item.image.replace(/(\.[a-z]+)(\?.*)?$/, '_120x$1$2') : '';
+      html += '<li class="jck-side__item" data-line-key="' + item.key + '">';
+      html += '  <a href="' + item.url + '" class="jck-side__item-img">';
+      if (img) html += '<img src="' + img + '" alt="' + (item.product_title || '') + '" loading="lazy">';
+      html += '  </a>';
+      html += '  <div class="jck-side__item-meta">';
+      html += '    <a href="' + item.url + '" class="jck-side__item-title">' + item.product_title + '</a>';
+      if (item.variant_title && item.variant_title !== 'Default Title') {
+        html += '<div class="jck-side__item-variant">' + item.variant_title + '</div>';
+      }
+      html += '    <div class="jck-side__item-bottom">';
+      html += '      <div class="jck-side__qty">';
+      html += '        <button type="button" data-jck-qty="' + item.key + '" data-jck-qty-delta="-1" aria-label="Decrease">−</button>';
+      html += '        <span>' + item.quantity + '</span>';
+      html += '        <button type="button" data-jck-qty="' + item.key + '" data-jck-qty-delta="1" aria-label="Increase">+</button>';
+      html += '      </div>';
+      html += '      <div class="jck-side__item-price">' + formatMoney(item.final_line_price) + '</div>';
+      html += '    </div>';
+      html += '    <button type="button" class="jck-side__item-remove" data-jck-remove="' + item.key + '">Remove</button>';
+      html += '  </div>';
+      html += '</li>';
+    });
+    html += '</ul>';
+    cartBody.innerHTML = html;
+    if (cartSubtotalEl) cartSubtotalEl.textContent = formatMoney(cart.total_price);
+    if (cartFooter) cartFooter.hidden = false;
+    wireCartActions();
+  }
+  function wireCartActions() {
+    cartBody.querySelectorAll('[data-jck-qty]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var key = b.getAttribute('data-jck-qty');
+        var delta = parseInt(b.getAttribute('data-jck-qty-delta'), 10);
+        var item = cartBody.querySelector('[data-line-key="' + key + '"]');
+        var span = item && item.querySelector('.jck-side__qty span');
+        var current = span ? parseInt(span.textContent, 10) : 1;
+        changeLine(key, Math.max(0, current + delta));
+      });
+    });
+    cartBody.querySelectorAll('[data-jck-remove]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        changeLine(b.getAttribute('data-jck-remove'), 0);
+      });
+    });
+  }
+  function refreshCart() {
+    if (!cartBody) return;
+    fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(renderCart)
+      .catch(function () {
+        cartBody.innerHTML = '<div class="jck-side__empty">Couldn’t load your bag. <a href="/cart">View on cart page</a></div>';
+      });
+  }
+  function changeLine(key, quantity) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: quantity })
+    })
+    .then(function (r) { return r.json(); })
+    .then(renderCart)
+    .catch(refreshCart);
+  }
+
+  // Initial cart count (in case prerendered count is stale)
+  refreshCart();
+
+  // Listen for add-to-cart events from elsewhere (Shopify themes commonly
+  // dispatch a 'cart:updated' or PUB/SUB event). Re-fetch on any of them.
+  ['cart:updated', 'cart:refresh', 'cart-updated'].forEach(function (evt) {
+    document.addEventListener(evt, refreshCart);
+  });
+  // Also re-fetch if the cart page form is submitted (fallback).
 })();
 </script>
 
@@ -445,6 +661,320 @@ body.jck-no-scroll { overflow: hidden; }
 .jck-header__burger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .jck-header__burger.is-open span:nth-child(2) { opacity: 0; }
 .jck-header__burger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ─── Side drawers (cart + account) ────────────────────────────────── */
+.jck-side-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.jck-side-backdrop.is-open { opacity: 1; pointer-events: auto; }
+
+.jck-side {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 100vw);
+  background: #f7f4ef !important;
+  color: #060606 !important;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -16px 0 40px rgba(0,0,0,0.08);
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+}
+.jck-side.is-open { transform: translateX(0); }
+
+.jck-side__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.jck-side__title {
+  margin: 0;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #060606 !important;
+}
+.jck-side__count {
+  margin-left: 6px;
+  color: rgba(0,0,0,0.45) !important;
+  font-size: 0.85em;
+  letter-spacing: 0;
+}
+.jck-side__close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #060606 !important;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+.jck-side__close:hover { background: rgba(0,0,0,0.06); }
+
+.jck-side__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 24px 24px;
+}
+.jck-side__empty {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(0,0,0,0.6) !important;
+  padding: 32px 0;
+  text-align: center;
+}
+.jck-side__footer {
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding: 18px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.jck-side__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.86rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #060606 !important;
+}
+.jck-side__note {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.72rem;
+  color: rgba(0,0,0,0.5) !important;
+  margin: -2px 0 8px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.jck-side__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 22px;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid #060606;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.jck-side__cta--primary {
+  background: #060606 !important;
+  color: #ffffff !important;
+}
+.jck-side__cta--primary:hover { background: #1a1a1a !important; }
+.jck-side__cta--ghost {
+  background: transparent;
+  color: #060606 !important;
+}
+.jck-side__cta--ghost:hover {
+  background: #060606 !important;
+  color: #ffffff !important;
+}
+
+/* Cart line items */
+.jck-side__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.jck-side__item {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.jck-side__item:last-child { border-bottom: none; }
+.jck-side__item-img {
+  display: block;
+  width: 84px;
+  height: 96px;
+  background: #ece9e3;
+  overflow: hidden;
+}
+.jck-side__item-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.jck-side__item-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.jck-side__item-title {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.84rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #060606 !important;
+  text-decoration: none;
+  line-height: 1.3;
+}
+.jck-side__item-variant {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.72rem;
+  color: rgba(0,0,0,0.55) !important;
+}
+.jck-side__item-bottom {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jck-side__qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(0,0,0,0.18);
+}
+.jck-side__qty button {
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #060606 !important;
+}
+.jck-side__qty button:hover { background: rgba(0,0,0,0.05); }
+.jck-side__qty span {
+  min-width: 22px;
+  text-align: center;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.84rem;
+  color: #060606 !important;
+}
+.jck-side__item-price {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: #060606 !important;
+}
+.jck-side__item-remove {
+  margin-top: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.55) !important;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.jck-side__item-remove:hover { color: #060606 !important; }
+
+/* Account drawer */
+.jck-side__hello {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #060606 !important;
+  margin: 0 0 18px;
+}
+.jck-side__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.jck-side__list a {
+  display: block;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #060606 !important;
+  text-decoration: none;
+  transition: padding-left 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.jck-side__list a:hover { padding-left: 8px; }
+
+.jck-side__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.jck-side__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.jck-side__field span {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.6) !important;
+}
+.jck-side__field input {
+  padding: 12px 14px;
+  border: 1.5px solid rgba(0,0,0,0.25);
+  background: #ffffff !important;
+  color: #060606 !important;
+  -webkit-text-fill-color: #060606;
+  caret-color: #060606;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.86rem;
+  letter-spacing: 0.06em;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.jck-side__field input:focus { border-color: #060606; }
+.jck-side__alts {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+.jck-side__alts a {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.6) !important;
+  text-decoration: none;
+}
+.jck-side__alts a:hover { color: #060606 !important; }
+
+@media (max-width: 540px) {
+  .jck-side { width: 100vw; box-shadow: none; }
+}
 
 /* ─── Mobile drawer ────────────────────────────────────────────────── */
 .jck-header__drawer {
