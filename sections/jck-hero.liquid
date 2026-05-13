@@ -162,19 +162,29 @@
     ctx.clearRect(0, 0, W, H);
 
     var isSmall = W < 749;
-    var animW   = W * (isSmall ? ANIM_WIDTH_RATIO_SM : ANIM_WIDTH_RATIO);
 
-    // Crop region (only the char band of the source PNG)
     var srcY0   = Math.floor(img.naturalHeight * IMG_CHAR_START_RATIO);
     var srcH    = img.naturalHeight - srcY0;
-    var scale   = animW / img.naturalWidth;
-    var drawH   = Math.ceil(srcH * scale);
-    // Cap drawH so characters fit comfortably in the bottom portion
-    var maxH    = H * (isSmall ? 0.62 : 0.72);
-    if (drawH > maxH) {
-      scale  = (maxH / srcH);
-      drawH  = Math.ceil(maxH);
-      animW  = Math.ceil(img.naturalWidth * scale);
+
+    var scale, drawH, animW;
+    if (isSmall) {
+      // Mobile: HEIGHT-driven. Target a generous % of viewport height and
+      // let the row spill horizontally past the screen edges — the centre
+      // stays visible and the characters read bigger.
+      drawH = Math.ceil(H * 0.55);             // ← bump this to make chars bigger
+      scale = drawH / srcH;
+      animW = Math.ceil(img.naturalWidth * scale);
+    } else {
+      // Desktop: width-driven with a max-height safety cap.
+      animW = W * ANIM_WIDTH_RATIO;
+      scale = animW / img.naturalWidth;
+      drawH = Math.ceil(srcH * scale);
+      var maxH = H * 0.72;
+      if (drawH > maxH) {
+        scale = maxH / srcH;
+        drawH = Math.ceil(maxH);
+        animW = Math.ceil(img.naturalWidth * scale);
+      }
     }
     var drawX   = (W - animW) / 2;
     var drawY0  = H - drawH - 8;    // 8px margin from bottom edge
