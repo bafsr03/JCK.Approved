@@ -11,21 +11,21 @@
 
 <div class="jck-header {% if template.name == 'index' %}jck-header--hide-logo-at-top{% endif %}" id="jck-header-{{ section.id }}">
 
-  {%- comment -%} ── ANNOUNCEMENT BAR ─────────────────────────────────────── {%- endcomment -%}
+  {%- comment -%} ── ANNOUNCEMENT BAR — vertical word-roller ─────────────── {%- endcomment -%}
   {%- if section.settings.show_announcement -%}
     <div class="jck-header__announce" aria-label="Announcements">
-      <div class="jck-header__announce-track" aria-hidden="true">
-        {%- for i in (1..2) -%}
-          <span class="jck-header__announce-item">{{ section.settings.announce_1 | default: 'New Drops Weekly' }}</span>
-          <span class="jck-header__announce-dot">✦</span>
-          <span class="jck-header__announce-item">{{ section.settings.announce_2 | default: 'Authenticated · Curated · JCK Approved' }}</span>
-          <span class="jck-header__announce-dot">✦</span>
-          <span class="jck-header__announce-item">{{ section.settings.announce_3 | default: 'Free Shipping over $100' }}</span>
-          <span class="jck-header__announce-dot">✦</span>
-          <span class="jck-header__announce-item">{{ section.settings.announce_4 | default: 'No Restocks · Ever' }}</span>
-          <span class="jck-header__announce-dot">✦</span>
-        {%- endfor -%}
+      <span class="jck-header__announce-flank jck-header__announce-flank--left" aria-hidden="true">✦</span>
+      <div class="jck-header__announce-stage" aria-live="polite">
+        <div class="jck-header__announce-roll">
+          <span class="jck-header__announce-line">{{ section.settings.announce_1 | default: 'New Drops Weekly' }}</span>
+          <span class="jck-header__announce-line">{{ section.settings.announce_2 | default: 'Authenticated · Curated · JCK Approved' }}</span>
+          <span class="jck-header__announce-line">{{ section.settings.announce_3 | default: 'Free Shipping over $100' }}</span>
+          <span class="jck-header__announce-line">{{ section.settings.announce_4 | default: 'No Restocks · Ever' }}</span>
+          {%- comment -%} Clone of first line so the loop wraps seamlessly. {%- endcomment -%}
+          <span class="jck-header__announce-line" aria-hidden="true">{{ section.settings.announce_1 | default: 'New Drops Weekly' }}</span>
+        </div>
       </div>
+      <span class="jck-header__announce-flank jck-header__announce-flank--right" aria-hidden="true">✦</span>
     </div>
   {%- endif -%}
 
@@ -183,33 +183,77 @@
 
 body.jck-no-scroll { overflow: hidden; }
 
-/* ─── Announcement bar ─────────────────────────────────────────────── */
+/* ─── Announcement bar — vertical word-roller ──────────────────────── */
 .jck-header__announce {
+  --jck-announce-height: 44px;
   background: #080808;
   color: #ffffff;
-  overflow: hidden;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.jck-header__announce-track {
+  height: var(--jck-announce-height);
   display: flex;
-  gap: 32px;
   align-items: center;
-  white-space: nowrap;
-  width: max-content;
-  animation: jck-header-marquee 38s linear infinite;
-  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 0.86rem;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
+  justify-content: center;
+  gap: clamp(18px, 4vw, 48px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  overflow: hidden;
+  position: relative;
 }
-.jck-header__announce:hover .jck-header__announce-track { animation-play-state: paused; }
-.jck-header__announce-item { color: #ffffff; }
-.jck-header__announce-dot { color: rgba(255,255,255,0.4); font-size: 0.7em; }
-@keyframes jck-header-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+.jck-header__announce-flank {
+  color: rgba(255,255,255,0.35);
+  font-size: 0.7rem;
+  letter-spacing: 0;
+  flex: 0 0 auto;
+  animation: jck-header-flank-spin 12s linear infinite;
+}
+.jck-header__announce-flank--right { animation-direction: reverse; }
+@keyframes jck-header-flank-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.jck-header__announce-stage {
+  height: var(--jck-announce-height);
+  overflow: hidden;
+  position: relative;
+  flex: 0 1 auto;
+  /* Soft mask so each line eases in/out of the slot rather than hard-clipping. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+}
+.jck-header__announce-roll {
+  display: flex;
+  flex-direction: column;
+  animation: jck-header-announce-roll 18s cubic-bezier(0.83, 0, 0.17, 1) infinite;
+}
+.jck-header__announce-line {
+  height: var(--jck-announce-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  white-space: nowrap;
+  padding: 0 8px;
+}
+/* 4 messages → 5 keyframe stops (each holds ~75% of its slice, transitions 25%).
+   The roll lands on the 5th slot (clone of slot 1) and snaps back to 0 for a
+   seamless loop. */
+@keyframes jck-header-announce-roll {
+  0%,  18%  { transform: translateY(0);                              }
+  25%, 43%  { transform: translateY(calc(var(--jck-announce-height) * -1)); }
+  50%, 68%  { transform: translateY(calc(var(--jck-announce-height) * -2)); }
+  75%, 93%  { transform: translateY(calc(var(--jck-announce-height) * -3)); }
+  100%      { transform: translateY(calc(var(--jck-announce-height) * -4)); }
+}
+.jck-header__announce:hover .jck-header__announce-roll,
+.jck-header__announce:hover .jck-header__announce-flank {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .jck-header__announce-roll,
+  .jck-header__announce-flank { animation: none; }
 }
 
 /* ─── Main nav ─────────────────────────────────────────────────────── */
