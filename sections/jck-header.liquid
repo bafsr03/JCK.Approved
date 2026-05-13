@@ -9,7 +9,7 @@
   assign main_menu = linklists[menu_handle]
 -%}
 
-<div class="jck-header" id="jck-header-{{ section.id }}">
+<div class="jck-header {% if template.name == 'index' %}jck-header--hide-logo-at-top{% endif %}" id="jck-header-{{ section.id }}">
 
   {%- comment -%} ── ANNOUNCEMENT BAR ─────────────────────────────────────── {%- endcomment -%}
   {%- if section.settings.show_announcement -%}
@@ -234,29 +234,41 @@ body.jck-no-scroll { overflow: hidden; }
   gap: clamp(16px, 3vw, 40px);
 }
 
-/* Logo — hidden at top, slides in on scroll */
+/* Logo — visible by default. On the index template only, hide at top and
+   reveal on scroll (the .jck-header--hide-logo-at-top modifier is added
+   by Liquid when template.name == 'index'). */
 .jck-header__logo {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
   justify-self: start;
-  opacity: 0;
-  transform: translateY(-8px);
-  pointer-events: none;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
   transition:
     opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.jck-header__nav.is-scrolled .jck-header__logo {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.jck-header__nav.is-scrolled .jck-header__logo:hover { transform: scale(1.04); }
+.jck-header__logo:hover { transform: scale(1.04); }
 .jck-header__logo img {
   display: block;
   height: clamp(28px, 4vh, 40px);
   width: auto;
+}
+
+/* Index-only: hide logo at top, reveal once user scrolls. */
+.jck-header--hide-logo-at-top .jck-header__logo {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+.jck-header--hide-logo-at-top .jck-header__nav.is-scrolled .jck-header__logo {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.jck-header--hide-logo-at-top .jck-header__nav.is-scrolled .jck-header__logo:hover {
+  transform: scale(1.04);
 }
 
 /* Menu */
