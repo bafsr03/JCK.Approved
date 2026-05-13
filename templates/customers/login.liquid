@@ -1,0 +1,80 @@
+{% comment %}
+  JCK Approved — Customer Login
+{% endcomment %}
+{{ 'jck-auth.css' | asset_url | stylesheet_tag }}
+
+<div class="jck-auth" id="jck-auth">
+  <div class="jck-auth__brand">
+    <a href="{{ routes.root_url }}" class="jck-auth__brand-logo" aria-label="Home">
+      <img src="{{ 'jck-title.png' | asset_url }}" alt="JCK Approved" width="220" height="95" loading="eager">
+    </a>
+    <p class="jck-auth__brand-tagline">Hand Picked · Hand Stamped<br>JCK Approved</p>
+    <span class="jck-auth__brand-star" aria-hidden="true">✦</span>
+  </div>
+
+  <div class="jck-auth__panel">
+    <div class="jck-auth__inner">
+      <div id="jck-login" class="jck-auth__block">
+        <span class="jck-auth__chapter">── Account</span>
+        <h1 class="jck-auth__title">Sign In</h1>
+        <p class="jck-auth__sub">Enter your credentials to access your account.</p>
+
+        {%- form 'customer_login' -%}
+          {{ form.errors | default_errors }}
+          <div class="jck-auth__field">
+            <label for="customer-email">Email</label>
+            <input type="email" name="customer[email]" id="customer-email" autocomplete="email" required placeholder="your@email.com">
+          </div>
+          <div class="jck-auth__field">
+            <label for="customer-password">Password</label>
+            <input type="password" name="customer[password]" id="customer-password" autocomplete="current-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="jck-auth__btn jck-auth__btn--primary">
+            <span>Sign In</span>
+          </button>
+        {%- endform -%}
+
+        <div class="jck-auth__links">
+          <a href="#" id="jck-forgot-toggle">Forgot password?</a>
+          <span class="jck-auth__links-dot">·</span>
+          <a href="{{ routes.account_register_url }}">Create account</a>
+        </div>
+      </div>
+
+      <div id="jck-recover" class="jck-auth__block jck-auth__block--hidden">
+        <span class="jck-auth__chapter">── Recovery</span>
+        <h1 class="jck-auth__title">Reset Password</h1>
+        <p class="jck-auth__sub">We'll send you an email to reset your password.</p>
+        {%- form 'recover_customer_password' -%}
+          {{ form.errors | default_errors }}
+          <div class="jck-auth__field">
+            <label for="recover-email">Email</label>
+            <input type="email" name="email" id="recover-email" autocomplete="email" required placeholder="your@email.com">
+          </div>
+          <button type="submit" class="jck-auth__btn jck-auth__btn--primary">
+            <span>Send Reset Link</span>
+          </button>
+        {%- endform -%}
+        <div class="jck-auth__links">
+          <a href="#" id="jck-login-toggle">← Back to login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var loginBlock  = document.getElementById('jck-login');
+  var recoverBlock = document.getElementById('jck-recover');
+  var forgotBtn   = document.getElementById('jck-forgot-toggle');
+  var backBtn     = document.getElementById('jck-login-toggle');
+  if (!loginBlock || !recoverBlock || !forgotBtn || !backBtn) return;
+  function show(target) {
+    loginBlock.classList.toggle('jck-auth__block--hidden', target !== 'login');
+    recoverBlock.classList.toggle('jck-auth__block--hidden', target !== 'recover');
+  }
+  forgotBtn.addEventListener('click', function(e) { e.preventDefault(); show('recover'); });
+  backBtn.addEventListener('click', function(e) { e.preventDefault(); show('login'); });
+})();
+</script>

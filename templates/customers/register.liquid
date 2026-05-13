@@ -1,0 +1,53 @@
+{% comment %}
+  JCK Approved — Customer Register
+{% endcomment %}
+{{ 'jck-auth.css' | asset_url | stylesheet_tag }}
+
+<div class="jck-auth" id="jck-auth">
+  <div class="jck-auth__brand">
+    <a href="{{ routes.root_url }}" class="jck-auth__brand-logo">
+      <img src="{{ 'jck-title.png' | asset_url }}" alt="JCK Approved" width="220" height="95">
+    </a>
+    <p class="jck-auth__brand-tagline">Hand Picked · Hand Stamped<br>JCK Approved</p>
+    <span class="jck-auth__brand-star" aria-hidden="true">✦</span>
+  </div>
+
+  <div class="jck-auth__panel">
+    <div class="jck-auth__inner">
+      <div class="jck-auth__block">
+        <span class="jck-auth__chapter">── Join</span>
+        <h1 class="jck-auth__title">Create Account</h1>
+        <p class="jck-auth__sub">Get access to order tracking and early drop alerts.</p>
+
+        {%- form 'create_customer' -%}
+          {{ form.errors | default_errors }}
+          <div class="jck-auth__row">
+            <div class="jck-auth__field">
+              <label>First Name</label>
+              <input type="text" name="customer[first_name]" required>
+            </div>
+            <div class="jck-auth__field">
+              <label>Last Name</label>
+              <input type="text" name="customer[last_name]" required>
+            </div>
+          </div>
+          <div class="jck-auth__field">
+            <label>Email</label>
+            <input type="email" name="customer[email]" required>
+          </div>
+          <div class="jck-auth__field">
+            <label>Password</label>
+            <input type="password" name="customer[password]" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="jck-auth__btn jck-auth__btn--primary">
+            <span>Create Account</span>
+          </button>
+        {%- endform -%}
+
+        <div class="jck-auth__links">
+          <a href="{{ routes.account_login_url }}">Already have an account?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,217 @@
+{% comment %}
+  JCK Approved — Custom Cart Section
+  Editorial layout for the main cart page.
+{% endcomment %}
+
+<div class="jck-cart" id="jck-cart-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="jck-cart__inner">
+    
+    {%- if cart.item_count > 0 -%}
+      <div class="jck-cart__layout">
+        
+        {%- comment -%} ── LEFT: LINE ITEMS ──────────────────────── {%- endcomment -%}
+        <div class="jck-cart__main">
+          <header class="jck-cart__header">
+            <span class="jck-label">03 / Your Selection</span>
+            <h1 class="jck-cart__title">Cart</h1>
+          </header>
+
+          <div class="jck-cart__items">
+            {%- for item in cart.items -%}
+              <div class="jck-cart__item" data-cart-item-key="{{ item.key }}">
+                <div class="jck-cart__item-image">
+                  <a href="{{ item.url }}">
+                    <img src="{{ item.image | image_url: width: 300 }}" alt="{{ item.product.title }}" width="150" height="180" loading="lazy">
+                  </a>
+                </div>
+                <div class="jck-cart__item-details">
+                  <div class="jck-cart__item-top">
+                    <a href="{{ item.url }}" class="jck-cart__item-product-title">{{ item.product.title }}</a>
+                    <span class="jck-cart__item-price">{{ item.final_line_price | money }}</span>
+                  </div>
+                  {%- if item.variant.title != 'Default Title' -%}
+                    <p class="jck-cart__item-variant">{{ item.variant.title }}</p>
+                  {%- endif -%}
+                  
+                  <div class="jck-cart__item-bottom">
+                    <div class="jck-cart__qty">
+                      <button type="button" class="jck-cart__qty-btn" data-qty-minus aria-label="Decrease quantity">−</button>
+                      <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="jck-cart__qty-input" data-item-key="{{ item.key }}">
+                      <button type="button" class="jck-cart__qty-btn" data-qty-plus aria-label="Increase quantity">+</button>
+                    </div>
+                    <a href="{{ item.url_to_remove }}" class="jck-cart__remove" data-remove-item>Remove</a>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        {%- comment -%} ── RIGHT: SUMMARY ────────────────────────── {%- endcomment -%}
+        <aside class="jck-cart__summary">
+          <div class="jck-cart__summary-card">
+            <h2 class="jck-cart__summary-title">Summary</h2>
+            
+            <div class="jck-cart__summary-rows">
+              <div class="jck-cart__summary-row">
+                <span>Subtotal</span>
+                <span>{{ cart.total_price | money }}</span>
+              </div>
+              <div class="jck-cart__summary-row">
+                <span>Shipping</span>
+                <span>Calculated at checkout</span>
+              </div>
+              {%- if cart.total_discounts > 0 -%}
+                <div class="jck-cart__summary-row jck-cart__summary-row--discount">
+                  <span>Discounts</span>
+                  <span>-{{ cart.total_discounts | money }}</span>
+                </div>
+              {%- endif -%}
+              <div class="jck-cart__summary-row jck-cart__summary-row--total">
+                <span>Total</span>
+                <span>{{ cart.total_price | money }}</span>
+              </div>
+            </div>
+
+            <form action="{{ routes.cart_url }}" method="post">
+              <button type="submit" name="checkout" class="jck-auth__btn jck-auth__btn--primary jck-cart__checkout-btn">
+                <span>Checkout</span>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 9H14.25M9 3.75L14.25 9L9 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </form>
+            
+            <div class="jck-cart__summary-footer">
+              <p>Taxes and shipping calculated at checkout.<br>All sales of vintage items are final.</p>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    {%- else -%}
+      <div class="jck-cart__empty">
+        <span class="jck-label">03 / Empty</span>
+        <h1 class="jck-cart__title">Your Cart is Empty</h1>
+        <p class="jck-cart__empty-sub">Looks like you haven't added any heat to your collection yet.</p>
+        <a href="/collections/all" class="jck-auth__btn jck-auth__btn--primary" style="width:auto; padding:16px 36px;">
+          <span>Browse Drops</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 9H14.25M9 3.75L14.25 9L9 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<style>
+.jck-cart { background: #f7f4ef; padding-top: clamp(60px, 10vw, 120px); padding-bottom: 120px; color: #060606; min-height: 80vh; }
+.jck-cart__inner { max-width: 1480px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 80px); }
+.jck-cart__header { margin-bottom: 48px; }
+.jck-cart__title { font-family: 'Sifonn', sans-serif; font-size: clamp(3rem, 10vw, 8rem); line-height: 0.9; text-transform: uppercase; letter-spacing: -0.03em; margin: 12px 0 0; }
+.jck-cart__layout { display: grid; grid-template-columns: 1fr 400px; gap: 80px; align-items: start; }
+
+/* Items */
+.jck-cart__items { border-top: 1px solid rgba(0,0,0,0.1); }
+.jck-cart__item { display: grid; grid-template-columns: 150px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+.jck-cart__item-image img { display: block; width: 100%; height: auto; background: #fff; }
+.jck-cart__item-details { display: flex; flex-direction: column; justify-content: space-between; }
+.jck-cart__item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.jck-cart__item-product-title { font-family: 'Sifonn', sans-serif; font-size: clamp(1rem, 1.8vw, 1.4rem); text-transform: uppercase; text-decoration: none; color: inherit; letter-spacing: 0.04em; }
+.jck-cart__item-price { font-family: 'Sifonn', sans-serif; font-size: 1.1rem; letter-spacing: 0.04em; }
+.jck-cart__item-variant { font-family: var(--font-body--family, 'Inter', sans-serif); font-size: 0.9rem; color: #666; margin: 6px 0 0; }
+.jck-cart__item-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+
+/* Qty */
+.jck-cart__qty { display: flex; align-items: center; border: 1.5px solid rgba(0,0,0,0.1); background: #fff; }
+.jck-cart__qty-btn { background: none; border: none; width: 40px; height: 40px; cursor: pointer; font-family: 'Sifonn', sans-serif; font-size: 1rem; color: #060606; }
+.jck-cart__qty-btn:hover { background: rgba(0,0,0,0.03); }
+.jck-cart__qty-input { width: 50px; text-align: center; border: none; background: transparent; font-family: 'Sifonn', sans-serif; font-size: 0.9rem; -moz-appearance: textfield; }
+.jck-cart__qty-input::-webkit-outer-spin-button, .jck-cart__qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.jck-cart__remove { font-family: 'Sifonn', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #c00; text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+.jck-cart__remove:hover { opacity: 1; }
+
+/* Summary */
+.jck-cart__summary { position: sticky; top: 120px; }
+.jck-cart__summary-card { background: #fff; border: 1.5px solid #060606; padding: 40px; box-shadow: 20px 20px 0 rgba(6,6,6,0.03); }
+.jck-cart__summary-title { font-family: 'Sifonn', sans-serif; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 32px; border-bottom: 1.5px solid #060606; padding-bottom: 16px; }
+.jck-cart__summary-rows { display: grid; gap: 16px; margin-bottom: 32px; }
+.jck-cart__summary-row { display: flex; justify-content: space-between; font-family: var(--font-body--family, 'Inter', sans-serif); font-size: 0.95rem; color: #666; }
+.jck-cart__summary-row--total { font-family: 'Sifonn', sans-serif; font-size: 1.25rem; color: #060606; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 12px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1); }
+.jck-cart__checkout-btn { font-size: 0.9rem; letter-spacing: 0.35em; }
+.jck-cart__summary-footer { margin-top: 24px; font-family: var(--font-body--family, 'Inter', sans-serif); font-size: 0.78rem; color: #999; line-height: 1.6; text-align: center; }
+
+/* Empty */
+.jck-cart__empty { text-align: center; padding: 100px 0; max-width: 600px; margin: 0 auto; }
+.jck-cart__empty-sub { font-family: var(--font-body--family, 'Inter', sans-serif); font-size: 1.1rem; color: #666; margin: 16px 0 40px; }
+
+@media (max-width: 1100px) {
+  .jck-cart__layout { grid-template-columns: 1fr; gap: 60px; }
+  .jck-cart__summary { position: static; }
+}
+@media (max-width: 600px) {
+  .jck-cart__item { grid-template-columns: 100px 1fr; gap: 20px; }
+  .jck-cart__item-top { flex-direction: column; gap: 8px; }
+  .jck-cart__item-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .jck-cart__qty { width: 100%; justify-content: space-between; }
+  .jck-cart__qty-input { flex: 1; }
+  .jck-cart__summary-card { padding: 24px; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cartRoot = document.getElementById('jck-cart-{{ section.id }}');
+  if (!cartRoot) return;
+
+  const updateCart = async (updates) => {
+    cartRoot.style.opacity = '0.5';
+    cartRoot.style.pointerEvents = 'none';
+    
+    try {
+      const response = await fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+      });
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+      cartRoot.style.opacity = '1';
+      cartRoot.style.pointerEvents = 'auto';
+    }
+  };
+
+  cartRoot.addEventListener('click', (e) => {
+    const minus = e.target.closest('[data-qty-minus]');
+    const plus = e.target.closest('[data-qty-plus]');
+    
+    if (minus || plus) {
+      const input = (minus || plus).parentElement.querySelector('input');
+      const key = input.dataset.item_key;
+      let val = parseInt(input.value);
+      
+      if (minus) val = Math.max(0, val - 1);
+      if (plus) val = val + 1;
+      
+      const updates = {};
+      updates[input.dataset.itemKey] = val;
+      updateCart(updates);
+    }
+  });
+
+  cartRoot.addEventListener('change', (e) => {
+    if (e.target.matches('[data-qty-input]')) {
+      const updates = {};
+      updates[e.target.dataset.itemKey] = parseInt(e.target.value);
+      updateCart(updates);
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "JCK Cart",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,48 @@
+{% comment %}
+  JCK Approved — Customer Addresses
+{% endcomment %}
+{{ 'jck-auth.css' | asset_url | stylesheet_tag }}
+{{ 'jck-account.css' | asset_url | stylesheet_tag }}
+
+<div class="jck-account">
+  <div class="jck-account__header">
+    <div class="jck-account__header-inner">
+      <div>
+        <span class="jck-auth__chapter">── Your Profile</span>
+        <h1 class="jck-account__name">Addresses</h1>
+      </div>
+      <a href="{{ routes.account_url }}" class="jck-account__logout">← Back</a>
+    </div>
+  </div>
+
+  <div class="jck-account__body">
+    <div class="jck-account__section">
+      <button type="button" class="jck-auth__btn jck-auth__btn--primary" id="add-address-btn">Add New Address</button>
+      
+      <div id="AddAddress" class="jck-auth__block jck-auth__block--hidden">
+        {%- form 'customer_address', customer.new_address -%}
+          <div class="jck-auth__field"><label>First</label><input type="text" name="address[first_name]"></div>
+          <div class="jck-auth__field"><label>Last</label><input type="text" name="address[last_name]"></div>
+          <div class="jck-auth__field"><label>City</label><input type="text" name="address[city]"></div>
+          <button type="submit" class="jck-auth__btn jck-auth__btn--primary">Save</button>
+        {%- endform -%}
+      </div>
+
+      <div class="jck-address-grid">
+        {%- for address in customer.addresses -%}
+          <div class="jck-account__address-card">
+            <p>{{ address.name }}</p>
+            <p>{{ address.address1 }}</p>
+            <p>{{ address.city }}, {{ address.province_code }} {{ address.zip }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('add-address-btn').onclick = () => {
+    document.getElementById('AddAddress').classList.toggle('jck-auth__block--hidden');
+  };
+</script>

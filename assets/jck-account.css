@@ -1,0 +1,214 @@
+/* ═══════════════════════════════════════════════════════════════
+   JCK APPROVED — Account Dashboard Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+.jck-account {
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  color: #060606;
+  background: #f7f4ef;
+  min-height: 60vh;
+}
+
+/* ─── Header band ──────────────────────────────────────────────── */
+.jck-account__header {
+  background: #060606;
+  padding: clamp(48px, 8vh, 100px) clamp(24px, 6vw, 80px) clamp(40px, 6vh, 72px);
+  position: relative;
+  overflow: hidden;
+}
+.jck-account__header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+.jck-account__header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+.jck-account__name {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 8px 0 6px;
+}
+.jck-account__email {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
+.jck-account__logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  flex-shrink: 0;
+}
+.jck-account__logout:hover {
+  background: #ffffff;
+  color: #060606;
+  border-color: #ffffff;
+}
+
+/* ─── Body ─────────────────────────────────────────────────────── */
+.jck-account__body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 6vw, 80px);
+  display: grid;
+  gap: clamp(40px, 5vw, 64px);
+}
+
+.jck-account__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.jck-account__section-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #060606;
+  margin: 0 0 24px;
+}
+.jck-account__section-head .jck-account__section-title { margin-bottom: 0; }
+
+.jck-account__manage-link {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #060606;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+.jck-account__manage-link:hover { opacity: 1; }
+
+/* ─── Order list ───────────────────────────────────────────────── */
+.jck-account__orders {
+  display: grid;
+  gap: 0;
+}
+.jck-account__order {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  text-decoration: none;
+  color: #060606;
+  transition: padding-left 0.3s cubic-bezier(0.16,1,0.3,1), background 0.2s ease;
+}
+.jck-account__order:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
+.jck-account__order:hover { padding-left: 12px; background: rgba(0,0,0,0.015); }
+
+.jck-account__order-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.jck-account__order-date {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.82rem;
+  color: #999;
+  margin-left: 16px;
+}
+.jck-account__order-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.jck-account__order-status {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  background: rgba(0,0,0,0.06);
+}
+.jck-account__order-status--paid { background: #e8f5e2; color: #2d6a1e; }
+.jck-account__order-status--pending { background: #fff8e1; color: #a67c00; }
+.jck-account__order-status--refunded { background: #fce4ec; color: #c62828; }
+
+.jck-account__order-total {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  min-width: 80px;
+  text-align: right;
+}
+.jck-account__order-arrow {
+  color: #ccc;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.jck-account__order:hover .jck-account__order-arrow { transform: translateX(4px); color: #060606; }
+
+/* ─── Address card ─────────────────────────────────────────────── */
+.jck-account__address-card {
+  padding: 24px 28px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  background: #ffffff;
+  max-width: 380px;
+}
+.jck-account__address-card p {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #444;
+  margin: 0;
+}
+.jck-account__address-card p:first-child {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #060606;
+  margin-bottom: 4px;
+}
+
+/* ─── Empty state ──────────────────────────────────────────────── */
+.jck-account__empty {
+  padding: 40px 0;
+  text-align: center;
+}
+.jck-account__empty p {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  color: #999;
+  margin: 0 0 24px;
+}
+
+/* ─── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .jck-account__header-inner { flex-direction: column; align-items: flex-start; }
+  .jck-account__order { grid-template-columns: 1fr; gap: 8px; }
+  .jck-account__order-meta { justify-content: flex-start; }
+  .jck-account__order-arrow { display: none; }
+  .jck-account__order-total { min-width: auto; text-align: left; }
+}

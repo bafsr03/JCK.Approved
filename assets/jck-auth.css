@@ -1,0 +1,225 @@
+/* ═══════════════════════════════════════════════════════════════
+   JCK APPROVED — Auth Pages Shared Styles
+   Used by: login, register, reset_password, activate_account
+   ═══════════════════════════════════════════════════════════════ */
+
+.jck-auth {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
+  color: #060606;
+}
+
+/* ─── Brand panel (left) ───────────────────────────────────────── */
+.jck-auth__brand {
+  background: #060606;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 60px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.jck-auth__brand::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+}
+.jck-auth__brand-logo img {
+  display: block;
+  width: clamp(160px, 22vw, 280px);
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.06));
+  animation: jck-auth-breathe 3s ease-in-out infinite alternate;
+}
+@keyframes jck-auth-breathe {
+  from { opacity: .8; transform: scale(.97); }
+  to   { opacity: 1;  transform: scale(1.03); }
+}
+.jck-auth__brand-tagline {
+  font-size: 0.72rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  text-align: center;
+  line-height: 1.8;
+  margin: 0;
+}
+.jck-auth__brand-star {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.2);
+  animation: jck-auth-spin 16s linear infinite;
+}
+@keyframes jck-auth-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── Form panel (right) ───────────────────────────────────────── */
+.jck-auth__panel {
+  background: #f7f4ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(40px, 6vw, 80px);
+}
+.jck-auth__inner {
+  width: 100%;
+  max-width: 440px;
+}
+
+/* ─── Content blocks ───────────────────────────────────────────── */
+.jck-auth__block--hidden { display: none !important; }
+.jck-auth__chapter {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: #9b9590;
+  margin-bottom: 16px;
+}
+.jck-auth__title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  color: #060606;
+}
+.jck-auth__sub {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 36px;
+}
+
+/* ─── Form fields ──────────────────────────────────────────────── */
+.jck-auth__field { margin-bottom: 20px; }
+.jck-auth__field label {
+  display: block;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #9b9590;
+  margin-bottom: 8px;
+}
+.jck-auth__field input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid rgba(0,0,0,0.15);
+  background: #ffffff;
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.92rem;
+  color: #060606;
+  transition: border-color 0.25s ease;
+  outline: none;
+  border-radius: 0;
+}
+.jck-auth__field input:focus { border-color: #060606; }
+.jck-auth__field input::placeholder { color: #bbb; }
+.jck-auth__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────── */
+.jck-auth__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: gap 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  margin-top: 8px;
+  width: 100%;
+  justify-content: center;
+}
+.jck-auth__btn--primary { background: #060606; color: #ffffff; }
+.jck-auth__btn--primary:hover {
+  gap: 18px;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+.jck-auth__btn--secondary {
+  background: transparent;
+  color: #060606;
+  border: 1.5px solid #060606;
+}
+.jck-auth__btn--secondary:hover {
+  background: #060606;
+  color: #ffffff;
+}
+
+/* ─── Links ────────────────────────────────────────────────────── */
+.jck-auth__links {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.jck-auth__links a {
+  color: #060606;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 2px;
+  transition: opacity 0.2s ease;
+}
+.jck-auth__links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: #060606;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.jck-auth__links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.jck-auth__links-dot { color: #ccc; }
+
+/* ─── Errors ───────────────────────────────────────────────────── */
+.jck-auth .errors,
+.jck-auth .form__message {
+  background: #fff0f0;
+  border: 1px solid #ffcfcf;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.85rem;
+  color: #c00;
+  line-height: 1.5;
+}
+
+/* ─── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .jck-auth { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .jck-auth__brand { padding: 40px 24px; gap: 16px; }
+  .jck-auth__brand-logo img { width: 140px; }
+  .jck-auth__brand-tagline { font-size: 0.58rem; }
+  .jck-auth__panel { padding: 40px 24px; }
+  .jck-auth__row { grid-template-columns: 1fr; }
+}

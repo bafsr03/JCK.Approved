@@ -1,0 +1,31 @@
+{% comment %}
+  JCK Approved — Order Detail
+{% endcomment %}
+{{ 'jck-auth.css' | asset_url | stylesheet_tag }}
+{{ 'jck-account.css' | asset_url | stylesheet_tag }}
+
+<div class="jck-account">
+  <div class="jck-account__header">
+    <div class="jck-account__header-inner">
+      <div>
+        <span class="jck-auth__chapter">── Order</span>
+        <h1 class="jck-account__name">{{ order.name }}</h1>
+      </div>
+      <a href="{{ routes.account_url }}" class="jck-account__logout">← Back</a>
+    </div>
+  </div>
+
+  <div class="jck-account__body">
+    <div class="jck-order__items">
+      {%- for line_item in order.line_items -%}
+        <div class="jck-order__item">
+          <span>{{ line_item.title }} x {{ line_item.quantity }}</span>
+          <span>{{ line_item.final_line_price | money }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="jck-order__totals">
+      <strong>Total: {{ order.total_price | money }}</strong>
+    </div>
+  </div>
+</div>

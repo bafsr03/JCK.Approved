@@ -1,0 +1,39 @@
+{% comment %}
+  JCK Approved — Account Dashboard
+{% endcomment %}
+{{ 'jck-auth.css' | asset_url | stylesheet_tag }}
+{{ 'jck-account.css' | asset_url | stylesheet_tag }}
+
+<div class="jck-account">
+  <div class="jck-account__header">
+    <div class="jck-account__header-inner">
+      <div>
+        <span class="jck-auth__chapter">── Your Account</span>
+        <h1 class="jck-account__name">{{ customer.name }}</h1>
+        <p class="jck-account__email">{{ customer.email }}</p>
+      </div>
+      <a href="{{ routes.account_logout_url }}" class="jck-account__logout">
+        <span>Sign Out</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="jck-account__body">
+    <div class="jck-account__section">
+      <h2 class="jck-account__section-title">Order History</h2>
+      {%- if customer.orders.size > 0 -%}
+        <div class="jck-account__orders">
+          {%- for order in customer.orders -%}
+            <a href="{{ order.customer_url }}" class="jck-account__order">
+              <span class="jck-account__order-num">{{ order.name }}</span>
+              <span class="jck-account__order-date">{{ order.created_at | date: '%b %d, %Y' }}</span>
+              <span class="jck-account__order-total">{{ order.total_price | money }}</span>
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p>No orders yet.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
