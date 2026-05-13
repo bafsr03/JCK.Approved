@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "jck_story_main": {
+      "type": "jck-story",
+      "settings": {
+        "cta1_label": "Browse the Drops",
+        "cta1_link": "/collections/all",
+        "cta2_label": "Get In Touch",
+        "cta2_link": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "jck_story_main"
+  ]
+}

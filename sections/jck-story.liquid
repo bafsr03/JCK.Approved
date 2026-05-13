@@ -1,0 +1,874 @@
+{% comment %}
+  JCK Approved — Our Story
+  Multi-act editorial narrative built around four hand-illustrated stamps.
+  Stamps drift with idle wobble, parallax on scroll, and tilt on hover.
+{% endcomment %}
+
+<section class="jck-story" id="jck-story-{{ section.id }}" aria-labelledby="jck-story-title-{{ section.id }}">
+
+  {%- comment -%} ── ACT 00 — Cold Open ───────────────────────────────────── {%- endcomment -%}
+  <div class="jck-story__open">
+    <img
+      src="{{ 'stamp1.png' | asset_url }}"
+      alt=""
+      class="jck-story__stamp jck-story__stamp--open"
+      data-parallax="0.22"
+      width="760"
+      height="560"
+      loading="eager"
+    >
+
+    <div class="jck-story__open-inner">
+      <span class="jck-label jck-story__chapter jck-reveal" style="--i:0">00 ── Origin Log</span>
+
+      <h1 class="jck-story__hero-title jck-split" id="jck-story-title-{{ section.id }}">
+        {{ section.settings.hero_title | default: 'Our Story.' }}
+      </h1>
+
+      <p class="jck-story__hero-sub jck-reveal" style="--i:3">
+        {{ section.settings.hero_sub | default: 'How a thrift habit, a punk attitude, and a stack of authenticated heat became JCK Approved.' }}
+      </p>
+
+      <div class="jck-story__hero-meta jck-reveal" style="--i:4" aria-hidden="true">
+        <span>Volume 01</span>
+        <span class="jck-story__meta-dot">●</span>
+        <span>Est. 2024</span>
+        <span class="jck-story__meta-dot">●</span>
+        <span>Salt Lake City</span>
+      </div>
+
+      <a href="#jck-story-spark-{{ section.id }}" class="jck-story__scroll-cue jck-reveal" style="--i:5">
+        <span>Read the log</span>
+        <span class="jck-story__scroll-arrow" aria-hidden="true">↓</span>
+      </a>
+    </div>
+  </div>
+
+  {%- comment -%} ── ACT 01 — The Spark ──────────────────────────────────── {%- endcomment -%}
+  <article class="jck-story__act jck-story__act--spark" id="jck-story-spark-{{ section.id }}">
+    <div class="jck-story__act-inner">
+      <div class="jck-story__act-copy">
+        <span class="jck-story__act-num jck-reveal" style="--i:0">Act 01</span>
+        <h2 class="jck-story__act-title jck-split">{{ section.settings.act1_title | default: 'The Spark.' }}</h2>
+        <p class="jck-story__act-lead jck-reveal" style="--i:2">
+          {{ section.settings.act1_lead | default: 'It started in a thrift store at closing time. A pair of grails on the bottom shelf, mispriced, waiting. We bought them. We posted them. The DMs didn’t stop.' }}
+        </p>
+        <p class="jck-story__act-body jck-reveal" style="--i:3">
+          {{ section.settings.act1_body | default: 'We realized the heat wasn’t gone — it was just buried under bad lighting, bad photography, and people who didn’t care. So we made a promise: every piece would be hunted, cleaned, shot, and verified before it left our hands.' }}
+        </p>
+        <blockquote class="jck-story__pullquote jck-reveal" style="--i:4">
+          <span class="jck-story__pullquote-mark" aria-hidden="true">“</span>
+          {{ section.settings.act1_quote | default: 'If we wouldn’t wear it, we won’t sell it.' }}
+        </blockquote>
+      </div>
+
+      <figure class="jck-story__stamp-frame jck-reveal-scale" style="--i:1">
+        <img
+          src="{{ 'stamp2.png' | asset_url }}"
+          alt="JCK Approved stamp — Vol. 26"
+          class="jck-story__stamp jck-story__stamp--act"
+          data-parallax="-0.14"
+          width="720"
+          height="540"
+          loading="lazy"
+        >
+        <figcaption class="jck-story__stamp-cap">Stamp № 02 · Cloud Edition</figcaption>
+      </figure>
+    </div>
+  </article>
+
+  {%- comment -%} ── INTERLUDE — Marquee strip ───────────────────────────── {%- endcomment -%}
+  <div class="jck-story__marquee" aria-hidden="true">
+    <div class="jck-story__marquee-track">
+      {%- for i in (1..6) -%}
+        <span>Hunt</span>
+        <span class="jck-story__marquee-dot">✦</span>
+        <span>Vet</span>
+        <span class="jck-story__marquee-dot">✦</span>
+        <span>Authenticate</span>
+        <span class="jck-story__marquee-dot">✦</span>
+        <span>Approve</span>
+        <span class="jck-story__marquee-dot">✦</span>
+        <span>Drop</span>
+        <span class="jck-story__marquee-dot">✦</span>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- comment -%} ── ACT 02 — The Hunt ───────────────────────────────────── {%- endcomment -%}
+  <article class="jck-story__act jck-story__act--hunt jck-story__act--reverse">
+    <div class="jck-story__act-inner">
+      <figure class="jck-story__stamp-frame jck-reveal-scale" style="--i:1">
+        <img
+          src="{{ 'stamp3.png' | asset_url }}"
+          alt="JCK Approved stamp — Splash Edition"
+          class="jck-story__stamp jck-story__stamp--act jck-story__stamp--lime"
+          data-parallax="0.18"
+          width="740"
+          height="540"
+          loading="lazy"
+        >
+        <figcaption class="jck-story__stamp-cap">Stamp № 03 · Splash Edition</figcaption>
+      </figure>
+
+      <div class="jck-story__act-copy">
+        <span class="jck-story__act-num jck-reveal" style="--i:0">Act 02</span>
+        <h2 class="jck-story__act-title jck-split">{{ section.settings.act2_title | default: 'The Hunt.' }}</h2>
+        <p class="jck-story__act-lead jck-reveal" style="--i:2">
+          {{ section.settings.act2_lead | default: 'We don’t scrape resale apps. We don’t bot drops. We drive. We dig. We text the right kid in the right city at the right time.' }}
+        </p>
+
+        <ul class="jck-story__list">
+          <li class="jck-reveal" style="--i:3">
+            <span class="jck-story__list-num">01</span>
+            <div>
+              <strong>Source on foot.</strong>
+              Thrift stores, estate sales, garage racks. Bottom of the bin is where it lives.
+            </div>
+          </li>
+          <li class="jck-reveal" style="--i:4">
+            <span class="jck-story__list-num">02</span>
+            <div>
+              <strong>Vet twice.</strong>
+              Tag, stitching, glue, weight, smell. Two pairs of eyes. Zero exceptions.
+            </div>
+          </li>
+          <li class="jck-reveal" style="--i:5">
+            <span class="jck-story__list-num">03</span>
+            <div>
+              <strong>Photograph in daylight.</strong>
+              Real condition, real flaws. The piece arrives looking exactly like the listing.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  {%- comment -%} ── TIMELINE — Milestones ───────────────────────────────── {%- endcomment -%}
+  <div class="jck-story__timeline">
+    <div class="jck-story__timeline-head">
+      <span class="jck-label jck-reveal" style="--i:0">── The Receipts</span>
+      <h2 class="jck-story__timeline-title jck-split">{{ section.settings.timeline_title | default: 'How we got here.' }}</h2>
+    </div>
+
+    <ol class="jck-story__timeline-list">
+      <li class="jck-story__milestone jck-reveal" style="--i:0">
+        <span class="jck-story__milestone-year">2024</span>
+        <p>One pair of grails in a thrift bin. The first JCK post lands. 200 followers in a weekend.</p>
+      </li>
+      <li class="jck-story__milestone jck-reveal" style="--i:1">
+        <span class="jck-story__milestone-year">2025</span>
+        <p>We turn it into a habit. Weekly drops. A studio table. The first authentic Yeezy comes through our door.</p>
+      </li>
+      <li class="jck-story__milestone jck-reveal" style="--i:2">
+        <span class="jck-story__milestone-year">2026</span>
+        <p>JCK Approved goes live as a storefront. Same hunt. Same standard. Now with a checkout button.</p>
+      </li>
+    </ol>
+  </div>
+
+  {%- comment -%} ── ACT 03 — The Drop ───────────────────────────────────── {%- endcomment -%}
+  <article class="jck-story__act jck-story__act--drop">
+    <div class="jck-story__act-inner">
+      <div class="jck-story__act-copy">
+        <span class="jck-story__act-num jck-reveal" style="--i:0">Act 03</span>
+        <h2 class="jck-story__act-title jck-split">{{ section.settings.act3_title | default: 'The Drop.' }}</h2>
+        <p class="jck-story__act-lead jck-reveal" style="--i:2">
+          {{ section.settings.act3_lead | default: 'A drop is not a restock. When a piece is gone, it is gone. The stamp goes in the archive and the next one takes its place.' }}
+        </p>
+        <p class="jck-story__act-body jck-reveal" style="--i:3">
+          {{ section.settings.act3_body | default: 'Each piece ships with a JCK Approved stamp — a small physical promise that someone hunted it, vetted it, and put their name on it. Frame it. Stick it on your laptop. Or throw it out. The piece is yours either way.' }}
+        </p>
+
+        <div class="jck-story__stats jck-reveal" style="--i:4">
+          <div class="jck-story__stat">
+            <span class="jck-story__stat-num" data-count="500">00</span>
+            <span class="jck-story__stat-label">Pieces Vetted</span>
+          </div>
+          <div class="jck-story__stat">
+            <span class="jck-story__stat-num" data-count="100">00</span>
+            <span class="jck-story__stat-label">% Authentic</span>
+          </div>
+          <div class="jck-story__stat">
+            <span class="jck-story__stat-num" data-count="0">00</span>
+            <span class="jck-story__stat-label">Restocks</span>
+          </div>
+        </div>
+      </div>
+
+      <figure class="jck-story__stamp-frame jck-reveal-scale" style="--i:1">
+        <img
+          src="{{ 'stamp4.png' | asset_url }}"
+          alt="JCK Approved stamp — Melon Edition"
+          class="jck-story__stamp jck-story__stamp--act jck-story__stamp--pink"
+          data-parallax="-0.16"
+          width="740"
+          height="600"
+          loading="lazy"
+        >
+        <figcaption class="jck-story__stamp-cap">Stamp № 04 · Melon Edition</figcaption>
+      </figure>
+    </div>
+  </article>
+
+  {%- comment -%} ── CLOSING — Stamp wall ─────────────────────────────────── {%- endcomment -%}
+  <div class="jck-story__closing">
+    <div class="jck-story__closing-stamps" aria-hidden="true">
+      <img src="{{ 'stamp1.png' | asset_url }}" alt="" class="jck-story__floater jck-story__floater--1" data-parallax="0.10" loading="lazy">
+      <img src="{{ 'stamp2.png' | asset_url }}" alt="" class="jck-story__floater jck-story__floater--2" data-parallax="-0.08" loading="lazy">
+      <img src="{{ 'stamp3.png' | asset_url }}" alt="" class="jck-story__floater jck-story__floater--3" data-parallax="0.14" loading="lazy">
+      <img src="{{ 'stamp4.png' | asset_url }}" alt="" class="jck-story__floater jck-story__floater--4" data-parallax="-0.12" loading="lazy">
+    </div>
+
+    <div class="jck-story__closing-inner">
+      <span class="jck-label jck-story__chapter jck-reveal" style="--i:0">── Next Chapter</span>
+      <h2 class="jck-story__closing-title jck-split">{{ section.settings.closing_title | default: 'The story keeps writing itself.' }}</h2>
+      <p class="jck-story__closing-body jck-reveal" style="--i:2">
+        {{ section.settings.closing_body | default: 'Every drop is a new entry in the log. Every stamp is a paragraph. Want in on the next one?' }}
+      </p>
+
+      <div class="jck-story__closing-actions jck-reveal" style="--i:3">
+        <a href="{{ section.settings.cta1_link | default: '/collections/all' }}" class="jck-story__cta jck-story__cta--primary jck-magnetic">
+          <span>{{ section.settings.cta1_label | default: 'Browse the Drops' }}</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3.75 9H14.25M9 3.75L14.25 9L9 14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="{{ section.settings.cta2_link | default: '/pages/contact' }}" class="jck-story__cta jck-story__cta--ghost jck-magnetic">
+          <span>{{ section.settings.cta2_label | default: 'Get In Touch' }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function () {
+  var root = document.getElementById('jck-story-{{ section.id }}');
+  if (!root) return;
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  var stamps = root.querySelectorAll('[data-parallax]');
+  if (!stamps.length) return;
+
+  var ticking = false;
+  function update() {
+    var vh = window.innerHeight || 800;
+    stamps.forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      // Distance from viewport center, normalized to ±1 across one screen.
+      var t = ((rect.top + rect.height / 2) - vh / 2) / vh;
+      var depth = parseFloat(el.dataset.parallax) || 0;
+      // translate3d to push to a separate compositor layer
+      el.style.transform = 'translate3d(0,' + (t * depth * 100).toFixed(2) + 'px, 0)';
+    });
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    requestAnimationFrame(update);
+    ticking = true;
+  }, { passive: true });
+  update();
+
+  // Tilt on hover for each stamp-frame
+  var frames = root.querySelectorAll('.jck-story__stamp-frame');
+  frames.forEach(function (frame) {
+    var img = frame.querySelector('.jck-story__stamp');
+    if (!img) return;
+    frame.addEventListener('mousemove', function (e) {
+      var r = frame.getBoundingClientRect();
+      var dx = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+      var dy = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+      img.style.setProperty('--tx', (dx * 12).toFixed(2) + 'px');
+      img.style.setProperty('--ty', (dy * 12).toFixed(2) + 'px');
+      img.style.setProperty('--rx', (-dy * 6).toFixed(2) + 'deg');
+      img.style.setProperty('--ry', (dx * 8).toFixed(2) + 'deg');
+    });
+    frame.addEventListener('mouseleave', function () {
+      img.style.setProperty('--tx', '0px');
+      img.style.setProperty('--ty', '0px');
+      img.style.setProperty('--rx', '0deg');
+      img.style.setProperty('--ry', '0deg');
+    });
+  });
+
+  // Stat counters
+  var nums = root.querySelectorAll('.jck-story__stat-num[data-count]');
+  if (!nums.length) return;
+  var counted = false;
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting || counted) return;
+      counted = true;
+      nums.forEach(function (el) {
+        var target = parseInt(el.dataset.count, 10) || 0;
+        var start = performance.now();
+        var dur = 1400;
+        (function tick(now) {
+          var p = Math.min((now - start) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased).toString().padStart(2, '0');
+          if (p < 1) requestAnimationFrame(tick);
+        })(start);
+      });
+    });
+  }, { threshold: 0.3 });
+  obs.observe(nums[0]);
+})();
+</script>
+
+{% stylesheet %}
+
+/* ─── Root ─────────────────────────────────────────────────────────── */
+.jck-story {
+  background: #f7f4ef;
+  color: #060606;
+  font-family: 'Sifonn', 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.jck-story img { user-select: none; -webkit-user-drag: none; }
+
+/* Shared stamp behavior — idle wobble + parallax target var */
+.jck-story__stamp {
+  display: block;
+  width: 100%;
+  height: auto;
+  --tx: 0px; --ty: 0px; --rx: 0deg; --ry: 0deg;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  pointer-events: none;
+}
+.jck-story__stamp-frame {
+  position: relative;
+  margin: 0;
+  perspective: 1200px;
+  cursor: crosshair;
+}
+.jck-story__stamp-frame .jck-story__stamp {
+  transform: translate3d(var(--tx), var(--ty), 0) rotateX(var(--rx)) rotateY(var(--ry));
+  filter: drop-shadow(0 24px 50px rgba(0,0,0,0.18));
+  pointer-events: auto;
+}
+.jck-story__stamp-cap {
+  position: absolute;
+  bottom: -8px;
+  right: 4%;
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.45);
+  background: #f7f4ef;
+  padding: 6px 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+/* ─── ACT 00 — Cold Open ───────────────────────────────────────────── */
+.jck-story__open {
+  position: relative;
+  min-height: clamp(620px, 92svh, 1000px);
+  padding: clamp(80px, 12vh, 160px) clamp(24px, 6vw, 80px) clamp(60px, 10vh, 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.jck-story__stamp--open {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: clamp(420px, 70vw, 900px);
+  transform: translate(-50%, -50%);
+  opacity: 0.85;
+  z-index: 0;
+  animation: jck-story-drift 14s ease-in-out infinite;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.18));
+}
+.jck-story__open-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.jck-story__chapter {
+  display: inline-block;
+  font-size: 0.7rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.5);
+  margin-bottom: 24px;
+}
+.jck-story__hero-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(3.4rem, 12vw, 12rem);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 28px;
+  color: #060606;
+  mix-blend-mode: multiply;
+}
+.jck-story__hero-sub {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  line-height: 1.6;
+  max-width: 56ch;
+  margin: 0 auto 32px;
+  color: rgba(0,0,0,0.7);
+}
+.jck-story__hero-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.4);
+  margin-bottom: 40px;
+}
+.jck-story__meta-dot { color: rgba(0,0,0,0.18); }
+.jck-story__scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.7rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #060606;
+  border-bottom: 1px solid rgba(0,0,0,0.4);
+  padding: 6px 0;
+  transition: gap 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.jck-story__scroll-cue:hover { gap: 22px; }
+.jck-story__scroll-arrow {
+  display: inline-block;
+  animation: jck-story-bob 2.2s ease-in-out infinite;
+}
+
+/* Idle wobble keyframes — applied with different durations per stamp */
+@keyframes jck-story-drift {
+  0%,100% { transform: translate(-50%, -50%) rotate(-2deg) scale(1);    }
+  25%     { transform: translate(-49%, -52%) rotate(1.5deg) scale(1.02);}
+  50%     { transform: translate(-51%, -50%) rotate(-1deg) scale(1);    }
+  75%     { transform: translate(-50%, -48%) rotate(2deg) scale(1.015); }
+}
+@keyframes jck-story-wobble {
+  0%,100% { transform: rotate(-2deg);   }
+  50%     { transform: rotate(2deg);    }
+}
+@keyframes jck-story-bob {
+  0%,100% { transform: translateY(0);   }
+  50%     { transform: translateY(6px); }
+}
+
+/* ─── Acts — shared ───────────────────────────────────────────────── */
+.jck-story__act {
+  position: relative;
+  padding: clamp(100px, 14vh, 180px) clamp(24px, 6vw, 80px);
+}
+.jck-story__act-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
+}
+.jck-story__act--reverse .jck-story__act-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+}
+.jck-story__act--reverse .jck-story__stamp-frame { order: -1; }
+
+.jck-story__act-num {
+  display: inline-block;
+  font-size: 0.66rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.4);
+  margin-bottom: 24px;
+}
+.jck-story__act-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.6rem, 7vw, 6.4rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 32px;
+}
+.jck-story__act-lead {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: #1a1a1a;
+  margin: 0 0 22px;
+  max-width: 52ch;
+}
+.jck-story__act-body {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(0.92rem, 1.3vw, 1.05rem);
+  line-height: 1.75;
+  color: rgba(0,0,0,0.7);
+  margin: 0 0 28px;
+  max-width: 52ch;
+}
+.jck-story__pullquote {
+  position: relative;
+  margin: 0;
+  padding: 24px 32px 24px 64px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  border-left: 2px solid #060606;
+  max-width: 52ch;
+}
+.jck-story__pullquote-mark {
+  position: absolute;
+  top: -4px;
+  left: 20px;
+  font-family: Georgia, serif;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: rgba(0,0,0,0.18);
+}
+
+/* Numbered process list */
+.jck-story__list {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+.jck-story__list li {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 18px 0;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(0.9rem, 1.25vw, 1rem);
+  line-height: 1.55;
+  color: rgba(0,0,0,0.72);
+}
+.jck-story__list li:last-child { border-bottom: 1px solid rgba(0,0,0,0.12); }
+.jck-story__list strong {
+  display: block;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.95em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #060606;
+  margin-bottom: 4px;
+}
+.jck-story__list-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 1.4rem;
+  color: rgba(0,0,0,0.4);
+}
+
+/* Act backgrounds */
+.jck-story__act--spark { background: #f7f4ef; }
+.jck-story__act--hunt  { background: #efece6; }
+.jck-story__act--drop  { background: #f7f4ef; }
+
+.jck-story__stamp--act {
+  animation: jck-story-wobble 8s ease-in-out infinite;
+  width: clamp(280px, 38vw, 540px);
+  margin: 0 auto;
+}
+.jck-story__stamp--lime { animation-duration: 10s; animation-direction: alternate; }
+.jck-story__stamp--pink { animation-duration: 12s; animation-direction: alternate-reverse; }
+
+/* ─── Marquee strip ────────────────────────────────────────────────── */
+.jck-story__marquee {
+  background: #080808;
+  color: #ffffff;
+  padding: 22px 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.jck-story__marquee-track {
+  display: flex;
+  gap: 28px;
+  white-space: nowrap;
+  width: max-content;
+  animation: jck-story-marquee 36s linear infinite;
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.jck-story__marquee:hover .jck-story__marquee-track { animation-play-state: paused; }
+.jck-story__marquee-dot { color: rgba(255,255,255,0.3); font-size: 0.7em; }
+@keyframes jck-story-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── Timeline ─────────────────────────────────────────────────────── */
+.jck-story__timeline {
+  background: #080808;
+  color: #ffffff;
+  padding: clamp(80px, 12vh, 140px) clamp(24px, 6vw, 80px);
+  position: relative;
+}
+.jck-story__timeline-head {
+  max-width: 1320px;
+  margin: 0 auto clamp(48px, 6vh, 80px);
+  text-align: center;
+}
+.jck-story__timeline-head .jck-label { color: rgba(255,255,255,0.4); }
+.jck-story__timeline-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 16px 0 0;
+}
+.jck-story__timeline-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1320px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  position: relative;
+}
+.jck-story__timeline-list::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.3) 80%, transparent);
+}
+.jck-story__milestone {
+  position: relative;
+  padding-top: 56px;
+  text-align: left;
+}
+.jck-story__milestone::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #f7f4ef;
+  box-shadow: 0 0 0 6px rgba(247, 244, 239, 0.12);
+}
+.jck-story__milestone-year {
+  display: block;
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  color: #ffffff;
+}
+.jck-story__milestone p {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.72);
+  margin: 0;
+  max-width: 38ch;
+}
+
+/* ─── Stats (inside Act 03) ────────────────────────────────────────── */
+.jck-story__stats {
+  display: flex;
+  gap: clamp(20px, 4vw, 48px);
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.jck-story__stat { display: flex; flex-direction: column; gap: 4px; }
+.jck-story__stat-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.jck-story__stat-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.5);
+}
+
+/* ─── Closing ──────────────────────────────────────────────────────── */
+.jck-story__closing {
+  position: relative;
+  background: #f7f4ef;
+  padding: clamp(140px, 22vh, 260px) clamp(24px, 6vw, 80px);
+  overflow: hidden;
+  text-align: center;
+}
+.jck-story__closing-stamps {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.jck-story__floater {
+  position: absolute;
+  width: clamp(140px, 16vw, 260px);
+  height: auto;
+  opacity: 0.55;
+  filter: drop-shadow(0 18px 40px rgba(0,0,0,0.15));
+  will-change: transform;
+}
+.jck-story__floater--1 { top: 8%;  left: 4%;  animation: jck-story-wobble 9s  ease-in-out infinite; }
+.jck-story__floater--2 { top: 14%; right: 6%; animation: jck-story-wobble 11s ease-in-out infinite alternate; }
+.jck-story__floater--3 { bottom: 12%; left: 8%;  animation: jck-story-wobble 13s ease-in-out infinite alternate-reverse; }
+.jck-story__floater--4 { bottom: 8%;  right: 4%; animation: jck-story-wobble 10s ease-in-out infinite; }
+.jck-story__closing-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.jck-story__closing-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2.6rem, 7vw, 6rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 16px 0 24px;
+}
+.jck-story__closing-body {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.55;
+  color: rgba(0,0,0,0.7);
+  margin: 0 auto 36px;
+  max-width: 54ch;
+}
+.jck-story__closing-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.jck-story__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 18px 36px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: gap 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+}
+.jck-story__cta--primary {
+  background: #060606;
+  color: #ffffff;
+  border: 1.5px solid #060606;
+}
+.jck-story__cta--primary:hover { gap: 22px; }
+.jck-story__cta--ghost {
+  background: transparent;
+  color: #060606;
+  border: 1.5px solid #060606;
+}
+.jck-story__cta--ghost::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #060606;
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
+}
+.jck-story__cta--ghost:hover { color: #ffffff; gap: 22px; }
+.jck-story__cta--ghost:hover::before { transform: translateX(0); }
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .jck-story__act-inner {
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 6vh, 56px);
+  }
+  .jck-story__act--reverse .jck-story__act-inner { grid-template-columns: 1fr; }
+  .jck-story__act--reverse .jck-story__stamp-frame { order: 0; }
+  .jck-story__timeline-list { grid-template-columns: 1fr; gap: 32px; }
+  .jck-story__timeline-list::before { display: none; }
+  .jck-story__stamp--act { width: clamp(220px, 70vw, 380px); }
+  .jck-story__stamp--open { width: clamp(320px, 100vw, 640px); }
+  .jck-story__floater { width: clamp(90px, 22vw, 160px); opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jck-story__stamp--open,
+  .jck-story__stamp--act,
+  .jck-story__floater,
+  .jck-story__scroll-arrow,
+  .jck-story__marquee-track {
+    animation: none !important;
+  }
+}
+
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Story",
+  "tag": "section",
+  "class": "jck-story-wrapper",
+  "settings": [
+    { "type": "header", "content": "Cold Open" },
+    { "type": "text",     "id": "hero_title", "label": "Hero title", "default": "Our Story." },
+    { "type": "textarea", "id": "hero_sub",   "label": "Subtitle",   "default": "How a thrift habit, a punk attitude, and a stack of authenticated heat became JCK Approved." },
+
+    { "type": "header", "content": "Act 01 — The Spark" },
+    { "type": "text",     "id": "act1_title", "label": "Title", "default": "The Spark." },
+    { "type": "textarea", "id": "act1_lead",  "label": "Lead",  "default": "It started in a thrift store at closing time. A pair of grails on the bottom shelf, mispriced, waiting. We bought them. We posted them. The DMs didn’t stop." },
+    { "type": "textarea", "id": "act1_body",  "label": "Body",  "default": "We realized the heat wasn’t gone — it was just buried under bad lighting, bad photography, and people who didn’t care. So we made a promise: every piece would be hunted, cleaned, shot, and verified before it left our hands." },
+    { "type": "text",     "id": "act1_quote", "label": "Pull quote", "default": "If we wouldn’t wear it, we won’t sell it." },
+
+    { "type": "header", "content": "Act 02 — The Hunt" },
+    { "type": "text",     "id": "act2_title", "label": "Title", "default": "The Hunt." },
+    { "type": "textarea", "id": "act2_lead",  "label": "Lead",  "default": "We don’t scrape resale apps. We don’t bot drops. We drive. We dig. We text the right kid in the right city at the right time." },
+
+    { "type": "header", "content": "Timeline" },
+    { "type": "text",     "id": "timeline_title", "label": "Title", "default": "How we got here." },
+
+    { "type": "header", "content": "Act 03 — The Drop" },
+    { "type": "text",     "id": "act3_title", "label": "Title", "default": "The Drop." },
+    { "type": "textarea", "id": "act3_lead",  "label": "Lead",  "default": "A drop is not a restock. When a piece is gone, it is gone. The stamp goes in the archive and the next one takes its place." },
+    { "type": "textarea", "id": "act3_body",  "label": "Body",  "default": "Each piece ships with a JCK Approved stamp — a small physical promise that someone hunted it, vetted it, and put their name on it. Frame it. Stick it on your laptop. Or throw it out. The piece is yours either way." },
+
+    { "type": "header", "content": "Closing" },
+    { "type": "text",     "id": "closing_title", "label": "Title", "default": "The story keeps writing itself." },
+    { "type": "textarea", "id": "closing_body",  "label": "Body",  "default": "Every drop is a new entry in the log. Every stamp is a paragraph. Want in on the next one?" },
+    { "type": "text",     "id": "cta1_label", "label": "Primary CTA label", "default": "Browse the Drops" },
+    { "type": "url",      "id": "cta1_link",  "label": "Primary CTA link" },
+    { "type": "text",     "id": "cta2_label", "label": "Secondary CTA label", "default": "Get In Touch" },
+    { "type": "url",      "id": "cta2_link",  "label": "Secondary CTA link" }
+  ],
+  "presets": [
+    { "name": "JCK Story", "category": "JCK" }
+  ]
+}
+{% endschema %}

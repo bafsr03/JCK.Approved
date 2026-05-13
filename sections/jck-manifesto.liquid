@@ -58,12 +58,13 @@
         >
       </div>
 
+      {%- assign mani_cta_link = section.settings.cta_link | default: '/pages/story' -%}
       <a
-        href="{{ section.settings.cta_link | default: '/collections/all' }}"
+        href="{{ mani_cta_link }}"
         class="jck-mani__cta jck-magnetic jck-reveal"
         style="--i:3"
       >
-        <span class="jck-mani__cta-text">{{ section.settings.cta_label | default: 'Shop The Collection' }}</span>
+        <span class="jck-mani__cta-text">{{ section.settings.cta_label | default: 'Our Story' }}</span>
         <span class="jck-mani__cta-arrow" aria-hidden="true">→</span>
       </a>
 
@@ -225,29 +226,47 @@
   filter: invert(0);
 }
 
-/* CTA */
+/* CTA — outline button on the cream side, fills on hover */
 .jck-mani__cta {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   font-family: 'Sifonn', sans-serif;
-  font-size: .72rem;
-  letter-spacing: .3em;
+  font-size: .78rem;
+  letter-spacing: .32em;
   text-transform: uppercase;
-  color: #080808;
   text-decoration: none;
-  padding: 18px 32px;
-  background: #080808;
-  color: #ffffff;
-  border: none;
+  padding: 20px 38px;
+  background: transparent;
+  color: #080808;
+  border: 1.5px solid #080808;
   align-self: flex-start;
-  transition: gap .35s cubic-bezier(0.34,1.56,0.64,1), background .2s;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: gap .35s cubic-bezier(0.34,1.56,0.64,1),
+              color .25s ease,
+              border-color .25s ease;
+}
+.jck-mani__cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #080808;
+  transform: translateX(-101%);
+  transition: transform .45s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
 }
 .jck-mani__cta:hover {
-  background: #1a1a1a;
-  gap: 24px;
+  color: #ffffff;
+  gap: 22px;
 }
-.jck-mani__cta-arrow { font-size: 1.1em; }
+.jck-mani__cta:hover::before { transform: translateX(0); }
+.jck-mani__cta-arrow {
+  font-size: 1.15em;
+  transition: transform .35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.jck-mani__cta:hover .jck-mani__cta-arrow { transform: translateX(2px); }
 
 /* Tags */
 .jck-mani__tags {
@@ -294,7 +313,7 @@
       "type": "text",
       "id": "cta_label",
       "label": "CTA Label",
-      "default": "Shop The Collection"
+      "default": "Our Story"
     },
     {
       "type": "url",
@@ -306,7 +325,7 @@
     {
       "name": "JCK Manifesto",
       "settings": {
-        "cta_label": "Shop The Collection"
+        "cta_label": "Our Story"
       }
     }
   ]

@@ -23,8 +23,8 @@
       "type": "jck-manifesto",
       "settings": {
         "body_text": "Every piece in our collection is hand-curated for its authenticity, rarity, and cultural relevance. No algorithms. No restocks. No bots. Just pure heat, vetted by us—for you.",
-        "cta_label": "Shop The Collection",
-        "cta_link": "/collections/all"
+        "cta_label": "Our Story",
+        "cta_link": "/pages/story"
       }
     },
     "jck_cta_main": {
