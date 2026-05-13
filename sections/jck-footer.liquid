@@ -48,6 +48,7 @@
           autocorrect="off"
           autocapitalize="off"
           required
+          style="background:#080808; color:#ffffff; -webkit-text-fill-color:#ffffff; caret-color:#ffffff;"
         >
         <button type="submit" class="jck-footer__submit" aria-label="Subscribe">
           <span>Subscribe</span>
@@ -316,20 +317,42 @@
 .jck-footer__input {
   flex: 1 1 220px;
   min-width: 0;
-  background: transparent;
-  border: 1.5px solid rgba(255,255,255,0.35);
-  border-right: none;
+  background: #080808 !important;
+  border: 1.5px solid rgba(255,255,255,0.35) !important;
+  border-right: none !important;
   padding: 16px 22px;
   font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.86rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #ffffff;
-  outline: none;
+  color: #ffffff !important;
+  caret-color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  outline: none !important;
+  box-shadow: none !important;
   transition: border-color 0.25s ease;
 }
-.jck-footer__input::placeholder { color: rgba(255,255,255,0.35); letter-spacing: 0.12em; }
-.jck-footer__input:focus { border-color: #ffffff; }
+.jck-footer__input::placeholder {
+  color: rgba(255,255,255,0.4) !important;
+  -webkit-text-fill-color: rgba(255,255,255,0.4);
+  letter-spacing: 0.12em;
+  opacity: 1;
+}
+.jck-footer__input:focus,
+.jck-footer__input:active {
+  border-color: #ffffff !important;
+  background: #080808 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
+}
+/* Chrome autofill yellow override — keep dark theme */
+.jck-footer__input:-webkit-autofill,
+.jck-footer__input:-webkit-autofill:hover,
+.jck-footer__input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px #080808 inset !important;
+  caret-color: #ffffff !important;
+}
 .jck-footer__submit {
   flex: 0 0 auto;
   background: #ffffff;
@@ -390,7 +413,11 @@
   display: block;
   width: 100%;
   height: auto;
-  filter: brightness(0) invert(1);  /* invert black PNG → white */
+  /* Original PNG is white text on black — show as-is.
+     Very faint white halo so it lifts off the near-black footer. */
+  filter:
+    drop-shadow(0 0 8px rgba(255, 255, 255, 0.07))
+    drop-shadow(0 0 20px rgba(255, 255, 255, 0.035));
 }
 .jck-footer__brand-blurb {
   font-family: var(--font-body--family, 'Inter', sans-serif);

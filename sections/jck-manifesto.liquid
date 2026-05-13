@@ -4,36 +4,36 @@
 {% endcomment %}
 
 <section class="jck-mani" id="jck-mani-{{ section.id }}" aria-label="Our Manifesto">
-  <div class="jck-mani__dark">
+  <div class="jck-mani__dark" style="background:#080808;color:#ffffff;">
     <div class="jck-mani__dark-inner">
-      <span class="jck-label jck-mani__label jck-reveal" style="--i:0">
+      <span class="jck-label jck-mani__label jck-reveal" style="--i:0; color:rgba(255,255,255,0.5);">
         03 ── About Us
       </span>
 
       <h2 class="jck-mani__headline">
-        <span class="jck-mani__line jck-clip" style="--i:0">
-          <span>We Find</span>
+        <span class="jck-mani__line" style="--i:0; color:#ffffff;">
+          <span style="color:#ffffff;">We Find</span>
         </span>
-        <span class="jck-mani__line jck-mani__line--outline jck-clip" style="--i:1">
-          <span>The Heat</span>
+        <span class="jck-mani__line jck-mani__line--outline" style="--i:1; color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,0.65);">
+          <span style="color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,0.65);">The Heat</span>
         </span>
-        <span class="jck-mani__line jck-clip" style="--i:2">
-          <span>You Want.</span>
+        <span class="jck-mani__line" style="--i:2; color:#ffffff;">
+          <span style="color:#ffffff;">You Want.</span>
         </span>
       </h2>
 
       <div class="jck-mani__stats jck-reveal" style="--i:3">
         <div class="jck-mani__stat">
-          <span class="jck-mani__stat-num" data-count="500">00</span>
-          <span class="jck-mani__stat-label">Pieces Curated</span>
+          <span class="jck-mani__stat-num" data-count="500" style="color:#ffffff;">00</span>
+          <span class="jck-mani__stat-label" style="color:rgba(255,255,255,0.5);">Pieces Curated</span>
         </div>
         <div class="jck-mani__stat">
-          <span class="jck-mani__stat-num" data-count="100">00</span>
-          <span class="jck-mani__stat-label">% Authenticated</span>
+          <span class="jck-mani__stat-num" data-count="100" style="color:#ffffff;">00</span>
+          <span class="jck-mani__stat-label" style="color:rgba(255,255,255,0.5);">% Authenticated</span>
         </div>
         <div class="jck-mani__stat">
-          <span class="jck-mani__stat-num" data-count="0">00</span>
-          <span class="jck-mani__stat-label">Fakes — Ever</span>
+          <span class="jck-mani__stat-num" data-count="0" style="color:#ffffff;">00</span>
+          <span class="jck-mani__stat-label" style="color:rgba(255,255,255,0.5);">Fakes — Ever</span>
         </div>
       </div>
     </div>
@@ -152,19 +152,35 @@
 .jck-mani__line {
   display: block;
   font-family: 'Sifonn', sans-serif;
-  font-size: clamp(3.5rem, 7vw, 9rem);
+  font-size: clamp(2.4rem, 5.2vw, 5.6rem);
   text-transform: uppercase;
   letter-spacing: -.02em;
-  line-height: .9;
+  line-height: 0.95;
   color: #ffffff !important;
-  overflow: hidden;
+  /* Each line drops from above, staggered top-to-bottom via --i. */
+  opacity: 0;
+  transform: translateY(-80px);
+  animation: jck-mani-line-drop 0.95s cubic-bezier(0.34, 1.32, 0.5, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 0.18s + 0.25s);
 }
-.jck-mani__line > span { color: #ffffff !important; }
+.jck-mani__line > span {
+  color: #ffffff !important;
+  display: inline-block;
+}
 
 .jck-mani__line--outline,
 .jck-mani__line--outline > span {
-  -webkit-text-stroke: 2px rgba(255,255,255,.6);
+  -webkit-text-stroke: 1.5px rgba(255,255,255,.65);
   color: transparent !important;
+}
+
+@keyframes jck-mani-line-drop {
+  0%   { opacity: 0; transform: translateY(-80px); }
+  60%  { opacity: 1; transform: translateY(8px);   }   /* slight bounce */
+  100% { opacity: 1; transform: translateY(0);     }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jck-mani__line { opacity: 1 !important; transform: none !important; animation: none !important; }
 }
 
 /* Stats row */
