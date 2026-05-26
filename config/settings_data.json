@@ -9,10 +9,11 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/Untitled_Artwork.jpg",
+    "logo": "shopify://shop_images/Untitled_Artwork-Photoroom.png",
+    "logo_inverse": "shopify://shop_images/Untitled_Artwork.png",
     "logo_height": 36,
     "logo_height_mobile": 28,
-    "favicon": "shopify://shop_images/Untitled_Artwork.jpg",
+    "favicon": "shopify://shop_images/Untitled_Artwork.png",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_n5",
     "type_heading_font": "inter_n7",
