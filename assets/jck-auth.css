@@ -9,12 +9,12 @@
   min-height: 100vh;
   min-height: 100dvh;
   font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
-  color: #3C342A;
+  color: #3f3227;
 }
 
 /* ─── Brand panel (left) ───────────────────────────────────────── */
 .jck-auth__brand {
-  background: #3C342A;
+  background: #3f3227;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,7 +36,7 @@
   display: block;
   width: clamp(160px, 22vw, 280px);
   height: auto;
-  filter: drop-shadow(0 0 20px rgba(255,255,255,0.06));
+  filter: drop-shadow(0 0 20px rgba(244,240,231,0.06));
   animation: jck-auth-breathe 3s ease-in-out infinite alternate;
 }
 @keyframes jck-auth-breathe {
@@ -47,14 +47,14 @@
   font-size: 0.72rem;
   letter-spacing: 0.36em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: rgba(244,240,231,0.45);
   text-align: center;
   line-height: 1.8;
   margin: 0;
 }
 .jck-auth__brand-star {
   font-size: 1rem;
-  color: rgba(255,255,255,0.2);
+  color: rgba(244,240,231,0.2);
   animation: jck-auth-spin 16s linear infinite;
 }
 @keyframes jck-auth-spin {
@@ -64,7 +64,7 @@
 
 /* ─── Form panel (right) ───────────────────────────────────────── */
 .jck-auth__panel {
-  background: #FAF0E8;
+  background: #F4F0E7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,7 +83,7 @@
   font-weight: 500;
   letter-spacing: 0.42em;
   text-transform: uppercase;
-  color: #826372;
+  color: #886275;
   margin-bottom: 16px;
 }
 .jck-auth__title {
@@ -93,13 +93,13 @@
   letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0 0 14px;
-  color: #3C342A;
+  color: #3f3227;
 }
 .jck-auth__sub {
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #666;
+  color: #886275;
   margin: 0 0 36px;
 }
 
@@ -111,23 +111,23 @@
   font-size: 0.62rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #826372;
+  color: #886275;
   margin-bottom: 8px;
 }
 .jck-auth__field input {
   width: 100%;
   padding: 16px 20px;
-  border: 1.5px solid rgba(60,52,42,0.15);
-  background: #ffffff;
+  border: 1.5px solid rgba(63,50,39,0.15);
+  background: #F4F0E7;
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.92rem;
-  color: #3C342A;
+  color: #3f3227;
   transition: border-color 0.25s ease;
   outline: none;
   border-radius: 0;
 }
-.jck-auth__field input:focus { border-color: #3C342A; }
-.jck-auth__field input::placeholder { color: #bbb; }
+.jck-auth__field input:focus { border-color: #3f3227; }
+.jck-auth__field input::placeholder { color: rgba(63,50,39,0.35); }
 .jck-auth__row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -152,20 +152,21 @@
   width: 100%;
   justify-content: center;
 }
-.jck-auth__btn--primary { background: #3C342A; color: #ffffff; }
+.jck-auth__btn--primary { background: #d76577; color: #F4F0E7; }
 .jck-auth__btn--primary:hover {
   gap: 18px;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(60,52,42,0.18);
+  background: #ec904d;
+  box-shadow: 0 10px 30px rgba(215,101,119,0.32);
 }
 .jck-auth__btn--secondary {
   background: transparent;
-  color: #3C342A;
-  border: 1.5px solid #3C342A;
+  color: #3f3227;
+  border: 1.5px solid #3f3227;
 }
 .jck-auth__btn--secondary:hover {
-  background: #3C342A;
-  color: #ffffff;
+  background: #3f3227;
+  color: #F4F0E7;
 }
 
 /* ─── Links ────────────────────────────────────────────────────── */
@@ -179,7 +180,7 @@
   text-transform: uppercase;
 }
 .jck-auth__links a {
-  color: #3C342A;
+  color: #3f3227;
   text-decoration: none;
   position: relative;
   padding-bottom: 2px;
@@ -190,7 +191,7 @@
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 1px;
-  background: #3C342A;
+  background: #3f3227;
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
@@ -199,18 +200,18 @@
   transform: scaleX(1);
   transform-origin: left;
 }
-.jck-auth__links-dot { color: #ccc; }
+.jck-auth__links-dot { color: rgba(63,50,39,0.25); }
 
 /* ─── Errors ───────────────────────────────────────────────────── */
 .jck-auth .errors,
 .jck-auth .form__message {
-  background: #fff0f0;
-  border: 1px solid #ffcfcf;
+  background: rgba(215,101,119,0.10);
+  border: 1px solid rgba(215,101,119,0.35);
   padding: 14px 20px;
   margin-bottom: 20px;
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.85rem;
-  color: #c00;
+  color: #d76577;
   line-height: 1.5;
 }
 

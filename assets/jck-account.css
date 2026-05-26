@@ -4,14 +4,14 @@
 
 .jck-account {
   font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
-  color: #3C342A;
-  background: #FAF0E8;
+  color: #3f3227;
+  background: #F4F0E7;
   min-height: 60vh;
 }
 
 /* ─── Header band ──────────────────────────────────────────────── */
 .jck-account__header {
-  background: #3C342A;
+  background: #3f3227;
   padding: clamp(48px, 8vh, 100px) clamp(24px, 6vw, 80px) clamp(40px, 6vh, 72px);
   position: relative;
   overflow: hidden;
@@ -40,13 +40,13 @@
   line-height: 0.94;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: #ffffff;
+  color: #F4F0E7;
   margin: 8px 0 6px;
 }
 .jck-account__email {
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.88rem;
-  color: rgba(255,255,255,0.5);
+  color: rgba(244,240,231,0.5);
   margin: 0;
 }
 .jck-account__logout {
@@ -57,17 +57,17 @@
   font-size: 0.68rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
+  color: rgba(244,240,231,0.55);
   text-decoration: none;
   padding: 10px 20px;
-  border: 1.5px solid rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(244,240,231,0.2);
   transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   flex-shrink: 0;
 }
 .jck-account__logout:hover {
-  background: #ffffff;
-  color: #3C342A;
-  border-color: #ffffff;
+  background: #F4F0E7;
+  color: #3f3227;
+  border-color: #F4F0E7;
 }
 
 /* ─── Body ─────────────────────────────────────────────────────── */
@@ -91,7 +91,7 @@
   font-size: clamp(1.1rem, 2vw, 1.4rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #3C342A;
+  color: #3f3227;
   margin: 0 0 24px;
 }
 .jck-account__section-head .jck-account__section-title { margin-bottom: 0; }
@@ -101,7 +101,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #3C342A;
+  color: #3f3227;
   text-decoration: none;
   opacity: 0.6;
   transition: opacity 0.2s ease;
@@ -119,13 +119,13 @@
   align-items: center;
   gap: 24px;
   padding: 22px 0;
-  border-bottom: 1px solid rgba(60,52,42,0.08);
+  border-bottom: 1px solid rgba(63,50,39,0.08);
   text-decoration: none;
-  color: #3C342A;
+  color: #3f3227;
   transition: padding-left 0.3s cubic-bezier(0.16,1,0.3,1), background 0.2s ease;
 }
-.jck-account__order:first-child { border-top: 1px solid rgba(60,52,42,0.08); }
-.jck-account__order:hover { padding-left: 12px; background: rgba(60,52,42,0.015); }
+.jck-account__order:first-child { border-top: 1px solid rgba(63,50,39,0.08); }
+.jck-account__order:hover { padding-left: 12px; background: rgba(63,50,39,0.015); }
 
 .jck-account__order-num {
   font-family: 'Sifonn', sans-serif;
@@ -136,7 +136,7 @@
 .jck-account__order-date {
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.82rem;
-  color: #999;
+  color: rgba(136,98,117,0.7);
   margin-left: 16px;
 }
 .jck-account__order-meta {
@@ -150,11 +150,11 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 5px 12px;
-  background: rgba(60,52,42,0.06);
+  background: rgba(63,50,39,0.06);
 }
-.jck-account__order-status--paid { background: #e8f5e2; color: #2d6a1e; }
-.jck-account__order-status--pending { background: #fff8e1; color: #a67c00; }
-.jck-account__order-status--refunded { background: #fce4ec; color: #c62828; }
+.jck-account__order-status--paid { background: rgba(236,144,77,0.15); color: #ec904d; }
+.jck-account__order-status--pending { background: rgba(236,144,77,0.18); color: #ec904d; }
+.jck-account__order-status--refunded { background: rgba(215,101,119,0.15); color: #d76577; }
 
 .jck-account__order-total {
   font-family: 'Sifonn', sans-serif;
@@ -164,23 +164,23 @@
   text-align: right;
 }
 .jck-account__order-arrow {
-  color: #ccc;
+  color: rgba(63,50,39,0.25);
   transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
 }
-.jck-account__order:hover .jck-account__order-arrow { transform: translateX(4px); color: #3C342A; }
+.jck-account__order:hover .jck-account__order-arrow { transform: translateX(4px); color: #3f3227; }
 
 /* ─── Address card ─────────────────────────────────────────────── */
 .jck-account__address-card {
   padding: 24px 28px;
-  border: 1.5px solid rgba(60,52,42,0.1);
-  background: #ffffff;
+  border: 1.5px solid rgba(63,50,39,0.1);
+  background: #F4F0E7;
   max-width: 380px;
 }
 .jck-account__address-card p {
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.9rem;
   line-height: 1.7;
-  color: #5A4840;
+  color: #5a4a3d;
   margin: 0;
 }
 .jck-account__address-card p:first-child {
@@ -188,7 +188,7 @@
   font-size: 0.82rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #3C342A;
+  color: #3f3227;
   margin-bottom: 4px;
 }
 
@@ -200,7 +200,7 @@
 .jck-account__empty p {
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.95rem;
-  color: #999;
+  color: rgba(136,98,117,0.7);
   margin: 0 0 24px;
 }
 

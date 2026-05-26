@@ -4,17 +4,32 @@
 ================================================================ */
 
 /* ── 1. DESIGN TOKENS ───────────────────────────────────────── */
+/* Palette: Mauve · Cream · Brown · Orange · Rose (no pure black/white) */
 :root {
-  --jck-black:    #3C342A;
-  --jck-char:     #3C342A;
-  --jck-ink:      #3C342A;
-  --jck-white:    #ffffff;
-  --jck-cream:    #FAF0E8;
-  --jck-warm:     #E8D5C4;
-  --jck-line:     #4A3C32;
-  --jck-muted:    #826372;
-  --jck-accent:   #C66573;
-  --jck-peach:    #DF9459;
+  /* Core surfaces */
+  --jck-black:    #3f3227;   /* deepest — dark brown (replaces black) */
+  --jck-char:     #3f3227;
+  --jck-ink:      #3f3227;
+  --jck-white:    #F4F0E7;   /* lightest — cream (replaces white) */
+  --jck-cream:    #F4F0E7;
+  --jck-warm:     #ece4d6;   /* slightly toasted cream */
+  --jck-line:     #5a4a3d;   /* muted brown rule/border */
+
+  /* Brand colors */
+  --jck-mauve:    #886275;   /* secondary surface · feature color */
+  --jck-muted:    #886275;   /* legacy alias for old --jck-muted text usage */
+  --jck-rose:     #d76577;   /* primary accent (CTAs, focus) */
+  --jck-accent:   #d76577;   /* legacy alias */
+  --jck-orange:   #ec904d;   /* highlight (hover, badges, pops) */
+  --jck-peach:    #ec904d;   /* legacy alias */
+
+  /* Functional aliases (use these in new code) */
+  --jck-surface:    var(--jck-cream);
+  --jck-surface-2:  var(--jck-mauve);
+  --jck-surface-3:  var(--jck-ink);
+  --jck-on-surface: var(--jck-ink);
+  --jck-on-mauve:   var(--jck-cream);
+  --jck-on-ink:     var(--jck-cream);
 
   --jck-font:     'Sifonn', 'Helvetica Neue', Arial, sans-serif;
   --jck-body:     var(--font-body--family, 'Inter', sans-serif);
@@ -52,7 +67,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
 #jck-cursor-dot {
   position: fixed;
   width: 8px; height: 8px;
-  background: #ffffff;
+  background: #F4F0E7;
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
@@ -65,7 +80,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
 #jck-cursor-ring {
   position: fixed;
   width: 38px; height: 38px;
-  border: 1.5px solid #ffffff;
+  border: 1.5px solid #F4F0E7;
   border-radius: 50%;
   pointer-events: none;
   z-index: 99998;
@@ -108,7 +123,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
 #jck-loader-bar {
   width: clamp(120px, 20vw, 240px);
   height: 1px;
-  background: rgba(255,255,255,.15);
+  background: rgba(244,240,231,.15);
   position: relative;
   overflow: hidden;
 }
@@ -117,7 +132,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
   position: absolute;
   top: 0; left: -100%;
   width: 100%; height: 100%;
-  background: rgba(255,255,255,.7);
+  background: rgba(244,240,231,.7);
   animation: jck-loader-bar 1.2s ease-in-out forwards;
 }
 @keyframes jck-loader-bar {
@@ -152,7 +167,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
   transition:
     transform .55s cubic-bezier(0.16, 1, 0.3, 1),
     opacity   .45s ease;
-  filter: drop-shadow(0 4px 14px rgba(60,52,42,0.4));
+  filter: drop-shadow(0 4px 14px rgba(63,50,39,0.4));
   user-select: none;
 }
 #jck-nav-title img {
@@ -186,10 +201,10 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
 /* Body baseline — cream so no white shows through gaps between sections
    on pages with transparent main sections (main-page, main-collection, etc). */
 body {
-  background: #FAF0E8 !important;
+  background: #F4F0E7 !important;
 }
 .content-for-layout {
-  background: #FAF0E8;
+  background: #F4F0E7;
 }
 
 /* ── 8. SCROLL REVEAL BASE CLASSES ──────────────────────────── */
@@ -258,7 +273,7 @@ body {
 .jck-index {
   font-family: var(--jck-font);
   font-size: clamp(3rem, 5vw, 5.5rem);
-  color: rgba(60,52,42,.06);
+  color: rgba(63,50,39,.06);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -320,7 +335,7 @@ body {
 .button--primary:hover {
   background: var(--jck-ink) !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(60,52,42,.18);
+  box-shadow: 0 10px 30px rgba(63,50,39,.18);
 }
 .button--secondary {
   background: transparent !important;
@@ -371,7 +386,7 @@ main h1 { font-size: clamp(2.8rem, 6vw, 5.2rem); line-height: .95; letter-spacin
 main h2 { font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1; }
 main h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: .04em; }
 
-main p { font-family: var(--jck-body); color: #333; line-height: 1.7; }
+main p { font-family: var(--jck-body); color: #5a4a3d; line-height: 1.7; }
 main a:not(.button):not(.jck-hero__btn):not(.product-card__link) {
   color: var(--jck-ink);
   text-decoration: underline;
@@ -496,7 +511,7 @@ input[type='tel'],
 textarea {
   border-radius: 0 !important;
   font-family: var(--jck-body) !important;
-  border: 1px solid rgba(60,52,42,.18) !important;
+  border: 1px solid rgba(63,50,39,.18) !important;
   background: var(--jck-white) !important;
   transition: border-color .2s !important;
 }
@@ -517,11 +532,11 @@ footer,
 footer .section-background,
 footer .section {
   --color-background: var(--jck-black) !important;
-  --color-foreground: rgba(255,255,255,.65) !important;
-  --color-foreground-heading: #ffffff !important;
-  --color-border: rgba(255,255,255,.08) !important;
+  --color-foreground: rgba(244,240,231,.65) !important;
+  --color-foreground-heading: #F4F0E7 !important;
+  --color-border: rgba(244,240,231,.08) !important;
   background-color: var(--jck-black) !important;
-  color: rgba(255,255,255,.65) !important;
+  color: rgba(244,240,231,.65) !important;
 }
 footer a,
 footer .menu-item__link {
@@ -529,26 +544,26 @@ footer .menu-item__link {
   font-size: .7rem !important;
   letter-spacing: .22em !important;
   text-transform: uppercase !important;
-  color: rgba(255,255,255,.55) !important;
+  color: rgba(244,240,231,.55) !important;
   transition: color .2s !important;
 }
-footer a:hover { color: #fff !important; }
+footer a:hover { color: #F4F0E7 !important; }
 footer h2, footer h3, footer h4,
 footer .menu__heading {
   font-family: var(--jck-font) !important;
   letter-spacing: .15em !important;
   text-transform: uppercase !important;
-  color: #fff !important;
+  color: #F4F0E7 !important;
   font-size: .75rem !important;
 }
 footer svg path[stroke],
 footer svg line,
 footer svg polyline,
 footer svg rect[stroke] {
-  stroke: rgba(255,255,255,.55) !important;
+  stroke: rgba(244,240,231,.55) !important;
 }
 footer .footer-content {
-  border-top: 1px solid rgba(255,255,255,.07) !important;
+  border-top: 1px solid rgba(244,240,231,.07) !important;
 }
 
 /* ── 16. MINI-HERO CANVAS (used on About + other pages) ─────── */
