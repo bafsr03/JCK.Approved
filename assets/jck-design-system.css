@@ -5,14 +5,14 @@
 
 /* ── 1. DESIGN TOKENS ───────────────────────────────────────── */
 :root {
-  --jck-black:    #060606;
+  --jck-black:    #3C342A;
   --jck-char:     #111111;
   --jck-ink:      #0a0a0a;
   --jck-white:    #ffffff;
-  --jck-cream:    #f7f4ef;
-  --jck-warm:     #ede8e0;
-  --jck-line:     #1a1a1a;
-  --jck-muted:    #9b9590;
+  --jck-cream:    #FAF0E8;
+  --jck-warm:     #E8D5C4;
+  --jck-line:     #4A3C32;
+  --jck-muted:    #826372;
   --jck-accent:   #c8b49a;
 
   --jck-font:     'Sifonn', 'Helvetica Neue', Arial, sans-serif;
@@ -151,7 +151,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
   transition:
     transform .55s cubic-bezier(0.16, 1, 0.3, 1),
     opacity   .45s ease;
-  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.4));
+  filter: drop-shadow(0 4px 14px rgba(60,52,42,0.4));
   user-select: none;
 }
 #jck-nav-title img {
@@ -185,10 +185,10 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
 /* Body baseline — cream so no white shows through gaps between sections
    on pages with transparent main sections (main-page, main-collection, etc). */
 body {
-  background: #f7f4ef !important;
+  background: #FAF0E8 !important;
 }
 .content-for-layout {
-  background: #f7f4ef;
+  background: #FAF0E8;
 }
 
 /* ── 8. SCROLL REVEAL BASE CLASSES ──────────────────────────── */
@@ -257,7 +257,7 @@ body {
 .jck-index {
   font-family: var(--jck-font);
   font-size: clamp(3rem, 5vw, 5.5rem);
-  color: rgba(0,0,0,.06);
+  color: rgba(60,52,42,.06);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -319,7 +319,7 @@ body {
 .button--primary:hover {
   background: var(--jck-ink) !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+  box-shadow: 0 10px 30px rgba(60,52,42,.18);
 }
 .button--secondary {
   background: transparent !important;
@@ -495,7 +495,7 @@ input[type='tel'],
 textarea {
   border-radius: 0 !important;
   font-family: var(--jck-body) !important;
-  border: 1px solid rgba(0,0,0,.18) !important;
+  border: 1px solid rgba(60,52,42,.18) !important;
   background: var(--jck-white) !important;
   transition: border-color .2s !important;
 }

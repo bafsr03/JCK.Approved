@@ -9,12 +9,12 @@
   min-height: 100vh;
   min-height: 100dvh;
   font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
-  color: #060606;
+  color: #3C342A;
 }
 
 /* ─── Brand panel (left) ───────────────────────────────────────── */
 .jck-auth__brand {
-  background: #060606;
+  background: #3C342A;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,7 +64,7 @@
 
 /* ─── Form panel (right) ───────────────────────────────────────── */
 .jck-auth__panel {
-  background: #f7f4ef;
+  background: #FAF0E8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,7 +83,7 @@
   font-weight: 500;
   letter-spacing: 0.42em;
   text-transform: uppercase;
-  color: #9b9590;
+  color: #826372;
   margin-bottom: 16px;
 }
 .jck-auth__title {
@@ -93,7 +93,7 @@
   letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0 0 14px;
-  color: #060606;
+  color: #3C342A;
 }
 .jck-auth__sub {
   font-family: var(--font-body--family, 'Inter', sans-serif);
@@ -111,22 +111,22 @@
   font-size: 0.62rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #9b9590;
+  color: #826372;
   margin-bottom: 8px;
 }
 .jck-auth__field input {
   width: 100%;
   padding: 16px 20px;
-  border: 1.5px solid rgba(0,0,0,0.15);
+  border: 1.5px solid rgba(60,52,42,0.15);
   background: #ffffff;
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.92rem;
-  color: #060606;
+  color: #3C342A;
   transition: border-color 0.25s ease;
   outline: none;
   border-radius: 0;
 }
-.jck-auth__field input:focus { border-color: #060606; }
+.jck-auth__field input:focus { border-color: #3C342A; }
 .jck-auth__field input::placeholder { color: #bbb; }
 .jck-auth__row {
   display: grid;
@@ -152,19 +152,19 @@
   width: 100%;
   justify-content: center;
 }
-.jck-auth__btn--primary { background: #060606; color: #ffffff; }
+.jck-auth__btn--primary { background: #3C342A; color: #ffffff; }
 .jck-auth__btn--primary:hover {
   gap: 18px;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  box-shadow: 0 10px 30px rgba(60,52,42,0.18);
 }
 .jck-auth__btn--secondary {
   background: transparent;
-  color: #060606;
-  border: 1.5px solid #060606;
+  color: #3C342A;
+  border: 1.5px solid #3C342A;
 }
 .jck-auth__btn--secondary:hover {
-  background: #060606;
+  background: #3C342A;
   color: #ffffff;
 }
 
@@ -179,7 +179,7 @@
   text-transform: uppercase;
 }
 .jck-auth__links a {
-  color: #060606;
+  color: #3C342A;
   text-decoration: none;
   position: relative;
   padding-bottom: 2px;
@@ -190,7 +190,7 @@
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 1px;
-  background: #060606;
+  background: #3C342A;
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);

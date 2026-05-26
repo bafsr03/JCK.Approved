@@ -4,14 +4,14 @@
 
 .jck-account {
   font-family: 'Sifonn', 'Helvetica Neue', Arial, sans-serif;
-  color: #060606;
-  background: #f7f4ef;
+  color: #3C342A;
+  background: #FAF0E8;
   min-height: 60vh;
 }
 
 /* ─── Header band ──────────────────────────────────────────────── */
 .jck-account__header {
-  background: #060606;
+  background: #3C342A;
   padding: clamp(48px, 8vh, 100px) clamp(24px, 6vw, 80px) clamp(40px, 6vh, 72px);
   position: relative;
   overflow: hidden;
@@ -66,7 +66,7 @@
 }
 .jck-account__logout:hover {
   background: #ffffff;
-  color: #060606;
+  color: #3C342A;
   border-color: #ffffff;
 }
 
@@ -91,7 +91,7 @@
   font-size: clamp(1.1rem, 2vw, 1.4rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #060606;
+  color: #3C342A;
   margin: 0 0 24px;
 }
 .jck-account__section-head .jck-account__section-title { margin-bottom: 0; }
@@ -101,7 +101,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #060606;
+  color: #3C342A;
   text-decoration: none;
   opacity: 0.6;
   transition: opacity 0.2s ease;
@@ -119,13 +119,13 @@
   align-items: center;
   gap: 24px;
   padding: 22px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(60,52,42,0.08);
   text-decoration: none;
-  color: #060606;
+  color: #3C342A;
   transition: padding-left 0.3s cubic-bezier(0.16,1,0.3,1), background 0.2s ease;
 }
-.jck-account__order:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
-.jck-account__order:hover { padding-left: 12px; background: rgba(0,0,0,0.015); }
+.jck-account__order:first-child { border-top: 1px solid rgba(60,52,42,0.08); }
+.jck-account__order:hover { padding-left: 12px; background: rgba(60,52,42,0.015); }
 
 .jck-account__order-num {
   font-family: 'Sifonn', sans-serif;
@@ -150,7 +150,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 5px 12px;
-  background: rgba(0,0,0,0.06);
+  background: rgba(60,52,42,0.06);
 }
 .jck-account__order-status--paid { background: #e8f5e2; color: #2d6a1e; }
 .jck-account__order-status--pending { background: #fff8e1; color: #a67c00; }
@@ -167,12 +167,12 @@
   color: #ccc;
   transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
 }
-.jck-account__order:hover .jck-account__order-arrow { transform: translateX(4px); color: #060606; }
+.jck-account__order:hover .jck-account__order-arrow { transform: translateX(4px); color: #3C342A; }
 
 /* ─── Address card ─────────────────────────────────────────────── */
 .jck-account__address-card {
   padding: 24px 28px;
-  border: 1.5px solid rgba(0,0,0,0.1);
+  border: 1.5px solid rgba(60,52,42,0.1);
   background: #ffffff;
   max-width: 380px;
 }
@@ -180,7 +180,7 @@
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.9rem;
   line-height: 1.7;
-  color: #444;
+  color: #5A4840;
   margin: 0;
 }
 .jck-account__address-card p:first-child {
@@ -188,7 +188,7 @@
   font-size: 0.82rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #060606;
+  color: #3C342A;
   margin-bottom: 4px;
 }
 
