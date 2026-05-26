@@ -6,14 +6,15 @@
 /* ── 1. DESIGN TOKENS ───────────────────────────────────────── */
 :root {
   --jck-black:    #3C342A;
-  --jck-char:     #111111;
-  --jck-ink:      #0a0a0a;
+  --jck-char:     #3C342A;
+  --jck-ink:      #3C342A;
   --jck-white:    #ffffff;
   --jck-cream:    #FAF0E8;
   --jck-warm:     #E8D5C4;
   --jck-line:     #4A3C32;
   --jck-muted:    #826372;
-  --jck-accent:   #c8b49a;
+  --jck-accent:   #C66573;
+  --jck-peach:    #DF9459;
 
   --jck-font:     'Sifonn', 'Helvetica Neue', Arial, sans-serif;
   --jck-body:     var(--font-body--family, 'Inter', sans-serif);
