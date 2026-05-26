@@ -97,16 +97,24 @@
   {%- comment -%} ── ACT 02 — The Hunt ───────────────────────────────────── {%- endcomment -%}
   <article class="jck-story__act jck-story__act--hunt jck-story__act--reverse">
     <div class="jck-story__act-inner">
-      <figure class="jck-story__stamp-frame jck-reveal-scale" style="--i:1">
+      <figure
+        class="jck-hunt-player jck-reveal-scale"
+        style="--i:1"
+        data-frame1="{{ 'frame_00001.svg' | asset_url }}"
+        aria-label="Animated hunt sequence"
+      >
         <img
-          src="{{ 'stamp3.png' | asset_url }}"
-          alt="JCK Approved stamp"
-          class="jck-story__stamp jck-story__stamp--act jck-story__stamp--lime"
-          data-parallax="0.18"
-          width="740"
-          height="540"
-          loading="lazy"
+          class="jck-hunt-player__frame"
+          src="{{ 'frame_00001.svg' | asset_url }}"
+          alt="The Hunt — JCK animated sequence"
+          width="1248"
+          height="704"
+          draggable="false"
         >
+        <div class="jck-hunt-player__progress">
+          <div class="jck-hunt-player__bar"></div>
+        </div>
+        <span class="jck-hunt-player__hint">drag to scrub</span>
       </figure>
 
       <div class="jck-story__act-copy">
@@ -868,6 +876,55 @@
   .jck-story__marquee-track {
     animation: none !important;
   }
+}
+
+/* ─── Hunt Frame Player ────────────────────────────────────────────── */
+.jck-hunt-player {
+  position: relative;
+  margin: 0;
+  cursor: crosshair;
+  overflow: hidden;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+.jck-hunt-player__frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.jck-hunt-player__progress {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.15);
+}
+.jck-hunt-player__bar {
+  height: 100%;
+  width: 0%;
+  background: #c8f135;
+  transition: width 0.04s linear;
+}
+.jck-hunt-player__hint {
+  position: absolute;
+  bottom: 14px; right: 14px;
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  background: rgba(0,0,0,0.45);
+  padding: 5px 10px;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+@media (max-width: 900px) {
+  .jck-hunt-player { width: clamp(220px, 70vw, 380px); }
 }
 
 {% endstylesheet %}
