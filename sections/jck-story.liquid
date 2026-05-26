@@ -111,10 +111,7 @@
           height="704"
           draggable="false"
         >
-        <div class="jck-hunt-player__progress">
-          <div class="jck-hunt-player__bar"></div>
-        </div>
-        <span class="jck-hunt-player__hint">drag to scrub</span>
+        <span class="jck-hunt-player__hint">click to play</span>
       </figure>
 
       <div class="jck-story__act-copy">
@@ -882,12 +879,11 @@
 .jck-hunt-player {
   position: relative;
   margin: 0;
-  cursor: crosshair;
-  overflow: hidden;
+  cursor: pointer;
+  overflow: visible;
   width: 100%;
   user-select: none;
   -webkit-user-select: none;
-  -webkit-user-drag: none;
 }
 .jck-hunt-player__frame {
   display: block;
@@ -895,18 +891,6 @@
   height: auto;
   pointer-events: none;
   -webkit-user-drag: none;
-}
-.jck-hunt-player__progress {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: rgba(255,255,255,0.15);
-}
-.jck-hunt-player__bar {
-  height: 100%;
-  width: 0%;
-  background: #c8f135;
-  transition: width 0.04s linear;
 }
 .jck-hunt-player__hint {
   position: absolute;

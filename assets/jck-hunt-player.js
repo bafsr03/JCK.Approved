@@ -1,41 +1,48 @@
 /* ================================================================
    JCK APPROVED — Hunt Frame Sequence Player
-   Auto-play · drag-to-scrub · touch · progress bar · preload
+   Click-to-play once · cursor/touch eye tracking · preload
 ================================================================ */
 (function () {
   'use strict';
 
-  var TOTAL   = 121;
-  var FPS     = 24;
-  var INTERVAL = 1000 / FPS;
-  var PRELOAD_EAGER = 30;
+  var TOTAL     = 121;
+  var FPS       = 24;
+  var INTERVAL  = 1000 / FPS;
+  var EAGER     = 30;
 
-  function padded(n) {
-    return ('00000' + n).slice(-5);
-  }
+  /* Eye positions in % of frame (1248×704), derived from frame-1 analysis */
+  var EYES = [
+    { cx: 44.6, cy: 22.8 },
+    { cx: 49.8, cy: 22.2 }
+  ];
+  var IRIS_R_PCT  = 2.2;   /* iris radius as % of container width */
+  var PUPIL_R_PCT = 0.85;  /* pupil radius as % of container width */
+  var LERP_T      = 0.08;
+
+  function padded(n) { return ('00000' + n).slice(-5); }
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
 
   function buildUrls(base) {
-    var urls = [];
+    var arr = [];
     for (var i = 1; i <= TOTAL; i++) {
-      urls.push(base.replace('frame_00001', 'frame_' + padded(i)));
+      arr.push(base.replace('frame_00001', 'frame_' + padded(i)));
     }
-    return urls;
+    return arr;
   }
 
   function initPlayer(container) {
-    var img      = container.querySelector('.jck-hunt-player__frame');
-    var bar      = container.querySelector('.jck-hunt-player__bar');
-    var hint     = container.querySelector('.jck-hunt-player__hint');
-    var base     = container.dataset.frame1;
+    var img  = container.querySelector('.jck-hunt-player__frame');
+    var hint = container.querySelector('.jck-hunt-player__hint');
+    var base = container.dataset.frame1;
     if (!img || !base) return;
 
     var urls    = buildUrls(base);
-    var cache   = new Array(TOTAL + 1);   /* 1-indexed */
+    var cache   = new Array(TOTAL + 1);
     var current = 1;
     var playing = false;
-    var lastTs  = 0;
     var rafId   = null;
-    var dragging = false;
+    var lastTs  = 0;
 
     /* ── Preload ─────────────────────────────────────────────── */
     function preload(from, to) {
@@ -48,109 +55,186 @@
     }
 
     function showFrame(n) {
-      if (n < 1) n = 1;
-      if (n > TOTAL) n = TOTAL;
-      current = n;
-      img.src = urls[n - 1];
-      if (bar) bar.style.width = ((n - 1) / (TOTAL - 1) * 100).toFixed(2) + '%';
+      current = Math.max(1, Math.min(TOTAL, n));
+      img.src = urls[current - 1];
     }
 
-    /* ── Playback loop ───────────────────────────────────────── */
+    /* ── Eye overlay ─────────────────────────────────────────── */
+    var eyeEls  = [];    /* [{iris, pupil}] */
+    var eyeData = EYES.map(function () {
+      return { tx: 0, ty: 0, cx: 0, cy: 0 };
+    });
+    var mx = -9999, my = -9999;
+    var eyeRaf = null;
+
+    function buildEyeOverlay() {
+      EYES.forEach(function (e) {
+        var iris = document.createElement('div');
+        iris.style.cssText =
+          'position:absolute;border-radius:50%;pointer-events:none;' +
+          'overflow:hidden;background:transparent;' +
+          'left:' + e.cx + '%;top:' + e.cy + '%;' +
+          'transform:translate(-50%,-50%);z-index:5;' +
+          'transition:opacity .3s ease;';
+
+        var pupil = document.createElement('div');
+        pupil.style.cssText =
+          'position:absolute;border-radius:50%;background:#060606;' +
+          'top:50%;left:50%;';
+
+        iris.appendChild(pupil);
+        container.appendChild(iris);
+        eyeEls.push({ iris: iris, pupil: pupil });
+      });
+      sizeEyes();
+    }
+
+    function sizeEyes() {
+      var w = container.offsetWidth;
+      var irisR  = w * IRIS_R_PCT  / 100;
+      var pupilR = w * PUPIL_R_PCT / 100;
+      eyeEls.forEach(function (el) {
+        el.iris.style.width  = (irisR  * 2) + 'px';
+        el.iris.style.height = (irisR  * 2) + 'px';
+        el.pupil.style.width  = (pupilR * 2) + 'px';
+        el.pupil.style.height = (pupilR * 2) + 'px';
+        el.pupil.style.marginTop  = '-' + pupilR + 'px';
+        el.pupil.style.marginLeft = '-' + pupilR + 'px';
+      });
+    }
+
+    function updateEyeTargets() {
+      var rect = container.getBoundingClientRect();
+      var w = rect.width;
+      var h = rect.height;
+      var irisR    = w * IRIS_R_PCT / 100;
+      var maxTravel = irisR * 0.48;
+
+      EYES.forEach(function (e, i) {
+        var eyeX = rect.left + w * e.cx / 100;
+        var eyeY = rect.top  + h * e.cy / 100;
+        var dx   = mx - eyeX;
+        var dy   = my - eyeY;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        var amt  = Math.min(maxTravel, dist * (maxTravel / 80));
+        eyeData[i].tx = (dx / dist) * amt;
+        eyeData[i].ty = (dy / dist) * amt;
+      });
+    }
+
+    function eyeLoop() {
+      eyeRaf = requestAnimationFrame(eyeLoop);
+      EYES.forEach(function (_, i) {
+        eyeData[i].cx = lerp(eyeData[i].cx, eyeData[i].tx, LERP_T);
+        eyeData[i].cy = lerp(eyeData[i].cy, eyeData[i].ty, LERP_T);
+        if (eyeEls[i]) {
+          eyeEls[i].pupil.style.transform =
+            'translate(' + eyeData[i].cx.toFixed(2) + 'px,' +
+                           eyeData[i].cy.toFixed(2) + 'px)';
+        }
+      });
+    }
+
+    function showEyes() {
+      eyeEls.forEach(function (el) { el.iris.style.opacity = '1'; });
+      if (!eyeRaf) eyeLoop();
+    }
+
+    function hideEyes() {
+      eyeEls.forEach(function (el) { el.iris.style.opacity = '0'; });
+      if (eyeRaf) { cancelAnimationFrame(eyeRaf); eyeRaf = null; }
+      /* reset pupils to center */
+      EYES.forEach(function (_, i) {
+        eyeData[i].tx = eyeData[i].ty = 0;
+      });
+    }
+
+    /* ── Playback: play once, then reset ─────────────────────── */
     function tick(ts) {
       if (!playing) return;
       rafId = requestAnimationFrame(tick);
       if (ts - lastTs < INTERVAL) return;
       lastTs = ts;
-      var next = current >= TOTAL ? 1 : current + 1;
-      showFrame(next);
+
+      if (current >= TOTAL) {
+        /* end of sequence */
+        playing = false;
+        cancelAnimationFrame(rafId);
+        rafId = null;
+        showFrame(1);
+        showEyes();
+        if (hint) {
+          hint.textContent = 'click to play';
+          hint.style.opacity = '1';
+        }
+        return;
+      }
+      showFrame(current + 1);
     }
 
     function play() {
       if (playing) return;
-      playing = true;
+      hideEyes();
       if (hint) hint.style.opacity = '0';
-      rafId = requestAnimationFrame(tick);
+      playing = true;
+      lastTs  = performance.now();
+      rafId   = requestAnimationFrame(tick);
     }
 
-    function pause() {
-      playing = false;
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-    }
-
-    /* ── Click to toggle ─────────────────────────────────────── */
-    container.addEventListener('click', function (e) {
-      if (dragging) return;
-      if (playing) pause(); else play();
+    /* ── Events ──────────────────────────────────────────────── */
+    container.addEventListener('click', function () {
+      if (!playing) play();
     });
 
-    /* ── Drag-to-scrub (mouse) ───────────────────────────────── */
-    var scrubStartX = 0;
-    var scrubStartFrame = 1;
-
-    container.addEventListener('mousedown', function (e) {
-      pause();
-      dragging = false;
-      scrubStartX = e.clientX;
-      scrubStartFrame = current;
-
-      function onMove(ev) {
-        var dx = ev.clientX - scrubStartX;
-        if (Math.abs(dx) > 3) dragging = true;
-        var delta = Math.round(dx / container.offsetWidth * (TOTAL - 1));
-        showFrame(scrubStartFrame + delta);
-      }
-
-      function onUp() {
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-        /* short delay so click handler sees dragging=true then clears it */
-        setTimeout(function () { dragging = false; }, 10);
-      }
-
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('mouseup', onUp);
+    /* Mouse cursor tracking */
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX;
+      my = e.clientY;
+      if (!playing) updateEyeTargets();
     });
 
-    /* ── Drag-to-scrub (touch) ───────────────────────────────── */
+    document.addEventListener('mouseleave', function () {
+      EYES.forEach(function (_, i) {
+        eyeData[i].tx = eyeData[i].ty = 0;
+      });
+    });
+
+    /* Touch — move eyes toward touch point while idle */
     container.addEventListener('touchstart', function (e) {
-      pause();
-      dragging = true;
-      scrubStartX = e.touches[0].clientX;
-      scrubStartFrame = current;
+      if (playing) return;
+      mx = e.touches[0].clientX;
+      my = e.touches[0].clientY;
+      updateEyeTargets();
     }, { passive: true });
 
     container.addEventListener('touchmove', function (e) {
-      var dx = e.touches[0].clientX - scrubStartX;
-      var delta = Math.round(dx / container.offsetWidth * (TOTAL - 1));
-      showFrame(scrubStartFrame + delta);
+      if (playing) return;
+      mx = e.touches[0].clientX;
+      my = e.touches[0].clientY;
+      updateEyeTargets();
     }, { passive: true });
 
     container.addEventListener('touchend', function () {
-      setTimeout(function () { dragging = false; }, 10);
+      /* on touch end, reset if idle */
+      if (!playing) {
+        EYES.forEach(function (_, i) {
+          eyeData[i].tx = eyeData[i].ty = 0;
+        });
+      }
     });
 
-    /* ── IntersectionObserver auto-play ──────────────────────── */
-    var io = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        play();
-        /* finish preloading remaining frames lazily */
-        setTimeout(function () { preload(PRELOAD_EAGER + 1, TOTAL); }, 800);
-      } else {
-        pause();
-      }
-    }, { threshold: 0.25 });
+    window.addEventListener('resize', sizeEyes);
 
-    io.observe(container);
-
-    /* ── Eager preload first N frames & set first frame ─────── */
-    preload(1, PRELOAD_EAGER);
-    img.src = urls[0];
+    /* ── Init ────────────────────────────────────────────────── */
+    showFrame(1);
+    buildEyeOverlay();
+    showEyes();
+    preload(1, EAGER);
+    setTimeout(function () { preload(EAGER + 1, TOTAL); }, 800);
   }
 
   function init() {
-    document.querySelectorAll('.jck-hunt-player').forEach(function (el) {
-      initPlayer(el);
-    });
+    document.querySelectorAll('.jck-hunt-player').forEach(initPlayer);
   }
 
   if (document.readyState === 'loading') {
