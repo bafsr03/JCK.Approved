@@ -58,6 +58,19 @@
   /* ── 2. PAGE LOADER ────────────────────────────────────────── */
   var loader = qs('#jck-loader');
   if (loader) {
+    /* Pick a logo variant. Bias toward the horseshoe mark (more distinctive).
+       Use sessionStorage so the variant is stable within a session, but
+       rotates on a fresh visit. */
+    var stack = qs('#jck-loader-stack');
+    if (stack) {
+      var variant = sessionStorage.getItem('jck-logo-variant');
+      if (!variant) {
+        variant = Math.random() < 0.65 ? 'mark' : 'title';
+        sessionStorage.setItem('jck-logo-variant', variant);
+      }
+      stack.classList.add(variant === 'title' ? 'is-title' : 'is-mark');
+    }
+
     var alreadyLoaded = sessionStorage.getItem('jck-visited');
     if (alreadyLoaded) {
       loader.remove();

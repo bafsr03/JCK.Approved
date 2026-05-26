@@ -144,14 +144,24 @@
 
     {% if template.name == 'index' %}
       <div id="jck-loader" aria-hidden="true" role="presentation">
-        <img
-          id="jck-loader-img"
-          src="{{ 'jck-title.png' | asset_url }}"
-          alt=""
-          width="340"
-          height="147"
-        >
+        <div id="jck-loader-stack">
+          <img
+            class="jck-loader-img jck-loader-img--mark"
+            src="{{ 'jck-logo-mark.png' | asset_url }}"
+            alt=""
+            width="280"
+            height="280"
+          >
+          <img
+            class="jck-loader-img jck-loader-img--title"
+            src="{{ 'jck-title.png' | asset_url }}"
+            alt=""
+            width="340"
+            height="147"
+          >
+        </div>
         <div id="jck-loader-bar"></div>
+        <span id="jck-loader-tag">JCK · APPROVED</span>
       </div>
     {% endif %}
 

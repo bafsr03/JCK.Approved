@@ -25,12 +25,11 @@
           >
         {%- else -%}
           <img
-            src="{{ 'jck-title.png' | asset_url }}"
-            alt="JCK Approved"
-            width="800"
-            height="800"
+            src="{{ 'jck-curation.jpg' | asset_url }}"
+            alt="JCK Approved — hand-curating the collection"
+            width="1200"
+            height="1500"
             loading="lazy"
-            class="jck-about__media-fallback"
           >
         {%- endif -%}
         <span class="jck-about__media-tag">{{ section.settings.image_tag | default: 'Vol. 01 — Founders' }}</span>
@@ -94,6 +93,62 @@
           <span class="jck-about__stat-label">Restocks</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  {%- comment -%} ── Process strip: the four chapters of every drop ─────────── {%- endcomment -%}
+  <div class="jck-about__process">
+    <div class="jck-about__process-head">
+      <span class="jck-label jck-about__process-eyebrow jck-reveal">── The Process</span>
+      <h2 class="jck-about__process-title jck-reveal" style="--i:1">
+        Four chapters. Zero shortcuts.
+      </h2>
+    </div>
+
+    <div class="jck-about__process-grid">
+      <figure class="jck-about__chapter jck-reveal-scale" style="--i:0">
+        <div class="jck-about__chapter-media">
+          <img src="{{ 'jck-haul.jpg' | asset_url }}" alt="The haul — bins of vintage tees freshly sourced" loading="lazy" width="800" height="800">
+        </div>
+        <figcaption>
+          <span class="jck-about__chapter-num">01</span>
+          <span class="jck-about__chapter-name">The Haul</span>
+          <span class="jck-about__chapter-sub">Sourced from estate sales, thrift bins, and private sellers across the South.</span>
+        </figcaption>
+      </figure>
+
+      <figure class="jck-about__chapter jck-reveal-scale" style="--i:1">
+        <div class="jck-about__chapter-media">
+          <img src="{{ 'jck-curation.jpg' | asset_url }}" alt="Hand-curating the collection by the fireplace" loading="lazy" width="800" height="800">
+        </div>
+        <figcaption>
+          <span class="jck-about__chapter-num">02</span>
+          <span class="jck-about__chapter-name">The Curation</span>
+          <span class="jck-about__chapter-sub">Every piece is folded, photographed, and approved by hand. No algorithms.</span>
+        </figcaption>
+      </figure>
+
+      <figure class="jck-about__chapter jck-reveal-scale" style="--i:2">
+        <div class="jck-about__chapter-media">
+          <img src="{{ 'jck-screenprint.jpg' | asset_url }}" alt="Screen-printing setup with exposure unit" loading="lazy" width="800" height="800">
+        </div>
+        <figcaption>
+          <span class="jck-about__chapter-num">03</span>
+          <span class="jck-about__chapter-name">The Print</span>
+          <span class="jck-about__chapter-sub">Original graphics burned onto frames, pulled by hand in small runs.</span>
+        </figcaption>
+      </figure>
+
+      <figure class="jck-about__chapter jck-reveal-scale" style="--i:3">
+        <div class="jck-about__chapter-media">
+          <img src="{{ 'jck-store.jpg' | asset_url }}" alt="Vintage tees on the rack" loading="lazy" width="800" height="800">
+        </div>
+        <figcaption>
+          <span class="jck-about__chapter-num">04</span>
+          <span class="jck-about__chapter-name">On The Rack</span>
+          <span class="jck-about__chapter-sub">Numbered, tagged, and stamped JCK Approved. When it's gone, it's gone.</span>
+        </figcaption>
+      </figure>
     </div>
   </div>
 
@@ -314,9 +369,109 @@
   color: #886275;
 }
 
+/* ─── Process strip — four-chapter photo essay ───────────────────────── */
+.jck-about__process {
+  margin-top: clamp(80px, 10vw, 140px);
+  position: relative;
+  z-index: 1;
+}
+.jck-about__process-head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+.jck-about__process-eyebrow {
+  color: #d76577;
+}
+.jck-about__process-title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #3f3227;
+  margin: 0;
+  max-width: 18ch;
+}
+
+.jck-about__process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(14px, 1.6vw, 22px);
+}
+
+.jck-about__chapter {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+.jck-about__chapter-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #ece4d6;
+  border: 1px solid rgba(63,50,39,0.08);
+}
+.jck-about__chapter-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+  filter: saturate(0.92) contrast(1.04);
+}
+.jck-about__chapter:hover .jck-about__chapter-media img {
+  transform: scale(1.06);
+  filter: saturate(1.05) contrast(1.04);
+}
+.jck-about__chapter-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(63,50,39,0.45) 100%);
+  pointer-events: none;
+}
+
+.jck-about__chapter figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 4px;
+}
+.jck-about__chapter-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.36em;
+  color: #d76577;
+}
+.jck-about__chapter-name {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #3f3227;
+  margin-bottom: 4px;
+}
+.jck-about__chapter-sub {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: rgba(63,50,39,0.7);
+  max-width: 28ch;
+}
+
 @media (max-width: 900px) {
   .jck-about__grid { grid-template-columns: 1fr; }
   .jck-about__pillars { grid-template-columns: 1fr; }
+  .jck-about__process-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .jck-about__process-grid { grid-template-columns: 1fr; gap: 32px; }
+  .jck-about__chapter-media { aspect-ratio: 4 / 3; }
 }
 {% endstylesheet %}
 

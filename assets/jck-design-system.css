@@ -104,22 +104,48 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 22px;
   pointer-events: none;
   clip-path: inset(0 0 0 0);
   transition: clip-path 1s cubic-bezier(0.76, 0, 0.24, 1);
 }
 #jck-loader.out { clip-path: inset(0 0 100% 0); }
 
-#jck-loader-img {
-  width: clamp(180px, 28vw, 340px);
+/* Stack holds both logo variants. JS adds .is-mark or .is-title to pick one. */
+#jck-loader-stack {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jck-loader-img {
   height: auto;
+  display: none;
   animation: jck-loader-breathe 1.4s ease-in-out infinite alternate;
+  filter: invert(1);                  /* logos are black-on-white; flip to cream-on-brown */
 }
+.jck-loader-img--mark  { width: clamp(140px, 22vw, 240px); }
+.jck-loader-img--title { width: clamp(180px, 28vw, 340px); }
+
+#jck-loader-stack.is-mark  .jck-loader-img--mark  { display: block; }
+#jck-loader-stack.is-title .jck-loader-img--title { display: block; }
+/* Fallback if JS hasn't tagged yet: show the mark */
+#jck-loader-stack:not(.is-mark):not(.is-title) .jck-loader-img--mark { display: block; }
+
 @keyframes jck-loader-breathe {
-  from { opacity: .65; transform: scale(.96); }
-  to   { opacity: 1;   transform: scale(1.04); }
+  from { opacity: .7; transform: scale(.96) rotate(-1deg); }
+  to   { opacity: 1;  transform: scale(1.04) rotate(1deg); }
 }
+
+#jck-loader-tag {
+  font-family: 'Sifonn', 'Helvetica Neue', sans-serif;
+  font-size: .6rem;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: rgba(244,240,231,.45);
+  margin-top: 4px;
+}
+
 #jck-loader-bar {
   width: clamp(120px, 20vw, 240px);
   height: 1px;
@@ -132,7 +158,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--jck-black) transparent; }
   position: absolute;
   top: 0; left: -100%;
   width: 100%; height: 100%;
-  background: rgba(244,240,231,.7);
+  background: var(--jck-rose);
   animation: jck-loader-bar 1.2s ease-in-out forwards;
 }
 @keyframes jck-loader-bar {
