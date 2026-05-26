@@ -11,7 +11,7 @@
 
 /* ─── Header band ──────────────────────────────────────────────── */
 .jck-account__header {
-  background: #3f3227;
+  background: #886275;
   padding: clamp(48px, 8vh, 100px) clamp(24px, 6vw, 80px) clamp(40px, 6vh, 72px);
   position: relative;
   overflow: hidden;

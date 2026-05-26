@@ -600,12 +600,12 @@
 
 /* ─── Marquee strip ────────────────────────────────────────────────── */
 .jck-story__marquee {
-  background: #3f3227;
-  color: #F4F0E7;
+  background: #F4F0E7;
+  color: #3f3227;
   padding: 22px 0;
   overflow: hidden;
-  border-top: 1px solid rgba(244,240,231,0.06);
-  border-bottom: 1px solid rgba(244,240,231,0.06);
+  border-top: 1px solid rgba(63,50,39,0.08);
+  border-bottom: 1px solid rgba(63,50,39,0.08);
 }
 .jck-story__marquee-track {
   display: flex;
@@ -619,7 +619,7 @@
   text-transform: uppercase;
 }
 .jck-story__marquee:hover .jck-story__marquee-track { animation-play-state: paused; }
-.jck-story__marquee-dot { color: rgba(244,240,231,0.3); font-size: 0.7em; }
+.jck-story__marquee-dot { color: #d76577; font-size: 0.7em; }
 @keyframes jck-story-marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -627,8 +627,8 @@
 
 /* ─── Timeline ─────────────────────────────────────────────────────── */
 .jck-story__timeline {
-  background: #3f3227;
-  color: #F4F0E7;
+  background: #F4F0E7;
+  color: #3f3227;
   padding: clamp(80px, 12vh, 140px) clamp(24px, 6vw, 80px);
   position: relative;
 }
@@ -637,7 +637,7 @@
   margin: 0 auto clamp(48px, 6vh, 80px);
   text-align: center;
 }
-.jck-story__timeline-head .jck-label { color: rgba(244,240,231,0.4); }
+.jck-story__timeline-head .jck-label { color: #d76577; }
 .jck-story__timeline-title {
   font-family: 'Sifonn', sans-serif;
   font-size: clamp(2.4rem, 6vw, 5rem);
@@ -663,7 +663,7 @@
   left: 4%;
   right: 4%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(244,240,231,0.3) 20%, rgba(244,240,231,0.3) 80%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(63,50,39,0.18) 20%, rgba(63,50,39,0.18) 80%, transparent);
 }
 .jck-story__milestone {
   position: relative;
@@ -678,8 +678,8 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #F4F0E7;
-  box-shadow: 0 0 0 6px rgba(247, 244, 239, 0.12);
+  background: #d76577;
+  box-shadow: 0 0 0 6px rgba(215,101,119,0.18);
 }
 .jck-story__milestone-year {
   display: block;
@@ -688,13 +688,13 @@
   line-height: 1;
   letter-spacing: -0.01em;
   margin-bottom: 14px;
-  color: #F4F0E7;
+  color: #3f3227;
 }
 .jck-story__milestone p {
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 0.95rem;
   line-height: 1.6;
-  color: rgba(244,240,231,0.72);
+  color: rgba(63,50,39,0.72);
   margin: 0;
   max-width: 38ch;
 }
@@ -818,18 +818,19 @@
   z-index: 1;
 }
 
-/* Primary — solid black, white text */
+/* Primary — solid rose, cream text */
 .jck-story__cta--primary {
-  background: #3f3227 !important;
+  background: #d76577 !important;
   color: #F4F0E7 !important;
-  border: 1.5px solid #3f3227;
+  border: 1.5px solid #d76577;
 }
 .jck-story__cta--primary:hover {
   gap: 22px;
-  background: #5a4a3d !important;
+  background: #ec904d !important;
+  border-color: #ec904d;
 }
 
-/* Ghost — black outline, black text. Hover fills to solid black + white text. */
+/* Ghost — brown outline + brown text. Hover fills with rose + cream text. */
 .jck-story__cta--ghost {
   background: transparent !important;
   color: #3f3227 !important;
@@ -839,13 +840,14 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: #3f3227;
+  background: #d76577;
   transform: translateX(-101%);
   transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
   z-index: 0;
 }
 .jck-story__cta--ghost:hover {
   color: #F4F0E7 !important;
+  border-color: #d76577;
   gap: 22px;
 }
 .jck-story__cta--ghost:hover::before { transform: translateX(0); }

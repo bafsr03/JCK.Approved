@@ -14,7 +14,7 @@
 
 /* ─── Brand panel (left) ───────────────────────────────────────── */
 .jck-auth__brand {
-  background: #3f3227;
+  background: #886275;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,8 +165,9 @@
   border: 1.5px solid #3f3227;
 }
 .jck-auth__btn--secondary:hover {
-  background: #3f3227;
+  background: #d76577;
   color: #F4F0E7;
+  border-color: #d76577;
 }
 
 /* ─── Links ────────────────────────────────────────────────────── */
@@ -191,7 +192,7 @@
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 1px;
-  background: #3f3227;
+  background: #d76577;
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);

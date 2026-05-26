@@ -313,7 +313,7 @@ body {
   font-size: .58rem !important;
   letter-spacing: .2em !important;
   text-transform: uppercase !important;
-  background: var(--jck-black) !important;
+  background: var(--jck-rose) !important;
   color: var(--jck-white) !important;
 }
 
@@ -329,13 +329,15 @@ body {
 }
 
 .button--primary {
-  background: var(--jck-black) !important;
+  background: var(--jck-rose) !important;
   color: var(--jck-white) !important;
+  border: 1px solid var(--jck-rose) !important;
 }
 .button--primary:hover {
-  background: var(--jck-ink) !important;
+  background: var(--jck-orange) !important;
+  border-color: var(--jck-orange) !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(63,50,39,.18);
+  box-shadow: 0 10px 30px rgba(215,101,119,.28);
 }
 .button--secondary {
   background: transparent !important;
@@ -343,7 +345,8 @@ body {
   border: 1px solid var(--jck-ink) !important;
 }
 .button--secondary:hover {
-  background: var(--jck-ink) !important;
+  background: var(--jck-rose) !important;
+  border-color: var(--jck-rose) !important;
   color: var(--jck-white) !important;
 }
 

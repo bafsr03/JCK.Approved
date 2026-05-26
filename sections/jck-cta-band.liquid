@@ -67,12 +67,12 @@
 {% stylesheet %}
 .jck-cta {
   position: relative;
-  background: #3f3227;
+  background: #F4F0E7;
   overflow: hidden;
-  border-top: 1px solid rgba(244,240,231,.06);
+  border-top: 1px solid rgba(63,50,39,.08);
 }
 
-/* Background "GO" watermark */
+/* Background "GO" watermark — rose tint, very subtle */
 .jck-cta__bg-text {
   position: absolute;
   right: -5%;
@@ -81,7 +81,7 @@
   font-family: 'Sifonn', sans-serif;
   font-size: clamp(30vw, 40vw, 50vw);
   line-height: 1;
-  color: rgba(244,240,231,.025);
+  color: rgba(215,101,119,.08);
   pointer-events: none;
   user-select: none;
   letter-spacing: -.05em;
@@ -96,7 +96,7 @@
   z-index: 1;
 }
 
-/* Hover line */
+/* Hover line — rose */
 .jck-cta__link::after {
   content: '';
   position: absolute;
@@ -104,7 +104,7 @@
   left: 0;
   width: 0;
   height: 3px;
-  background: #F4F0E7;
+  background: #d76577;
   transition: width 1s cubic-bezier(0.16,1,0.3,1);
 }
 .jck-cta__link:hover::after { width: 100%; }
@@ -117,7 +117,7 @@
 }
 
 .jck-cta__index {
-  color: rgba(244,240,231,.25);
+  color: rgba(63,50,39,.35);
 }
 
 /* Main text row */
@@ -134,16 +134,16 @@
   text-transform: uppercase;
   letter-spacing: -.02em;
   line-height: .9;
-  color: #F4F0E7;
+  color: #3f3227;
   white-space: nowrap;
-  transition: letter-spacing .5s cubic-bezier(0.16,1,0.3,1);
+  transition: letter-spacing .5s cubic-bezier(0.16,1,0.3,1), color .35s ease;
 }
-.jck-cta__link:hover .jck-cta__text { letter-spacing: .01em; }
+.jck-cta__link:hover .jck-cta__text { letter-spacing: .01em; color: #d76577; }
 
 .jck-cta__arrow {
   flex: 0 0 auto;
-  color: #F4F0E7;
-  opacity: .5;
+  color: #d76577;
+  opacity: .85;
   transition: opacity .3s, transform .5s cubic-bezier(0.34,1.56,0.64,1);
 }
 .jck-cta__arrow svg {
@@ -168,7 +168,7 @@
   font-size: clamp(.65rem, 1.2vw, .82rem);
   letter-spacing: .32em;
   text-transform: uppercase;
-  color: rgba(244,240,231,.35);
+  color: rgba(63,50,39,.5);
 }
 
 .jck-cta__count-wrap {
@@ -178,10 +178,10 @@
   font-family: 'Sifonn', sans-serif;
   font-size: clamp(.65rem, 1.2vw, .82rem);
   letter-spacing: .2em;
-  color: rgba(244,240,231,.25);
+  color: rgba(63,50,39,.4);
 }
 .jck-cta__count {
-  color: rgba(244,240,231,.5);
+  color: #d76577;
   font-size: 1.1em;
 }
 
