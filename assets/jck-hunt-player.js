@@ -10,16 +10,17 @@
   var INTERVAL  = 1000 / FPS;
   var EAGER     = 30;
 
-  /* Eye positions as % of frame (1248×704) — calibrated from path analysis of frame 1
-     Left pupil cluster:  x≈565, y≈160  →  45.3%, 22.7%
-     Right pupil cluster: x≈710, y≈160  →  56.9%, 22.7% */
+  /* Eye positions as % of frame (1248×704) — calibrated from saturated-yellow
+     path bounding boxes in frame 1:
+     Left iris:  SVG center (572,207) → cx=45.8% cy=29.4%  r=42 SVG px → 3.37%
+     Right iris: SVG center (721,178) → cx=57.8% cy=25.3%  r=46 SVG px → 3.70% */
   var EYES = [
-    { cx: 45.3, cy: 23.5 },
-    { cx: 57.0, cy: 23.0 }
+    { cx: 45.8, cy: 29.4 },
+    { cx: 57.8, cy: 25.3 }
   ];
   var IRIS_COLOR  = '#E4C94E';   /* golden yellow matching the SVG iris */
-  var IRIS_R_PCT  = 4.5;         /* iris radius as % of container width */
-  var PUPIL_R_PCT = 1.9;         /* pupil radius as % of container width */
+  var IRIS_R_PCT  = 3.5;         /* iris radius as % of container width */
+  var PUPIL_R_PCT = 1.5;         /* pupil radius as % of container width */
   var LERP_T      = 0.08;
 
   function padded(n) { return ('00000' + n).slice(-5); }
