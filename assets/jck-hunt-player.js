@@ -12,15 +12,16 @@
 
   /* Eye positions as % of frame (1248×704) — calibrated from saturated-yellow
      path bounding boxes in frame 1:
-     Left iris:  SVG center (572,207) → cx=45.8% cy=29.4%  r=42 SVG px → 3.37%
-     Right iris: SVG center (721,178) → cx=57.8% cy=25.3%  r=46 SVG px → 3.70% */
+     Left iris:  SVG center (572,207) → cx=45.8% cy=29.4%
+     Right iris: SVG center (721,178) → cx=57.8% cy=25.3%
+     Iris radius = inner iris only (~60% of full eye bbox), not full eyelid area */
   var EYES = [
     { cx: 45.8, cy: 29.4 },
     { cx: 57.8, cy: 25.3 }
   ];
   var IRIS_COLOR  = '#E4C94E';   /* golden yellow matching the SVG iris */
-  var IRIS_R_PCT  = 3.5;         /* iris radius as % of container width */
-  var PUPIL_R_PCT = 1.5;         /* pupil radius as % of container width */
+  var IRIS_R_PCT  = 2.0;         /* iris radius as % of container width */
+  var PUPIL_R_PCT = 0.85;        /* pupil radius as % of container width */
   var LERP_T      = 0.08;
 
   function padded(n) { return ('00000' + n).slice(-5); }
