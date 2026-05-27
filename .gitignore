@@ -1,0 +1,6 @@
+.DS_Store
+
+# Node tooling lives under tools/ — keep deps & secrets out of git
+tools/node_modules/
+tools/.env
+tools/depop-listings.json

@@ -1,0 +1,11 @@
+{
+  "name": "jck-sync-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "get-token": "node get-shopify-token.js",
+    "import": "node import-depop-to-shopify.js",
+    "mark-sold": "node mark-sold.js"
+  }
+}
