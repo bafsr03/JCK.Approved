@@ -36,7 +36,8 @@
 
   <div class="jck-drops__grid">
     {%- if col != blank and col.products_count > 0 -%}
-      {%- for product in col.products limit: max_products -%}
+      {%- assign top_priced = col.products | sort: 'price' | reverse -%}
+      {%- for product in top_priced limit: max_products -%}
         <article
           class="jck-drops__card jck-reveal-scale"
           style="--i: {{ forloop.index0 }}"
