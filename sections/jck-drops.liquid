@@ -6,6 +6,14 @@
 {%- assign col = section.settings.collection -%}
 {%- assign max_products = section.settings.max_products | default: 6 -%}
 
+{%- comment -%}
+  Fall back to the auto "all" collection so the section works out-of-the-box
+  with no curation. Merchant can pick a Featured collection in the editor to override.
+{%- endcomment -%}
+{%- if col == blank or col.products_count == 0 -%}
+  {%- assign col = collections.all -%}
+{%- endif -%}
+
 <section class="jck-drops" id="jck-drops-{{ section.id }}" aria-labelledby="jck-drops-title-{{ section.id }}">
 
   <div class="jck-drops__head">
