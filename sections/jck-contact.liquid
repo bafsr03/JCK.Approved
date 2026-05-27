@@ -203,6 +203,10 @@
 
 <script>
   (function () {
+    /* Mark the body so we can override Shopify wrapper padding from CSS */
+    document.documentElement.classList.add('jck-on-contact');
+    document.body.classList.add('jck-on-contact');
+
     var section = document.getElementById('jck-contact-{{ section.id }}');
     if (!section) return;
 
@@ -238,18 +242,36 @@
 </script>
 
 {% stylesheet %}
-/* Kill default Shopify wrapper padding so the section is truly full-bleed */
-.jck-contact-wrapper,
-.shopify-section:has(> .jck-contact),
-.shopify-section.jck-contact-wrapper {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-.jck-contact-wrapper > .section,
-.jck-contact-wrapper .section-background {
+/* ──── Force the section to be truly full-bleed ────────────────────────
+   Whatever wrapper / padding / margin sits between #MainContent and the
+   contact section gets neutralised here so the mauve panel sits flush
+   against the sticky header. The .jck-on-contact body class is added
+   by the inline <script> at runtime. */
+.jck-on-contact #MainContent,
+.jck-on-contact .content-for-layout,
+.jck-on-contact .shopify-section.jck-contact-wrapper,
+.jck-on-contact .shopify-section.jck-contact-wrapper > .section,
+.jck-on-contact .shopify-section.jck-contact-wrapper .section-background,
+.jck-on-contact .shopify-section.jck-contact-wrapper .section-content-wrapper,
+.jck-on-contact .shopify-section.jck-contact-wrapper .custom-section-background,
+.jck-on-contact .shopify-section.jck-contact-wrapper .custom-section-content,
+.jck-on-contact .shopify-section.jck-contact-wrapper .spacing-style {
+  --padding-block-start: 0 !important;
+  --padding-block-end: 0 !important;
+  --padding-inline-start: 0 !important;
+  --padding-inline-end: 0 !important;
+  --margin-block-start: 0 !important;
+  --margin-block-end: 0 !important;
   padding: 0 !important;
   margin: 0 !important;
   background: transparent !important;
+  min-height: 0 !important;
+  display: block;
+}
+/* If somehow a gap still sneaks in, hide it with a mauve pseudo that the
+   section sits inside. */
+.jck-on-contact .shopify-section.jck-contact-wrapper {
+  background: #886275 !important;
 }
 
 .jck-contact {
