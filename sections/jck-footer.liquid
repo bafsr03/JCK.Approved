@@ -146,11 +146,15 @@
     </div>
   </div>
 
-  {%- comment -%} ── 04. Giant wordmark ─────────────────────────────────── {%- endcomment -%}
-  <div class="jck-footer__wordmark" aria-hidden="true">
-    <span>JCK</span>
-    <img class="jck-footer__wordmark-mark" src="{{ 'jck-logo-mark.png' | asset_url }}" alt="" width="180" height="180" loading="lazy">
-    <span>Approved</span>
+  {%- comment -%} ── 04. Brand anchor — horseshoe mark + wordmark ────────── {%- endcomment -%}
+  <div class="jck-footer__anchor" aria-hidden="true">
+    <img class="jck-footer__anchor-mark" src="{{ 'jck-logo-mark.png' | asset_url }}" alt="" width="180" height="180" loading="lazy">
+    <div class="jck-footer__anchor-wordmark">
+      <span>JCK</span>
+      <span class="jck-footer__anchor-dot">·</span>
+      <span>Approved</span>
+    </div>
+    <span class="jck-footer__anchor-tagline">Hand Picked · Hand Stamped · Zero Restocks</span>
   </div>
 
   {%- comment -%} ── 05. Legal bar ──────────────────────────────────────── {%- endcomment -%}
@@ -497,43 +501,60 @@
   transform: translateY(-50%) translateX(0);
 }
 
-/* ─── 04. Giant wordmark ───────────────────────────────────────────── */
-.jck-footer__wordmark {
+/* ─── 04. Brand anchor — horseshoe mark + restrained wordmark ──────── */
+.jck-footer__anchor {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(16px, 3vw, 40px);
-  padding: clamp(40px, 8vh, 80px) clamp(16px, 4vw, 40px) clamp(16px, 3vh, 28px);
-  font-family: 'Sifonn', sans-serif;
-  font-size: clamp(4rem, 18vw, 18rem);
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  text-align: center;
+  gap: 18px;
+  padding: clamp(56px, 8vh, 96px) clamp(24px, 5vw, 60px) clamp(40px, 6vh, 64px);
   background: #3f3227;
+  text-align: center;
   user-select: none;
+  border-top: 1px solid rgba(244,240,231,0.06);
+  border-bottom: 1px solid rgba(244,240,231,0.06);
 }
-.jck-footer__wordmark > span {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(244,240,231,0.35);
-}
-.jck-footer__wordmark-amp {
-  -webkit-text-stroke: 0 !important;
-  color: #d76577 !important;
-  font-size: 0.7em;
-}
-.jck-footer__wordmark-mark {
-  flex: 0 0 auto;
-  width: clamp(60px, 14vw, 180px);
+.jck-footer__anchor-mark {
+  width: clamp(110px, 14vw, 180px);
   height: auto;
-  filter: invert(1) drop-shadow(0 0 12px rgba(215,101,119,0.18));
-  animation: jck-footer-mark-spin 22s linear infinite;
-  align-self: center;
+  display: block;
+  filter: invert(1) drop-shadow(0 0 18px rgba(215,101,119,0.22));
+  animation: jck-footer-anchor-rock 8s ease-in-out infinite;
 }
-@keyframes jck-footer-mark-spin {
-  from { transform: rotate(-6deg); }
-  50%  { transform: rotate(6deg); }
-  to   { transform: rotate(-6deg); }
+@keyframes jck-footer-anchor-rock {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+.jck-footer__anchor-wordmark {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(10px, 1.6vw, 22px);
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.4rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.jck-footer__anchor-wordmark > span:first-child,
+.jck-footer__anchor-wordmark > span:last-child {
+  color: #F4F0E7;
+}
+.jck-footer__anchor-dot {
+  color: #d76577;
+  font-size: 0.8em;
+  transform: translateY(-0.05em);
+}
+
+.jck-footer__anchor-tagline {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(0.58rem, 1vw, 0.72rem);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(244,240,231,0.4);
+  margin-top: 4px;
 }
 
 /* ─── 05. Legal bar ────────────────────────────────────────────────── */
