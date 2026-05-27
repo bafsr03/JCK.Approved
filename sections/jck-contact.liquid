@@ -91,7 +91,8 @@
         <span class="jck-contact__panel-label">Your Message</span>
       </div>
 
-      {%- form 'contact', class: 'jck-contact__form', id: 'jck-contact-form-' | append: section.id -%}
+      {%- assign jck_form_id = 'jck-contact-form-' | append: section.id -%}
+      {%- form 'contact', class: 'jck-contact__form', id: jck_form_id -%}
 
         {%- if form.posted_successfully? -%}
           <div class="jck-contact__success" role="status">
