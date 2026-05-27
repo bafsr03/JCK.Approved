@@ -529,7 +529,7 @@
   font-family: var(--font-body--family, 'Inter', sans-serif);
   font-size: 1rem;
   color: #3f3227;
-  padding: 22px 0 12px;
+  padding: 22px 14px 12px;
   border-radius: 0;
   appearance: none;
   -webkit-appearance: none;
@@ -543,11 +543,11 @@
 }
 .jck-contact__input--select {
   cursor: pointer;
-  padding-right: 28px;
+  padding-right: 36px;
 }
 .jck-contact__chevron {
   position: absolute;
-  right: 0;
+  right: 14px;
   top: 28px;
   color: #886275;
   pointer-events: none;
@@ -561,7 +561,7 @@
 /* Floating label */
 .jck-contact__label {
   position: absolute;
-  left: 0;
+  left: 14px;
   top: 22px;
   font-family: 'Sifonn', sans-serif;
   font-size: 0.72rem;
@@ -575,11 +575,11 @@
 .jck-contact__field:focus-within .jck-contact__label,
 .jck-contact__input:not(:placeholder-shown) + .jck-contact__label,
 .jck-contact__label--always {
-  transform: translateY(-22px) scale(0.86);
+  transform: translate(-2px, -22px) scale(0.86);
   color: #d76577;
 }
 .jck-contact__field:focus-within .jck-contact__label--always { color: #d76577; }
-.jck-contact__label--always { transform: translateY(-22px) scale(0.86); }
+.jck-contact__label--always { transform: translate(-2px, -22px) scale(0.86); }
 
 /* Underline that animates from rest → focus */
 .jck-contact__field-line {
