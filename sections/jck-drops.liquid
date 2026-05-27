@@ -50,15 +50,19 @@
 
               {%- if product.featured_image != blank -%}
                 <img
-                  src="{{ product.featured_image | image_url: width: 800 }}"
+                  src="{{ product.featured_image | image_url: width: 900, height: 1200, crop: 'center' }}"
+                  srcset="{{ product.featured_image | image_url: width: 600, height: 800, crop: 'center' }} 600w,
+                          {{ product.featured_image | image_url: width: 900, height: 1200, crop: 'center' }} 900w,
+                          {{ product.featured_image | image_url: width: 1200, height: 1600, crop: 'center' }} 1200w"
+                  sizes="(max-width: 549px) 100vw, (max-width: 900px) 50vw, 33vw"
                   alt="{{ product.featured_image.alt | escape | default: product.title }}"
                   class="jck-drops__img"
-                  width="800"
-                  height="1000"
+                  width="900"
+                  height="1200"
                   loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}"
                 >
               {%- else -%}
-                {{ 'product-apparel-1' | placeholder_svg_tag: 'jck-drops__img jck-drops__img--placeholder' }}
+                <div class="jck-drops__img jck-drops__img--placeholder" aria-hidden="true"></div>
               {%- endif -%}
 
               <div class="jck-drops__overlay">
@@ -229,14 +233,19 @@
 }
 
 .jck-drops__img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transform: scale(1);
   transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
 }
-.jck-drops__img--placeholder { padding: 24px; color: #886275; }
+.jck-drops__img--placeholder {
+  background: repeating-linear-gradient(45deg, #dcc8c5, #dcc8c5 12px, #d1bbb7 12px, #d1bbb7 24px);
+}
 
 .jck-drops__card-link:hover .jck-drops__img { transform: scale(1.07); }
 
