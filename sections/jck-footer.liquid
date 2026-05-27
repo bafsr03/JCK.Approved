@@ -149,7 +149,7 @@
   {%- comment -%} ── 04. Giant wordmark ─────────────────────────────────── {%- endcomment -%}
   <div class="jck-footer__wordmark" aria-hidden="true">
     <span>JCK</span>
-    <span class="jck-footer__wordmark-amp">·</span>
+    <img class="jck-footer__wordmark-mark" src="{{ 'jck-logo-mark.png' | asset_url }}" alt="" width="180" height="180" loading="lazy">
     <span>Approved</span>
   </div>
 
@@ -521,6 +521,19 @@
   -webkit-text-stroke: 0 !important;
   color: #d76577 !important;
   font-size: 0.7em;
+}
+.jck-footer__wordmark-mark {
+  flex: 0 0 auto;
+  width: clamp(60px, 14vw, 180px);
+  height: auto;
+  filter: invert(1) drop-shadow(0 0 12px rgba(215,101,119,0.18));
+  animation: jck-footer-mark-spin 22s linear infinite;
+  align-self: center;
+}
+@keyframes jck-footer-mark-spin {
+  from { transform: rotate(-6deg); }
+  50%  { transform: rotate(6deg); }
+  to   { transform: rotate(-6deg); }
 }
 
 /* ─── 05. Legal bar ────────────────────────────────────────────────── */

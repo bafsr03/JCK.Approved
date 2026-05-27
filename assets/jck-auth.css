@@ -39,6 +39,16 @@
   filter: drop-shadow(0 0 20px rgba(244,240,231,0.06));
   animation: jck-auth-breathe 3s ease-in-out infinite alternate;
 }
+/* Horseshoe mark variant: invert (black art → cream on mauve panel) */
+.jck-auth__brand-logo--mark img {
+  width: clamp(180px, 26vw, 280px);
+  filter: invert(1) drop-shadow(0 0 22px rgba(244,240,231,0.1));
+  animation: jck-auth-breathe-mark 4s ease-in-out infinite alternate;
+}
+@keyframes jck-auth-breathe-mark {
+  from { opacity: .82; transform: scale(.97) rotate(-1.5deg); }
+  to   { opacity: 1;   transform: scale(1.03) rotate(1.5deg); }
+}
 @keyframes jck-auth-breathe {
   from { opacity: .8; transform: scale(.97); }
   to   { opacity: 1;  transform: scale(1.03); }
