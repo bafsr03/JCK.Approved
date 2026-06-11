@@ -1,0 +1,159 @@
+{% comment %}
+  JCK Approved — Team bios
+  Editorial stack of founder bios for the About page.
+{% endcomment %}
+
+<section class="jck-team" id="jck-team-{{ section.id }}" aria-labelledby="jck-team-title-{{ section.id }}">
+  <header class="jck-team__head">
+    <span class="jck-label jck-team__eyebrow">{{ section.settings.eyebrow | default: '02 ── The Team' }}</span>
+    <h2 class="jck-team__title" id="jck-team-title-{{ section.id }}">
+      {{ section.settings.title | default: 'The people behind the rack.' }}
+    </h2>
+  </header>
+
+  <div class="jck-team__list">
+    {%- for block in section.blocks -%}
+      <article class="jck-team__member" {{ block.shopify_attributes }}>
+        <div class="jck-team__member-head">
+          <span class="jck-team__member-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <div class="jck-team__member-id">
+            <h3 class="jck-team__member-name">{{ block.settings.name }}</h3>
+            {%- if block.settings.role != blank -%}
+              <span class="jck-team__member-role">{{ block.settings.role }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+        {%- if block.settings.bio != blank -%}
+          <div class="jck-team__member-bio rte">
+            {{ block.settings.bio }}
+          </div>
+        {%- endif -%}
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.jck-team {
+  background: var(--jck-cream, #F4F0E7);
+  padding: clamp(60px, 8vw, 120px) clamp(24px, 5vw, 80px);
+  position: relative;
+}
+.jck-team__head {
+  max-width: 1500px;
+  margin: 0 auto clamp(36px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.jck-team__eyebrow {
+  color: #886275;
+  font-family: 'Sifonn', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+.jck-team__title {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  letter-spacing: -.02em;
+  line-height: .95;
+  color: #3f3227;
+  margin: 0;
+  max-width: 22ch;
+}
+
+.jck-team__list {
+  max-width: 1500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 72px);
+}
+
+.jck-team__member {
+  display: grid;
+  grid-template-columns: 0.55fr 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  padding-top: clamp(28px, 4vw, 48px);
+  border-top: 1px solid rgba(63,50,39,.14);
+}
+
+.jck-team__member-head {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.jck-team__member-num {
+  font-family: 'Sifonn', sans-serif;
+  font-size: .65rem;
+  letter-spacing: .35em;
+  color: #d76577;
+}
+.jck-team__member-name {
+  font-family: 'Sifonn', sans-serif;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  line-height: 1;
+  color: #3f3227;
+  margin: 0 0 6px;
+}
+.jck-team__member-role {
+  font-family: 'Sifonn', sans-serif;
+  font-size: .65rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: #886275;
+}
+
+.jck-team__member-bio {
+  font-family: var(--font-body--family, 'Inter', sans-serif);
+  font-size: clamp(.95rem, 1.15vw, 1.05rem);
+  line-height: 1.65;
+  color: #4a3d33;
+  max-width: 60ch;
+}
+.jck-team__member-bio p { margin: 0 0 1em; }
+.jck-team__member-bio p:last-child { margin-bottom: 0; }
+
+@media (max-width: 900px) {
+  .jck-team__member { grid-template-columns: 1fr; gap: 18px; }
+  .jck-team__member-head { flex-direction: row; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "JCK Team",
+  "tag": "section",
+  "class": "jck-team-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "02 ── The Team" },
+    { "type": "text", "id": "title",   "label": "Title",   "default": "The people behind the rack." }
+  ],
+  "blocks": [
+    {
+      "type": "member",
+      "name": "Team member",
+      "settings": [
+        { "type": "text",     "id": "name", "label": "Name" },
+        { "type": "text",     "id": "role", "label": "Role" },
+        { "type": "richtext", "id": "bio",  "label": "Bio" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "JCK Team",
+      "blocks": [
+        { "type": "member" },
+        { "type": "member" },
+        { "type": "member" }
+      ]
+    }
+  ]
+}
+{% endschema %}
