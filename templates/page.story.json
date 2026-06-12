@@ -8,9 +8,44 @@
         "cta2_label": "Get In Touch",
         "cta2_link": "/pages/contact"
       }
+    },
+    "jck_story_team": {
+      "type": "jck-team",
+      "blocks": {
+        "jck": {
+          "type": "member",
+          "settings": {
+            "name": "JCK",
+            "role": "Big Boss",
+            "bio": "<p>JCK’s eye for collectibles only continues to keep our jaws on the floor. Whether it’s his favorite childhood cartoon characters on a single-stitch, American-made, 100% cotton tee for a couple bucks, or 300 vintage Coke bottles snipped for the expensive price of $100, we continue to wonder if he’s chasing all the finds — or if the goods simply find him.</p><p>His thrifting journey started over a decade ago with a simple search: a Ralph Lauren Polo to fit in with a different crowd at a new school. That was only the jumping-off point. He fell in love with the hypebeast streetwear world, following drops and snatching his favorites from brands like Supreme, Palace, Kith, Bape, Hidden and others. The years went on and he kept curating, but eventually he got an itch for better quality and more unique pieces. That led him back to where it all started — sifting through the racks, hanger after hanger, eyes sharp for a banger.</p><p>His daily routine now includes dropping by his favorite Goodwills, chatting with the employees, and sourcing all the goods you see on JCK. One might even say it’s become a necessary, therapeutic measure… so thank you for helping keep him sane ;)</p>"
+          }
+        },
+        "gabi": {
+          "type": "member",
+          "settings": {
+            "name": "Gabi",
+            "role": "Creative Director",
+            "bio": "<p>Gabi loves to create. She joined the JCK team to help tell the stories of all these crazy finds and curate the aesthetic for the brand. Her thrifting journey started young, running the streets of San Francisco with her antique-hunting uncle. By the time she got to high school she was bored of seeing everyone wearing the same fast-fashion pieces at ridiculous prices, so she followed in her family’s footsteps and took a stab at thrifting.</p><p>Her love and desire for thrifting only grew as she traveled the world and collected pieces along the way. She can proudly say 98% of her current closet is thrifted, and she wouldn’t have it any other way. On any given day her fit could have touched the hands of curators from Vietnam to Texas to Berlin and back.</p><p>She’s dipped her toes in all sorts of creative fields — from tattooing to design research — and each one of her ventures has helped shape who she is today. When she’s not helping run JCK, she’s probably in one of three places: on the water with her pup, tattooing in any city but the one she resides in, or sharing a meal with her favorite fam and friends.</p>"
+          }
+        },
+        "gracie": {
+          "type": "member",
+          "settings": {
+            "name": "Gracie",
+            "role": "Director of Operations",
+            "bio": "<p>Gracie is the bread, the butter, and most importantly the main operator of JCK. So much so that she adopted the title of Lil Jay Jay when JCK stepped down from his big-boss responsibilities. Wondering who sent you that discounted offer? Gracie. Wondering who got your package to you on time? Gracie. Wondering who made your hand-written thank-you card? Gracie.</p><p>Yeah, she’s the one who keeps the rest of us in line — but really, she’s so much more than that. She’s our mama bear who makes sure we’re always fed (including the kitty), loves horses, all-around animal whisperer, mental-health advocate, paint-pen provider, group therapist, nurse on the sick days, and like any good mama, our loyal protector. Without Gracie there’s no JCK.</p>"
+          }
+        }
+      },
+      "block_order": ["jck", "gabi", "gracie"],
+      "settings": {
+        "eyebrow": "02 ── The Team",
+        "title": "The people behind the rack."
+      }
     }
   },
   "order": [
-    "jck_story_main"
+    "jck_story_main",
+    "jck_story_team"
   ]
 }
